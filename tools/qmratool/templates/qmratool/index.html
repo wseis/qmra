@@ -1,6 +1,15 @@
 {% extends "qmratool/layout.html" %}
 
 {% block body %}
-TO DO
+
+<h3>Assessments of {{user.username}}</h3>
+
+<ul>
+{%for assessment in assessments%}
+   <li> {{assessment.name}}</li>
+  
+
+{%endfor%}
+</ul>
 {% endblock %}
 

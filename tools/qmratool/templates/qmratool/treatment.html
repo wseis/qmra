@@ -1,5 +1,16 @@
 {% extends "qmratool/layout.html" %}
 
 {% block body %}
-TO DO
+<form action = "{% url 'use'%}", method = "post">
+{% csrf_token %}
+  <div class="form-group">
+    <label for="exampleFormControlSelect1">Select the source water</label>
+        <select multiple class="form-control" id="exampleFormControlSelect1">
+        {%for treatment in treatments%}
+        <option>{{treatment.name}}</option>
+        {% endfor %}
+    </select>
+     <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
 {% endblock %}

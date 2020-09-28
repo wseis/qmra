@@ -3,25 +3,44 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.shortcuts import render
 from .forms import RAForm
+from .models import *
 # Create your views here.
 
 
 def index(request):
-    return render(request, "qmratool/layout.html")
+    assessment = RiskAssessment.objects.filter(user = request.user)
+    return render(request, "qmratool/index.html", {"assessments": assessment})
 
 def new_assessment(request):
-    form = RAForm()
+    user = request.user
+    if request.method == "POST":
+        form=RAForm(request.POST)
+        if form.is_valid():
+            assessment=RiskAssessment()
+            assessment.user=user
+            assessment.name=form.cleaned_data["name"]
+            assessment.description=form.cleaned_data["description"]
+            assessment.save()
+            #return HttpResponse(user)    
+            return HttpResponseRedirect(reverse('source'))
+        else:
+            return HttpResponse(request, "Form not valid")
+    else:
+        form = RAForm()
     return render(request, 'qmratool/new_ra.html', {"form":form})
 
 def source(request):
-    return render(request, "qmratool/source.html")
+    sources = SourceWater.objects.all()
+    return render(request, "qmratool/source.html", {"sources":sources})
 
 def treatment(request):
-    return render(request, "qmratool/treatment.html")
+    treatments = Treatment.objects.all()
+    return render(request, "qmratool/treatment.html", {"treatments": treatments})
 
 
 def use(request):
-    return render(request, "qmratool/use.html")
+    uses = Exposure.objects.all()
+    return render(request, "qmratool/use.html", {"uses":uses})
 
 
 def summary(request):
