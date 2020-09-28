@@ -35,6 +35,8 @@ class Exposure(models.Model):
 
     
 class RiskAssessment(models.Model):
+    name=models.CharField(max_length=64, default="")
+    description=models.TextField(max_length=2000, blank=True)
     source=models.ForeignKey(SourceWater, on_delete=models.PROTECT, blank = True)
     treatment=models.ManyToManyField(Treatment, related_name="treatment",  blank=True)
     exposure=models.ForeignKey(Exposure, on_delete=models.PROTECT)

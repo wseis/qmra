@@ -3,14 +3,64 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-      {% block title %}
-            
-     {% endblock %}
+        <title>{% block title %} QMRA calculator {% endblock %}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         
+    {% block script%}
+     {%endblock%}
     </head>
     <body>
-        {% block body %}
-        {% endblock %}
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">QMRA</a>
+          
+            <div>
+              <ul class="navbar-nav mr-auto">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href=""><strong>Hello {{ user.username }}</strong></a>
+                    </li>
+                 <li class="nav-item">
+                  <a class="nav-link" href="">All Assessments</a>
+                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{%url 'new_assessment'%}">Start new QMRA</a>
+                    </li>
+                   <li class="nav-item">
+                        <a class="nav-link" href="{%url 'source'%}"> Source</a>
+                    </li>
+                            <li class="nav-item">
+                        <a class="nav-link" href="{%url 'treatment'%}">Treatment</a>
+                    </li>
+                    </li>
+                            <li class="nav-item">
+                        <a class="nav-link" href="{%url 'use'%}">Use</a>
+                    </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="{% url 'summary'%}">Summary</a>
+                    </li>
+                     </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="{%url 'results'%}">Results</a>
+                    </li>
+                   <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    </li>
+                {% endif %}
+              </ul>
+            </div>
+          </nav>
+        
+        <div class="body">
+            {% block body %}
+            {% endblock %}
+        </div>
     </body>
 </html>
