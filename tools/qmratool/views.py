@@ -2,13 +2,17 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.shortcuts import render
-from .forms import RAForm
+from .forms import RAForm, SourceWaterForm, TreatmentForm, ExposureForm
 from .models import *
+from django.views.decorators.csrf import ensure_csrf_cookie
 # Create your views here.
 
 
 def index(request):
-    assessment = RiskAssessment.objects.filter(user = request.user)
+    if request.user.is_authenticated:
+        assessment = RiskAssessment.objects.filter(user = request.user)
+    else:
+        assessment=[]
     return render(request, "qmratool/index.html", {"assessments": assessment})
 
 def new_assessment(request):
@@ -21,21 +25,43 @@ def new_assessment(request):
             assessment.name=form.cleaned_data["name"]
             assessment.description=form.cleaned_data["description"]
             assessment.save()
-            #return HttpResponse(user)    
-            return HttpResponseRedirect(reverse('source'))
+            #return HttpResponse(assessment.name)    
+            return HttpResponseRedirect(reverse('source', args=(assessment.name,)))
         else:
             return HttpResponse(request, "Form not valid")
     else:
         form = RAForm()
     return render(request, 'qmratool/new_ra.html', {"form":form})
 
-def source(request):
+def source(request, ra_name):
     sources = SourceWater.objects.all()
-    return render(request, "qmratool/source.html", {"sources":sources})
+    if request.method=="POST":
+        form=SourceWaterForm(request.POST)
+        if form.is_valid():
+            assessment=RiskAssessment.objects.get(user = request.user, name = ra_name)
+           # 
+            assessment.source = form.cleaned_data["sourcewater"]#SourceWater.objects.get(sourcewater=form.cleaned_data["sourcewater"])
+            assessment.save()
+            return HttpResponseRedirect(reverse('treatment', args=(assessment.id,)))
+        else:
+            return HttpResponse(request, "Form not valid")
+    else:
+        form=SourceWaterForm()
+        return render(request, "qmratool/source.html", { "ra_name":ra_name, "sources":sources, "form":form})
 
-def treatment(request):
-    treatments = Treatment.objects.all()
-    return render(request, "qmratool/treatment.html", {"treatments": treatments})
+
+def treatment(request, ra_id):
+    if request.method == "POST":
+        form=TreatmentForm(request.POST)
+        if form.is_valid():
+            assessment=RiskAssessment.objects.get(id = ra_id)
+            assessment.treatment.add(form.cleand_data)
+            assessment.save()
+        else:
+            return HttpResponse("Form not valid")
+    else:
+        form=TreatmentForm()
+    return render(request, "qmratool/treatment.html", {"form": form, "ra_id":ra_id})
 
 
 def use(request):

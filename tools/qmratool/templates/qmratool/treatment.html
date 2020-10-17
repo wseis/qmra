@@ -1,16 +1,12 @@
-{% extends "qmratool/layout.html" %}
+{{% extends "qmratool/layout.html" %}
+{% load crispy_forms_tags %}
+
 
 {% block body %}
-<form action = "{% url 'use'%}", method = "post">
-{% csrf_token %}
-  <div class="form-group">
-    <label for="exampleFormControlSelect1">Select the source water</label>
-        <select multiple class="form-control" id="exampleFormControlSelect1">
-        {%for treatment in treatments%}
-        <option>{{treatment.name}}</option>
-        {% endfor %}
-    </select>
-     <button type="submit" class="btn btn-primary">Submit</button>
-  </div>
+
+<form action = "{% url 'treatment' ra_id %}" method = "post">{% csrf_token %}
+    {{form|crispy}}
+    
+  <button type="submit" >Submit</button>
 </form>
 {% endblock %}

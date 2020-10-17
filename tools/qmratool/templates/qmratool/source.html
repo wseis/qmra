@@ -1,16 +1,12 @@
 {% extends "qmratool/layout.html" %}
+{% load crispy_forms_tags %}
+
 
 {% block body %}
-<form action = "{% url 'source'%}", method = "post">
-{% csrf_token %}
-  <div class="form-group">
-    <label for="exampleFormControlSelect1">Select the source water</label>
-        <select class="form-control" id="exampleFormControlSelect1">
-        {%for source in sources%}
-        <option>{{source.name}}</option>
-        {% endfor %}
-    </select>
-     <button type="submit" class="btn btn-primary">Submit</button>
-  </div>
+
+<form action = "{% url 'source' ra_name %}" method = "post">{% csrf_token %}
+    {{form.sourcewater|as_crispy_field}}
+    
+  <button type="submit" >Submit</button>
 </form>
 {% endblock %}
