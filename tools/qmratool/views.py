@@ -24,9 +24,14 @@ def new_assessment(request):
             assessment.user=user
             assessment.name=form.cleaned_data["name"]
             assessment.description=form.cleaned_data["description"]
+            assessment.source=form.cleaned_data["source"]
             assessment.save()
-            #return HttpResponse(assessment.name)    
-            return HttpResponseRedirect(reverse('source', args=(assessment.name,)))
+            assessment.treatment.set(form.cleaned_data["treatment"])
+            assessment.exposure.set(form.cleaned_data["exposure"])
+            assessment.save()
+
+            return HttpResponseRedirect(reverse('index'))    
+            #return HttpResponseRedirect(reverse('source', args=(assessment.name,)))
         else:
             return HttpResponse(request, "Form not valid")
     else:

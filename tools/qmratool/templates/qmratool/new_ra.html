@@ -3,11 +3,29 @@
 {% block body %}
 
 
-<form action = "{% url 'new_assessment'%}", method = "post">
-    {% csrf_token %}
-    {{form|crispy}}
-    <button type = "submit">Submit</button>
-<form>
+
+<div class="container" style="padding: 5%">
+
+  <div class="row">
+    <div class="col-sm-8">
+        {% if user.is_authenticated %}
+            <h4>New risk assessment</h4>
+            <p> Please add a name and a brief description of the risk assessment<p>
+        <form action = "{% url 'new_assessment'%}", method = "post">
+            {% csrf_token %}
+            {{form|crispy}}
+        <button class = "btn btn-primary" type = "submit">Submit</button>
+        <form>
+{%endif%}
+
+  </div>
+
+  <div class="col-sm-3 offset-sm-1"> <!--style= "background-color: #007c9f; color: white">--> 
+    <h4>Options</h4>
+    <button class = "btn btn-primary mt-6">Next</button>
+    <button class = "btn btn-primary mt-6">Start over</button>
+ 
+  </div>
 
 
 {% endblock %}
