@@ -19,30 +19,30 @@
               <ul class="navbar-nav mr-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href=""><strong>Hello {{ user.username }}</strong></a>
+                        <a class="nav-link" href=""><strong>{{ user.username }}</strong></a>
                     </li>
                  <li class="nav-item">
-                  <a class="nav-link" href="{%url 'index'%}"> All Assessments</a>
+                  <a class="nav-link" href="{%url 'index'%}"> Risk Assessments</a>
                 </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{%url 'new_assessment'%}">Start new QMRA</a>
+                        <a class="nav-link" href=""></a>
                     </li>
                    <li class="nav-item">
-                        <a class="nav-link" href=""> Source</a>
+                        <a class="nav-link" href=""> </a>
                     </li>
                             <li class="nav-item">
-                        <a class="nav-link" href="">Treatment</a>
+                        <a class="nav-link" href=""></a>
                     </li>
                     </li>
                             <li class="nav-item">
-                        <a class="nav-link" href="{%url 'use'%}">Use</a>
+                        <a class="nav-link" href=""></a>
                     </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="{% url 'summary'%}">Summary</a>
+                        <a class="nav-link" href=""></a>
                     </li>
                      </li>
                         <li class="nav-item">
-                        <a class="nav-link" href="{%url 'results'%}">Results</a>
+                        <a class="nav-link" href=""></a>
                     </li>
                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'logout' %}">Log Out</a>

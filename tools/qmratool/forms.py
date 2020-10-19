@@ -6,6 +6,8 @@ class RAForm(forms.ModelForm):
         model=RiskAssessment
         fields=["name","description","source","treatment", "exposure"]
 
+        
+
 class SourceWaterForm(forms.Form):
     sourcewater=forms.ModelChoiceField(queryset=SourceWater.objects.all(), to_field_name="sourcewater")
     description=forms.CharField(required=False)

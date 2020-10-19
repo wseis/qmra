@@ -39,6 +39,44 @@ class LogRemoval(models.Model):
     distribution=models.CharField(default="uniform", max_length=64)
     treatment=models.ForeignKey(Treatment, on_delete=models.CASCADE, related_name="logremoval")
 
+class Inflow(models.Model):
+    pathogen=models.ForeignKey(Pathogen, on_delete=models.CASCADE)
+    reference=models.ForeignKey(Reference, on_delete=models.CASCADE)
+    water_source= models.ForeignKey(SourceWater, on_delete=models.CASCADE)
+    min=models.DecimalField( decimal_places=8, default = -100,max_digits=20)
+    max = models.DecimalField( decimal_places=8,default = -100, max_digits=20)
+    mean = models.DecimalField( decimal_places=8, max_digits=20, default = -100,null = True)
+    alpha = models.DecimalField( decimal_places=8, max_digits=20,default = -100, null = True)
+    beta = models.DecimalField( decimal_places=8, max_digits=20, default = -100, null = True)
+    distribution=models.CharField(default="lognormal", max_length=64)
+    pathogen_in_ref=models.CharField(max_length=200, default = "unknown")
+    notes= models.CharField(max_length=200, default = "unknown")
+
+class Health(models.Model):
+    pathogen=models.ForeignKey(Pathogen, on_delete=models.CASCADE)
+    reference=models.ForeignKey(Reference, on_delete=models.CASCADE)
+    infection_to_illness=models.DecimalField( decimal_places=2, max_digits=3)	
+    dalys_per_case=models.DecimalField(decimal_places=6, max_digits=6)
+
+class DoseResponse(models.Model):
+    pathogen=	models.ForeignKey(Pathogen, on_delete=models.CASCADE)
+    bestfitmodel=models.CharField(max_length=250, default= "unknown")
+    k	=models.DecimalField(decimal_places=10, default = 0, max_digits=20)
+    alpha=	models.DecimalField(decimal_places=10,default = 0, max_digits=20)
+    n50	=models.DecimalField(decimal_places=10,default = 0, max_digits=20)
+    hosttype=	models.CharField(max_length=250, default= "unknown")
+    doseunits=	models.CharField(max_length=250, default= "unknown")
+    route=	models.CharField(max_length=250, default= "unknown")
+    response=	models.CharField(max_length=250, default= "unknown")
+    reference=models.ForeignKey(Reference, on_delete=models.CASCADE)
+
+class Guideline(models.Model):
+    name=models.CharField(max_length=250)
+    description=models.CharField(max_length=250)
+    reference=models.ForeignKey(Reference, on_delete=models.CASCADE, default = 40)
+
+
+
 class Exposure(models.Model):
     use=models.CharField(max_length=250)
     description=models.CharField(max_length=2000)

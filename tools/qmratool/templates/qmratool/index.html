@@ -10,7 +10,7 @@
     <h4>Risk assessments of {{user.username}}</h4>
   
         {%for assessment in assessments%}
-              <div class="media mt-3">
+              <div class="media px-3 mt-3">
               <div class="media-left pr-3">
                 <a href="#">
                   <img class="media-object" src="https://via.placeholder.com/100" alt="...">
@@ -19,7 +19,7 @@
               <div class="media-body">
                 <h4 class="media-heading">{{assessment.name}}</h4>
                 <p> {{assessment.description}} <a class = "text_link_kwb font-italic" href="">Edit risk assessment</a></p>
-                
+                <a href= "{% url "results" assessment.id%}", class = "btn-btn-primary sm"> Show results </a>
                 
               </div>
             </div>

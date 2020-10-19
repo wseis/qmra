@@ -10,7 +10,6 @@ urlpatterns = [
     path("new", views.new_assessment, name="new_assessment"),
     path("source/<str:ra_name>", views.source, name="source"),
     path("treatment(<int:ra_id>", views.treatment, name="treatment"),
-    path("use", views.use, name="use"),
-    path("summary", views.summary, name="summary"),
-    path("results", views.results, name="results"),
+   
+    path("results/<int:ra_id>", views.calculate_risk, name="results"),
 ]

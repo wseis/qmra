@@ -20,3 +20,13 @@ class LogRemovalResource(resources.ModelResource):
 
 class ExposureResource(resources.ModelResource):
     pass
+
+class HealthResource(resources.ModelResource):
+    pass
+class InflowResource(resources.ModelResource):
+    pass
+class GuidelineResource(resources.ModelResource):
+    pass
+
+class DoseResponseResource(resources.ModelResource):
+    pass

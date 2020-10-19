@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Treatment, RiskAssessment, User, LogRemoval, Exposure, Reference, SourceWater, Pathogen, PathogenGroup
+from .models import Treatment, RiskAssessment, User, LogRemoval, Exposure, Reference, SourceWater, Pathogen, PathogenGroup, Health, Inflow, Guideline, DoseResponse
 # Register your models here.
 
 from import_export.admin import ImportExportModelAdmin
@@ -33,6 +33,19 @@ class LogRemovalAdmin(ImportExportModelAdmin):
 
 @admin.register(Exposure)
 class ExposureAdmin(ImportExportModelAdmin):
+    pass
+
+@admin.register(Inflow)
+class InflowAdmin(ImportExportModelAdmin):
+    pass
+@admin.register(Guideline)
+class GuidelineAdmin(ImportExportModelAdmin):
+    pass
+@admin.register(Health)
+class HealthAdmin(ImportExportModelAdmin):
+    pass
+@admin.register(DoseResponse)
+class DoseResponseAdmin(ImportExportModelAdmin):
     pass
 #admin.site.register(Treatment)
 admin.site.register(RiskAssessment)
