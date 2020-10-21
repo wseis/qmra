@@ -8,11 +8,16 @@ class User(AbstractUser):
 class SourceWater(models.Model):
     water_source_name=models.CharField(max_length=64)
     water_source_description=models.CharField(max_length=2000)
+    def __str__(self):
+      return self.water_source_name
+
 
 class Treatment(models.Model):
     name = models.CharField(max_length=64)
-    group=models.CharField(max_length=64)
+    group=models.CharField(max_length=64, default = "wastewater")
     description=models.TextField(max_length=2000)
+    def __str__(self):
+      return self.name
    
 class Reference(models.Model):
     name=models.CharField(max_length=50)
@@ -83,13 +88,14 @@ class Exposure(models.Model):
     events_per_year=models.IntegerField(default = 10)
     volume_per_event=models.DecimalField( decimal_places=4, max_digits=10)
     reference=models.ForeignKey(Reference, on_delete=models.CASCADE)
-
+    def __str__(self):
+      return self.use
     
 class RiskAssessment(models.Model):
     user=models.ForeignKey(User, on_delete=models.PROTECT, related_name="assessments")
     name=models.CharField(max_length=64, default="")
     description=models.TextField(max_length=2000, blank=True)
-    source=models.ForeignKey(SourceWater, on_delete=models.PROTECT, default=1, blank = True)
+    source=models.ForeignKey(SourceWater, on_delete=models.PROTECT, default=1,  blank = False)
     treatment=models.ManyToManyField(Treatment, related_name="treatments",default=1 ,   blank=True)
     exposure=models.ManyToManyField(Exposure, default=1 ,null=True)
 

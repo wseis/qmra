@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.shortcuts import render
-from .forms import RAForm, SourceWaterForm, TreatmentForm, ExposureForm
+from .forms import RAForm, SourceWaterForm, TreatmentForm, ExposureForm, RAForm2
 from .models import *
 from django.views.decorators.csrf import ensure_csrf_cookie
 import numpy as np
@@ -11,6 +11,8 @@ import plotly.express as px
 from plotly.offline import plot
 from django_pandas.io import read_frame
 # Create your views here.
+
+
 
 
 def index(request):
@@ -41,37 +43,38 @@ def new_assessment(request):
             return HttpResponse(request, "Form not valid")
     else:
         form = RAForm()
-    return render(request, 'qmratool/new_ra.html', {"form":form})
+        sw_form = RAForm2()
+    return render(request, 'qmratool/new_ra.html', {"form":form, "sw_form": sw_form})
 
 
 def calculate_risk(request, ra_id):
     ra = RiskAssessment.objects.get(id = ra_id)
     df_inflow = read_frame(Inflow.objects.filter(water_source=ra.source).values("min", "max", "pathogen__pathogen", "water_source__water_source_name"))
-    df_inflow =pd.melt(df_inflow, ("pathogen__pathogen", "water_source__water_source_name"))
-    fig2 = px.bar(df_inflow, x="variable", y = "value", 
-    color="pathogen__pathogen", 
+    
+       
+    df_inflow2 =pd.melt(df_inflow, ("pathogen__pathogen", "water_source__water_source_name"))
+    fig2 = px.bar(df_inflow2, x="variable", y = "value", 
+    color="pathogen__pathogen", barmode="group",
     title="Inflow concentration")
     plot_div2 = plot(fig2, output_type = "div")
     
-    df=read_frame(LogRemoval.objects.filter(treatment__in=ra.treatment.all()).values("min", "max", "treatment__name", "pathogen_group__pathogen_group"))
-    df = pd.melt(df, ("treatment__name", "pathogen_group__pathogen_group"))
+    df1=read_frame(LogRemoval.objects.filter(treatment__in=ra.treatment.all()).values("min", "max", "treatment__name", "pathogen_group__pathogen_group"))
+    df = pd.melt(df1, ("treatment__name", "pathogen_group__pathogen_group"))
     
     fig = px.bar(df, x="variable", y = "value", 
     color="treatment__name", facet_col="pathogen_group__pathogen_group",
     title="Log-removal of selected treatment train")
     plot_div = plot(fig, output_type = "div")
     
-    return render(request,"qmratool/results.html", {"plot_div":plot_div, "plot_div2":plot_div2})
+    # Selecting pathogen
+    samples = pd.DataFrame({"pathogen": np.random.normal(loc=(df_inflow["min"][0]+df_inflow["max"][0])/2, 
+                                                        scale= (df_inflow["min"][0]+df_inflow["max"][0])/4, size= 1000)})
+    
 
-
-
-
-
-
-
-
-
-
+    return render(request,"qmratool/results.html", {"plot_div":plot_div, 
+    "plot_div2":plot_div2, 
+    "data":df_inflow.to_html(),
+    "samples":df1.to_html})
 
 
 

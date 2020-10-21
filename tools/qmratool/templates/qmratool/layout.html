@@ -21,29 +21,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href=""><strong>{{ user.username }}</strong></a>
                     </li>
-                 <li class="nav-item">
-                  <a class="nav-link" href="{%url 'index'%}"> Risk Assessments</a>
-                </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href=""></a>
-                    </li>
-                   <li class="nav-item">
-                        <a class="nav-link" href=""> </a>
-                    </li>
-                            <li class="nav-item">
-                        <a class="nav-link" href=""></a>
-                    </li>
-                    </li>
-                            <li class="nav-item">
-                        <a class="nav-link" href=""></a>
-                    </li>
                         <li class="nav-item">
-                        <a class="nav-link" href=""></a>
-                    </li>
-                     </li>
-                        <li class="nav-item">
-                        <a class="nav-link" href=""></a>
-                    </li>
+                        <a class="nav-link" href="{%url 'index'%}"> Risk Assessments</a>
+                        </li>
+      
                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
                     </li>
@@ -63,5 +44,6 @@
             {% block body %}
             {% endblock %}
         </div>
+        
     </body>
 </html>
