@@ -12,34 +12,44 @@
     </head>
     <body>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">QMRA</a>
+        <nav class="navbar navbar-expand-lg border-bottom" style="background-color: white;">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <a class="navbar-brand text_link_kwb" href="#"><b>QMRA</b><i><sub>calculator</sub></i></a>
           
-            <div>
+            <div class="collapse navbar-collapse">
               <ul class="navbar-nav mr-auto">
                 {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href=""><strong>{{ user.username }}</strong></a>
-                    </li>
-                        <li class="nav-item">
-                        <a class="nav-link" href="{%url 'index'%}"> Risk Assessments</a>
+                  
+                        <li class="nav-item active">
+                        <a class="nav-link text_link_kwb" href="{%url 'index'%}"> Risk Assessments</a>
                         </li>
-      
-                   <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                </ul>
+                <ul class= "navbar-nav navbar-right">
+                  <li class="nav-item active">
+                        <a class=" nav-link text_link_kwb " href=""><strong>{{ user.username }}</strong></a>
                     </li>
+                    <li class="nav-item active">
+                        <a class="nav-link text_link_kwb" href="{% url 'logout' %}">Log Out</a>
+                    </li>
+                </ul>
                 {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                <ul class= "navbar-nav navbar-right">
+                    <li class="nav-item active">
+                        <a class="nav-link text_link_kwb" href="{% url 'login' %}">Log In</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    <li class="nav-item active">
+                        <a class="nav-link text_link_kwb" href="{% url 'register' %}">Register</a>
                     </li>
+                  </ul>   
                 {% endif %}
               </ul>
             </div>
           </nav>
         
+
         <div class="body">
             {% block body %}
             {% endblock %}

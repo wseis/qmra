@@ -7,19 +7,19 @@
   <div class="row">
     <div class="col-sm-8">
     {% if user.is_authenticated %}
-    <h4>Risk assessments of {{user.username}}</h4>
+    <h4 class= "mb-5">Risk assessments of {{user.username}}</h4>
   
         {%for assessment in assessments%}
               <div class="media px-3 mt-3">
               <div class="media-left pr-3">
                 <a href="#">
-                  <img class="media-object" src="https://via.placeholder.com/100" alt="...">
+                  <img class= "img-fluid" src="https://via.placeholder.com/100" alt="...">
                 </a>
               </div>
               <div class="media-body">
                 <h4 class="media-heading">{{assessment.name}}</h4>
                 <p> {{assessment.description}} <a class = "text_link_kwb font-italic" href="">Edit risk assessment</a></p>
-                <a href= "{% url "results" assessment.id%}", class = "btn-btn-primary sm"> Show results </a>
+                <a href= "{% url "results" assessment.id%}", class = "btn-sm btn-primary sm"> Show results </a>
                 
               </div>
             </div>
@@ -32,7 +32,7 @@
   </div>
 
   <div class="col-sm-3 offset-sm-1"> <!--style= "background-color: #007c9f; color: white">--> 
-    <h4>Options</h4>
+    <h4 class= "mb-3">Options</h4>
     <a class = "btn btn-primary mt-3" href="{%url 'new_assessment'%}">Start new risk assessment</a>
     <button class = "btn btn-primary mt-3"> Compare risk assessment </button>
 
