@@ -20,6 +20,7 @@ def index(request):
         assessment = RiskAssessment.objects.filter(user = request.user)
     else:
         assessment=[]
+        return HttpResponseRedirect(reverse('login'))
     return render(request, "qmratool/index.html", {"assessments": assessment})
 
 def new_assessment(request):
