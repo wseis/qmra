@@ -11,8 +11,27 @@
               {{ plot_div2 }}
               {% endautoescape %}
               </div>
-              <d
-              iv class="row justify-content-center">
+                 <div id="hero-graph">
+              {% autoescape off %}
+              {{ hist_inflow }}
+              {% endautoescape %}
+              </div>
+                  <div id="hero-graph">
+              {% autoescape off %}
+              {{ hist_outflow }}
+              {% endautoescape %}
+              </div>
+                  <div id="hero-graph">
+              {% autoescape off %}
+              {{ hist_prob }}
+              {% endautoescape %}
+              </div>
+                   <div id="hero-graph">
+              {% autoescape off %}
+              {{ hist_res }}
+              {% endautoescape %}
+              </div>
+              <div class="row justify-content-center">
                 <div class = "col-auto">
               <div class="table table-hover">
               {% autoescape off %}
@@ -26,6 +45,19 @@
               
               {% endautoescape %}
               </div>
+                <div class="table table-hover">
+              {% autoescape off %}
+              {{dr_models}}
+              
+              {% endautoescape %}
+              </div>
+    <div class="table table-hover">
+              {% autoescape off %}
+              {{summary}}
+              
+              {% endautoescape %}
+              </div>
+
               </div>
               </div>
 {% endblock %}

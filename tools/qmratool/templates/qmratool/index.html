@@ -16,15 +16,14 @@
                   <img class= "img-fluid" src="https://via.placeholder.com/100" alt="...">
                 </a>
               </div>
-              <div class="media-body">
-                <h4 class="media-heading">{{assessment.name}}</h4>
-                <p> {{assessment.description}} <a class = "text_link_kwb font-italic" href="">Edit risk assessment</a></p>
-                <a href= "{% url "results" assessment.id%}", class = "btn-sm btn-primary sm"> Show results </a>
-                
-              </div>
+                 <div class="media-body">
+                  <h4 class="media-heading">{{assessment.name}}</h4>
+                   <p> {{assessment.description}} <a class = "text_link_kwb font-italic" href="{% url "edit_assessment" assessment.id%}">Edit risk assessment</a></p>
+                   <a href= "{% url "results" assessment.id%}", class = "btn-sm btn-primary sm"> Show results </a>
+                </div>
             </div>
         {%empty%}
-        There are currently no risk assessment. Click on <strong>start new risk assessment </strong> to create your first risk assessment
+        There are currently no risk assessments. Click on <strong>Configure new risk assessment </strong> to create your first risk assessment
 
         {%endfor%}
 
