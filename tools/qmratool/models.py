@@ -103,11 +103,10 @@ class RiskAssessment(models.Model):
     user=models.ForeignKey(User, on_delete=models.PROTECT, related_name="assessments")
     name=models.CharField(max_length=64, default="")
     description=models.TextField(max_length=2000, blank=True)
-    source=models.ForeignKey(SourceWater, on_delete=models.PROTECT, default=1,  blank = False)
+    source=models.ForeignKey(SourceWater, on_delete=models.PROTECT, default=1,  blank = True)
     treatment=models.ManyToManyField(Treatment, related_name="treatments",default=1 ,   blank=True)
-    exposure=models.ManyToManyField(Exposure, default=1 ,null=True)
+    exposure=models.ManyToManyField(Exposure, default=1 ,null=True,  blank = True)
     def __str__(self):
       return self.name
-
 
 
