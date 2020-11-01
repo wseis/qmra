@@ -1,6 +1,11 @@
 {% extends "qmratool/layout.html" %}
 
 {% block body %}
+  <div id="hero-graph">
+              {% autoescape off %}
+              {{ risk_plot }}
+              {% endautoescape %}
+              </div>
                <div id="hero-graph">
               {% autoescape off %}
               {{ plot_div }}

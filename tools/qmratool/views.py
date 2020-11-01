@@ -10,10 +10,8 @@ import pandas as  pd
 import plotly.express as px
 from plotly.offline import plot
 from django_pandas.io import read_frame
+import decimal
 # Create your views here.
-
-
-
 
 def index(request):
     if request.user.is_authenticated:
@@ -86,66 +84,98 @@ def delete_assessment(request, ra_id):
 def calculate_risk(request, ra_id):
     ra = RiskAssessment.objects.get(id = ra_id)
     
+    # Selecting inflow concentration based in source water type
     df_inflow = read_frame(Inflow.objects.filter(water_source=ra.source).values("min", "max", "pathogen__pathogen", "water_source__water_source_name"))
+    
+    # Querying dose response parameters based on pathogen inflow
     dr_models = read_frame(DoseResponse.objects.filter(pathogen__in=Pathogen.objects.filter(pathogen__in=df_inflow["pathogen__pathogen"])))
-       
-    df_inflow2 =pd.melt(df_inflow, ("pathogen__pathogen", "water_source__water_source_name"))
-    fig2 = px.bar(df_inflow2, x="variable", y = "value", 
-    color="pathogen__pathogen", barmode="group",
-    title="Inflow concentration")
-    plot_div2 = plot(fig2, output_type = "div")
     
+    # Querying for Logremoval based on selected treatments
     df_treatment=read_frame(LogRemoval.objects.filter(treatment__in=ra.treatment.all()).values("min", "max", "treatment__name", "pathogen_group__pathogen_group"))
-    df = pd.melt(df_treatment, ("treatment__name", "pathogen_group__pathogen_group"))
     
-    fig = px.bar(df, x="variable", y = "value", 
-    color="treatment__name", facet_col="pathogen_group__pathogen_group",
-    title="Log-removal of selected treatment train")
-    plot_div = plot(fig, output_type = "div")
+    # Summarizing treatment to treatment max and treatment min
+    df_treatment_summary=df_treatment.groupby(["pathogen_group__pathogen_group"]).sum().reset_index()
     
-    df_treatment_summary=df_treatment.groupby(["pathogen_group__pathogen_group"]).sum()
-
-    # Selecting pathogen
-    samples = pd.DataFrame({"inflow": np.random.normal(loc=(np.log10(df_inflow["min"][0]) + np.log10(df_inflow["max"][0]))/2, 
-                                                        scale= (np.log10(df_inflow["max"][0])-np.log10(df_inflow["min"][0]))/4, 
-                                                        size= 1000),
-                            "LRV": np.random.uniform(low= df_treatment_summary["min"][0], 
-                                                        high= df_treatment_summary["max"][0], 
-                                                        size= 1000)})
-    samples["outflow"]=samples["inflow"] - samples["LRV"]
-
-    alpha = 0.14
-    N50 = 850
-
-    samples["probs"] = 1 - (1 + (10**samples["outflow"]) * (2 ** (1/alpha) - 1)/N50) ** -alpha
-
+    # annual risk function
     def annual_risk(nexposure, event_probs):
         return 1-np.prod(1-np.random.choice(event_probs, nexposure, True))
+    #df_inflow = df_inflow["pathogen__pathogen"].isin(["Rotavirus", "Cryptosporidium parvum", "Campylobacter jejuni"])
     
-    res = [annual_risk(50, samples["probs"] ).round(3) for _ in range(1000)]
+    results = pd.DataFrame()
+    for pathogen in ["Rotavirus", "Cryptosporidium parvum", "Campylobacter jejuni"]:#df_inflow["pathogen__pathogen"]:
+        d = df_inflow.loc[df_inflow["pathogen__pathogen"] == pathogen]
+        dr = dr_models.loc[dr_models["pathogen"]==pathogen]
+        #result.append(pathogen)
 
-    samples["res"]= res
-    hist_inflow = px.histogram(samples, x = "inflow")
-    hist_inflow = plot(hist_inflow, output_type="div")
-    hist_outflow = px.histogram(samples, x = "outflow")
-    hist_outflow = plot(hist_outflow, output_type="div")
-    hist_prob = px.histogram(samples, x = "probs")
-    hist_prob = plot(hist_prob, output_type="div")
+        if pathogen == "Rotavirus":
+            selector = "Viruses"
+        elif pathogen == "Cryptosporidium parvum":
+            selector = "Protozoa"
+        else:
+            selector = "Bacteria"
+        #result.append(selector)
 
-    hist_res = px.histogram(samples, x = "res")
-    hist_res = plot(hist_res, output_type = "div")
+        df_treat = df_treatment_summary[df_treatment_summary["pathogen_group__pathogen_group"]==selector]
+                                    
+                                                         
+
+        risk_df = pd.DataFrame({"inflow": np.random.normal(loc=(np.log10(float(d["min"]))+np.log10(float(d["max"]) ))/2, 
+                                                            scale = (np.log10(float(d["max"]))-np.log10(float(d["min"]) ))/4,  
+                                                            size = 1000),
+                                "LRV": np.random.uniform(low= df_treat["min"], 
+                                                         high= df_treat["max"], 
+                                                         size= 1000) })
+        risk_df["outflow"]=risk_df["inflow"] - risk_df["LRV"]
+       
+        if selector != "Protozoa":
+            risk_df["probs"] = 1 - (1 + (10**risk_df["outflow"]) * (2 ** (1/float(dr.alpha)) - 1)/float(dr.n50)) ** -float(dr.alpha)
+        else:
+            risk_df["probs"] = 1 - np.exp(-float(dr.k)*(10**risk_df["outflow"]))
+        
+        results[pathogen] = [annual_risk(1, risk_df["probs"] ).round(3) for _ in range(1000)]
+
+    results_long = pd.melt(results)
+    results_long["log probability"] = np.log10(results_long["value"])
+    fig = px.box(results_long, x="variable", y="log probability", 
+                                points="all", 
+                                title="Risk assessment as probability of infection per year",
+                                color_discrete_sequence=["#007c9f", "#007c9f", "#007c9f"])
+    risk_plot = plot(fig, output_type = "div")
+
+
+     # reshaping dataframe for plotting
+    df_inflow2 =pd.melt(df_inflow, ("pathogen__pathogen", "water_source__water_source_name"))
+    df_inflow2 = df_inflow2[df_inflow2.pathogen__pathogen.isin(["Rotavirus", "Cryptosporidium parvum", "Campylobacter jejuni"])]
+    fig2 = px.bar(df_inflow2, x="variable", y = "value", log_y=True,
+    facet_col="pathogen__pathogen", barmode="group", 
+    color_discrete_sequence=["#007c9f", "rgb(0, 86, 100)", "grey", "red3", "steelblue"],
     
+    title="Inflow concentration")
+    plot_div2 = plot(fig2, output_type = "div")
+
+    # reshaping     
+    df = pd.melt(df_treatment, ("treatment__name", "pathogen_group__pathogen_group"))
+    fig = px.bar(df, x="variable", y = "value", 
+    color="treatment__name", facet_col="pathogen_group__pathogen_group",
+    color_discrete_sequence=["#007c9f", "rgb(0, 86, 100)", "grey"],
+    title="Log-removal of selected treatment train")
+    fig.update_layout(legend=dict(
+                     orientation="h",
+                     yanchor="bottom",
+                     y=1.1,
+                     xanchor="right",
+                    x=1))
+    plot_div = plot(fig, output_type = "div")
+    
+   
 
     return render(request,"qmratool/results.html", {"plot_div":plot_div, 
     "plot_div2":plot_div2, 
-    "data":df_inflow.to_html(),
-    "summary":df_treatment_summary.to_html(),
-    "samples":df_treatment.to_html,
-    "dr_models":dr_models.to_html(),
-    "hist_inflow":hist_inflow,
-    "hist_outflow":hist_outflow,
-    "hist_prob":hist_prob,
-    "hist_res":hist_res})
+    #"data":df_inflow.to_html(),
+    #"summary":df_treatment_summary.to_html(),
+    #"samples":df_treatment.to_html,
+    "risk_plot": risk_plot
+    })
 
 
 

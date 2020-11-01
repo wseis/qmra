@@ -14,8 +14,7 @@
         <form action = "{% url 'new_assessment'%}", method = "post">
             {% csrf_token %}
             {{form|crispy}}
-      
-        <button class = "btn btn-primary" type = "submit">Submit</button>
+          <button class = "btn btn-primary" type = "submit">Submit</button>
         <form>
 {%endif%}
 

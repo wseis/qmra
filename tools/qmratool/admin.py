@@ -12,6 +12,7 @@ class SourceWaterAdmin(ImportExportModelAdmin):
 
 @admin.register(Treatment)
 class TreatmentAdmin(ImportExportModelAdmin):
+    list_display=("id", "name", "group")
     pass
 
 @admin.register(Reference)

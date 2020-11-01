@@ -2,4 +2,4 @@ django-import-export
 numpy
 pandas
 plotly
-django-formtools
+decimal

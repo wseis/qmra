@@ -2,12 +2,20 @@ from django import forms
 from .models import RiskAssessment, SourceWater, Exposure, Treatment
 
 class RAForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(RAForm, self).__init__(*args, **kwargs)
+        self.fields['treatment'].help_text = "Please select your treatment configuration"
+        self.fields['source'].help_text = "Please select your source water"
+        self.fields['exposure'].help_text = "Please define your exposure scenario"
+        #self.fields['treatment'].title = Treatment.objects.all().values("description")
     class Meta:
         model=RiskAssessment
         fields=["name","description","source","treatment", "exposure"]
         widgets={"source": forms.RadioSelect(attrs={"empty_label":None}),
             "treatment": forms.CheckboxSelectMultiple()}
-
+    
+        
+        
 
 class RAForm2(forms.Form):
     treatment=forms.ModelMultipleChoiceField(queryset=Treatment.objects.all(), to_field_name="name")

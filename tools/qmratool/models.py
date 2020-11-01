@@ -18,7 +18,7 @@ class Treatment(models.Model):
     description=models.TextField(max_length=2000)
     def __str__(self):
       return self.name
-   
+         
 class Reference(models.Model):
     name=models.CharField(max_length=50)
     link=models.URLField(blank=True)
