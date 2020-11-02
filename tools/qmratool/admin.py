@@ -17,6 +17,7 @@ class TreatmentAdmin(ImportExportModelAdmin):
 
 @admin.register(Reference)
 class ReferenceAdmin(ImportExportModelAdmin):
+    list_display=("id", "name", "link")
     pass
 
 @admin.register(PathogenGroup)
@@ -48,6 +49,12 @@ class HealthAdmin(ImportExportModelAdmin):
 @admin.register(DoseResponse)
 class DoseResponseAdmin(ImportExportModelAdmin):
     pass
+
+#@admin.register(User)
+#class UserAdmin(ImportExportModelAdmin):
+ #   list_display=("id", "username", "firstname", "lastname")
+    
+  #  pass
 #admin.site.register(Treatment)
 admin.site.register(RiskAssessment)
 admin.site.register(User)

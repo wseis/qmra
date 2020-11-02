@@ -30,3 +30,6 @@ class GuidelineResource(resources.ModelResource):
 
 class DoseResponseResource(resources.ModelResource):
     pass
+
+#class UserResource(resources.ModelResource):
+ #   pass

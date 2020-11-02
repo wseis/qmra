@@ -15,7 +15,7 @@
             {% csrf_token %}
             {{form|crispy}}
           <button class = "btn btn-primary" type = "submit">Submit</button>
-        <form>
+        </form>
 {%endif%}
 
   </div>
@@ -25,7 +25,7 @@
    <p> Make it your own! </p>
   <a class = "btn btn-primary mt-3 btn-block" href="{%url 'new_assessment'%}"> Create source water </a>
   <a class = "btn btn-primary mt-3 btn-block" href="{%url 'new_assessment'%}"> Create treatment </a>
-  <a class = "btn btn-primary mt-3 btn-block" href="{%url 'new_assessment'%}"> Create exposure scenario </a>
+  <a class = "btn btn-primary mt-3 btn-block" href="{%url 'scenario_create'%}"> Create exposure scenario </a>
   
 
   </div>

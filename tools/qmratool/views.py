@@ -11,6 +11,7 @@ import plotly.express as px
 from plotly.offline import plot
 from django_pandas.io import read_frame
 import decimal
+from django.views.generic.edit import CreateView
 # Create your views here.
 
 def index(request):
@@ -21,10 +22,44 @@ def index(request):
         return HttpResponseRedirect(reverse('login'))
     return render(request, "qmratool/index.html", {"assessments": assessment})
 
+class TreatmentCreateView(CreateView):
+    model = LogRemoval
+    fields = ['min', 'max', 'pathogen_group', 'treatment']
+
+
+def create_scenario(request):
+    user = request.user
+    if request.method == "POST":
+        form= ExposureForm(request.POST)
+        if form.is_valid():
+            exposure=Exposure()
+            exposure.user=user
+            exposure.name = form.cleaned_data["name"]
+            exposure.description=form.cleaned_data["description"]
+            exposure.volume_per_event=form.cleaned_data["volume_per_event"]
+            exposure.events_per_year=form.cleaned_data["events_per_year"]
+            exposure.save()
+
+            return HttpResponseRedirect(reverse("'index"))
+        else:
+            return HttpResponse(request, "Form not valid")
+    else:
+        form=ExposureForm
+    return render(request, "qmratool/scenario_create.html",{"form":form})
+
+
+
+
+
+
+
+
+
+
 def new_assessment(request):
     user = request.user
     if request.method == "POST":
-        form=RAForm(request.POST)
+        form=RAForm(user,request.POST)
         if form.is_valid():
             assessment=RiskAssessment()
             assessment.user=user
@@ -41,9 +76,10 @@ def new_assessment(request):
         else:
             return HttpResponse(request, "Form not valid")
     else:
-        form = RAForm()
+        form = RAForm(user)
+        content = Treatment.objects.all()
         sw_form = RAForm2()
-    return render(request, 'qmratool/new_ra.html', {"form":form, "sw_form": sw_form})
+    return render(request, 'qmratool/new_ra.html', {"form":form, "sw_form": sw_form, "content":content})
 
 
 def edit_assessment(request, ra_id):
