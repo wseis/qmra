@@ -1,13 +1,19 @@
 from django import forms
 from .models import RiskAssessment, SourceWater, Exposure, Treatment
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field, ButtonHolder, Submit
 
 class RAForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         super(RAForm, self).__init__(*args, **kwargs)
         self.fields['treatment'].help_text = "Please select your treatment configuration"
         self.fields['source'].help_text = "Please select your source water"
         self.fields['exposure'].help_text = "Please define your exposure scenario"
-        #self.fields['treatment'].title = Treatment.objects.all().values("description")
+        self.helper = FormHelper(self)
+        self.fields['exposure'].queryset = Exposure.objects.filter(user__in=[user, 8])
+      
+        #Treatment.objects.all().values("description")
+        
     class Meta:
         model=RiskAssessment
         fields=["name","description","source","treatment", "exposure"]
@@ -28,8 +34,11 @@ class SourceWaterForm(forms.Form):
 class ExposureForm(forms.ModelForm):
     class Meta:
         model=Exposure
-        fields=["use","description", "events_per_year", "volume_per_event"]
-
+        fields=["name","description", "events_per_year", "volume_per_event", "reference"]
+    
+#    def __init__(self, user, *args, **kwargs):
+ #       super(ProductForm, self).__init__(*args, **kwargs)
+  
 
 class TreatmentForm(forms.Form):
     pass
