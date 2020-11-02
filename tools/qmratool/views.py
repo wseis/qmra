@@ -48,11 +48,10 @@ def create_scenario(request):
     return render(request, "qmratool/scenario_create.html",{"form":form})
 
 
-
-
-
-
-
+def edit_scenario(request):
+    user = request.user
+    scenarios = user.scenarios.all()
+    return render(request, "qmratool/scenario_edit.html", {"scenarios":scenarios})
 
 
 
@@ -85,7 +84,7 @@ def new_assessment(request):
 def edit_assessment(request, ra_id):
     user = request.user
     if request.method == "POST":
-        form=RAForm(request.POST)
+        form=RAForm(user, request.POST)
         RiskAssessment.objects.get(id=ra_id).delete()
         if form.is_valid():
             assessment=RiskAssessment()
@@ -104,9 +103,9 @@ def edit_assessment(request, ra_id):
             return HttpResponse(request, "Form not valid")
     else:
         ra = RiskAssessment.objects.get(id=ra_id)
-        data = {"name":ra.name, "description":ra.description,"source": ra.source,
+        data = {"id": ra.id, "name":ra.name, "description":ra.description,"source": ra.source,
         "treatment":ra.treatment.all(), "exposure":ra.exposure.all()}
-        form = RAForm(data)
+        form = RAForm(user, data)
         
     return render(request, 'qmratool/edit_ra.html', {"form":form, "ra_id":ra.id})
 

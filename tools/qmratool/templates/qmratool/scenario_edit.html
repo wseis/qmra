@@ -1,0 +1,47 @@
+{% extends "qmratool/layout.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+
+
+
+<div class="container" style="padding: 5%">
+
+  <div class="row">
+    <div class="col-sm-8">
+       
+   <h4 class= "mb-5">Scenarios of {{user.username}}</h4>
+  
+        {%for scenario in scenarios%}
+              <div class="media px-3 mt-3">
+              <div class="media-left pr-3">
+                <a href="#">
+                  <img class= "img-fluid" src="https://via.placeholder.com/100" alt="...">
+                </a>
+              </div>
+                 <div class="media-body">
+                  <h5 class="media-heading">{{scenario.name|capfirst}} <span class ="ml-4"><a href= "", class = "btn-sm btn-danger ml-4"> Delete scenario </a></span></h5> 
+                   {{scenario.description|capfirst }} <a class = "text_link_kwb font-italic" href="">Edit scenario</a><br>
+                    Volume ingested [L/event]  : {{scenario.volume_per_event}} <br>
+                   Number of exposures per year: {{scenario.events_per_year}}<br>
+                    
+                   
+                </div>
+            </div>
+        {%empty%}
+        There are currently no custom scenarios. Click on <strong>Create exposure scenario  </strong> to create your first risk assessment!
+
+        {%endfor%}
+
+  </div>
+
+
+
+  
+    <div class="col-sm-3 offset-sm-1"> <!--style= "background-color: #007c9f; color: white">-->
+   <h4 class= "mb-2">Customize</h4>
+   <p> Make it your own! </p>
+  <a class = "btn btn-primary mt-3 btn-block" href="{%url 'scenario_create'%}"> Create exposure scenario </a>
+  </div>
+
+
+{% endblock %}

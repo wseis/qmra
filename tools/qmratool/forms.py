@@ -11,8 +11,8 @@ class RAForm(forms.ModelForm):
         self.fields['exposure'].help_text = "Please define your exposure scenario"
         self.helper = FormHelper(self)
         self.fields['exposure'].queryset = Exposure.objects.filter(user__in=[user, 8])
-      
-        #Treatment.objects.all().values("description")
+        #self.fields['treatment'].queryset = Treatment.objects.filter(user__in=[user, 8])
+        # uncommetn when User is added to treatment      
         
     class Meta:
         model=RiskAssessment
