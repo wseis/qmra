@@ -9,7 +9,7 @@
   <div class="row">
     <div class="col-sm-8">
        
-   <h4 class= "mb-5">Scenarios of {{user.username}}</h4>
+   <h4 class= "mb-5">Exposure Scenarios of {{user.username|capfirst}}</h4>
   
         {%for scenario in scenarios%}
               <div class="media px-3 mt-3">
@@ -28,7 +28,7 @@
                 </div>
             </div>
         {%empty%}
-        There are currently no custom scenarios. Click on <strong>Create exposure scenario  </strong> to create your first risk assessment!
+        There are currently no custom scenarios. Click on <strong>Create exposure scenario  </strong> to create your first exposure scenario!
 
         {%endfor%}
 
