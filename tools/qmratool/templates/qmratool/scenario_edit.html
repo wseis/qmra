@@ -19,7 +19,7 @@
                 </a>
               </div>
                  <div class="media-body">
-                  <h5 class="media-heading">{{scenario.name|capfirst}} <span class ="ml-4"><a href= "", class = "btn-sm btn-danger ml-4"> Delete scenario </a></span></h5> 
+                  <h5 class="media-heading">{{scenario.name|capfirst}} <span class ="ml-4"><a href= "{%url 'scenario_delete' scenario.id%}", class = "btn-sm btn-danger ml-4"> Delete scenario </a></span></h5> 
                    {{scenario.description|capfirst }} <a class = "text_link_kwb font-italic" href="">Edit scenario</a><br>
                     Volume ingested [L/event]  : {{scenario.volume_per_event}} <br>
                    Number of exposures per year: {{scenario.events_per_year}}<br>
