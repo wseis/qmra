@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.shortcuts import render
-from .forms import RAForm, SourceWaterForm, TreatmentForm, ExposureForm, RAForm2, LogRemovalForm, InflowForm
+from .forms import RAForm, SourceWaterForm, TreatmentForm, ExposureForm, LogRemovalForm, InflowForm
 from .models import *
 from django.views.decorators.csrf import ensure_csrf_cookie
 import numpy as np
@@ -82,8 +82,8 @@ def new_assessment(request):
     else:
         form = RAForm(user)
         content = Treatment.objects.all()
-        sw_form = RAForm2()
-    return render(request, 'qmratool/new_ra.html', {"form":form, "sw_form": sw_form, "content":content})
+       
+    return render(request, 'qmratool/new_ra.html', {"form":form, "content":content})
 
 
 def edit_assessment(request, ra_id):
