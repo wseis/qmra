@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.shortcuts import render
-from .forms import RAForm, SourceWaterForm, TreatmentForm, ExposureForm, RAForm2
+from .forms import RAForm, SourceWaterForm, TreatmentForm, ExposureForm, RAForm2, LogRemovalForm, InflowForm
 from .models import *
 from django.views.decorators.csrf import ensure_csrf_cookie
 import numpy as np
@@ -24,10 +24,6 @@ def index(request):
         assessment=[]
         return HttpResponseRedirect(reverse('login'))
     return render(request, "qmratool/index.html", {"assessments": assessment})
-
-class TreatmentCreateView(CreateView):
-    model = LogRemoval
-    fields = ['min', 'max', 'pathogen_group', 'treatment']
 
 
 # Exposure Scenario managememt
@@ -57,9 +53,11 @@ def edit_scenario(request):
     scenarios = user.scenarios.all()
     return render(request, "qmratool/scenario_edit.html", {"scenarios":scenarios})
 
+
 def delete_scenario(request, scenario_id):
     Exposure.objects.get(id=scenario_id).delete()
     return HttpResponseRedirect(reverse('scenario_edit'))
+
 
 # Risk assessment management
 def new_assessment(request):
@@ -121,10 +119,9 @@ def delete_assessment(request, ra_id):
     RiskAssessment.objects.get(id=ra_id).delete()
     return HttpResponseRedirect(reverse('index'))    
 
-
-
-def source(request, ra_name):
-    sources = SourceWater.objects.all()
+# Source water management
+def source_create(request):
+    
     if request.method=="POST":
         form=SourceWaterForm(request.POST)
         if form.is_valid():
@@ -136,11 +133,12 @@ def source(request, ra_name):
         else:
             return HttpResponse(request, "Form not valid")
     else:
-        form=SourceWaterForm()
-        return render(request, "qmratool/source.html", { "ra_name":ra_name, "sources":sources, "form":form})
+        SWform=SourceWaterForm()
+        Inflowform = InflowForm()
+        return render(request, "qmratool/source.html", { "SWform":SWform, "InflowForm": Inflowform})
 
-
-def treatment(request, ra_id):
+# Treatment management
+def treatment_create(request):
     if request.method == "POST":
         form=TreatmentForm(request.POST)
         if form.is_valid():
@@ -150,9 +148,12 @@ def treatment(request, ra_id):
         else:
             return HttpResponse("Form not valid")
     else:
-        form=TreatmentForm()
-    return render(request, "qmratool/treatment.html", {"form": form, "ra_id":ra_id})
+        TreatForm=TreatmentForm()
+        LRVForm = LogRemovalForm()
+    return render(request, "qmratool/treatment.html", {"TreatForm": TreatForm, "LRVForm": LRVForm })
 
+
+ 
 
 
 

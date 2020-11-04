@@ -3,10 +3,47 @@
 
 
 {% block body %}
+<div class="container" style="padding: 5%">
 
-<form action = "{% url 'treatment' ra_id %}" method = "post">{% csrf_token %}
-    {{form|crispy}}
-    
-  <button type="submit" value="Save"> >Submit</button>
+  <div class="row">
+    <div class="col-sm-8">
+        {% if user.is_authenticated %}
+            <h4>New Treatment</h4>
+            <p> Please add a name and a brief description of the treatment<p>
+
+<form action = "#" method = "post">{% csrf_token %}
+    {{TreatForm|crispy}}
+<hr>
+    <strong>Logremoval Viruses</strong>
+    {{LRVForm|crispy}}
+<hr>
+    <strong>Logremoval Bacteria</strong>
+    {{LRVForm|crispy}}
+ <hr>   
+    <strong>Logremoval Protozoa</strong>
+    {{LRVForm|crispy}}
+  <hr>  
+        
+   <button class = "btn btn-primary" type = "submit">Save treatment</button>
 </form>
+<!--
+<form action = "{% url 'treatment_create'%}" method = "post">{% csrf_token %}
+   
+       
+  <button type="submit" value="Save"> >Submit</button>
+</form>-->
+{%endif%}
+
+  </div>
+
+  <div class="col-sm-3 offset-sm-1"> <!--style= "background-color: #007c9f; color: white">-->
+   <h4 class= "mb-2">Customize</h4>
+   <p> Make it your own! </p>
+  <a class = "btn btn-primary mt-3 btn-block" href="{%url 'new_assessment'%}"> Create source water </a>
+  <a class = "btn btn-primary mt-3 btn-block" href="{%url 'treatment_create'%}"> Create treatment </a>
+  <a class = "btn btn-primary mt-3 btn-block" href="{%url 'scenario_create'%}"> Create exposure scenario </a>
+  
+
+  </div>
+
 {% endblock %}

@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import TreatmentCreateView
+#from .views import TreatmentCreateView
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -18,9 +18,8 @@ urlpatterns = [
     path('delete_scenario/<int:scenario_id>', views.delete_scenario, name='scenario_delete'),
     
     # Treatment creation urls
-    path('create_treatment', TreatmentCreateView.as_view(), name='treatment_create'),
-    path("source/<str:ra_name>", views.source, name="source"),
-    path("treatment/<int:ra_id>", views.treatment, name="treatment"),
+    path('treatment_create', views.treatment_create, name='treatment_create'),
+    path('source_create', views.source_create, name='source_create'),
 
     # Results
     path("results/<int:ra_id>", views.calculate_risk, name="results"),
