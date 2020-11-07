@@ -163,6 +163,8 @@ def treatment_delete(request, treatment_id):
 def LRV_edit(request, treatment_id, pathogen_group_id):
     
     if request.method == "POST":
+        pathogen_group = PathogenGroup.objects.get(id = pathogen_group_id)
+        LogRemoval.objects.get(treatment = Treatment.objects.get(id = treatment_id), pathogen_group= pathogen_group).delete()
         form= LogRemovalForm(request.POST)
         if form.is_valid():
             logremoval=LogRemoval()
@@ -177,11 +179,19 @@ def LRV_edit(request, treatment_id, pathogen_group_id):
         else:
             return HttpResponse(request, "Form not valid")
     else:
-        LRVForm=LogRemovalForm({"pathogen_group": PathogenGroup.objects.get(id = pathogen_group_id)})
-       
+        ref = Reference.objects.get(id = 51)
+        pathogen_group = PathogenGroup.objects.get(id = pathogen_group_id)
+        LRV = LogRemoval.objects.filter(treatment = Treatment.objects.get(id = treatment_id), pathogen_group= pathogen_group)
+        if len(LRV) == 1:
+            LRV = LogRemoval.objects.get(treatment = Treatment.objects.get(id = treatment_id), pathogen_group= pathogen_group)
+            LRVForm=LogRemovalForm({"pathogen_group": pathogen_group, "min":LRV.min, "max":LRV.max, "reference": ref })
+        else:
+            LRVForm=LogRemovalForm({"pathogen_group": pathogen_group, "min":0, "max":0, "reference": ref })
+
     return render(request, "qmratool/logremoval_edit.html", {"LRVForm": LRVForm,
     "pathogen_group_id": pathogen_group_id,
-    "treatment_id": treatment_id })
+    "treatment_id": treatment_id,
+    "pathogen": pathogen_group })
 
 
 
