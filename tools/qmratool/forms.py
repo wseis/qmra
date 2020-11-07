@@ -1,5 +1,5 @@
 from django import forms
-from .models import RiskAssessment, SourceWater,Inflow,  Exposure, Treatment, LogRemoval, Reference
+from .models import RiskAssessment, SourceWater,Inflow,  PathogenGroup,Exposure, Treatment, LogRemoval, Reference
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, ButtonHolder, Submit
 
@@ -63,8 +63,10 @@ class LogRemovalForm(forms.ModelForm):
         #self.fields['name'].help_text = "The name of the exposure scenario should be unique"
         #self.fields['description'].help_text = "Please enter  a short description of the exposure scenario"
         #self.fields['events_per_year'].help_text = "Please enter the number of expected exposure events per year"
-        #self.fields['volume_per_event'].help_text = "Please enter the volume per exposure event in liters (e.g. 50 mL = 0.050)"
+        #self.fields['pathogen_group'].queryset = PathogenGroup.objects.filter()#"Please enter the volume per exposure event in liters (e.g. 50 mL = 0.050)"
         self.fields['reference'].queryset = Reference.objects.filter(id = 51)
+        self.fields['pathogen_group'].widget = forms.HiddenInput()
+
         
   
     #Treatment=forms.ModelMultipleChoiceField(queryset=Treatment.objects.all(),  to_field_name="name")

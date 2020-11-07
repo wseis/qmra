@@ -21,7 +21,7 @@ urlpatterns = [
     path('treatment_create', views.treatment_create, name='treatment_create'),
     path('treatment_edit', views.treatment_edit, name='treatment_edit'),
     path('treatment_delete/<int:treatment_id>', views.treatment_delete, name='treatment_delete'),
-    
+    path('LRV_edit/<int:treatment_id>/<int:pathogen_group_id>', views.LRV_edit, name = 'LRV_edit'),
     path('source_create', views.source_create, name='source_create'),
 
     # Results

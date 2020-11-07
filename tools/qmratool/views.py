@@ -142,7 +142,7 @@ def treatment_create(request):
             treatment.description=form.cleaned_data["description"]
             treatment.save()
             
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("treatment_edit"))
             #return HttpResponse(request, form.cleaned_data["pathogen_group"])
         else:
             return HttpResponse(request, "Form not valid")
@@ -150,7 +150,6 @@ def treatment_create(request):
         TreatForm=TreatmentForm()
         #pathogen_groups = PathogenGroup.objects.all()
     return render(request, "qmratool/treatment.html", {"TreatForm": TreatForm })
-
 
 def treatment_edit(request):
     user = request.user
@@ -160,6 +159,29 @@ def treatment_edit(request):
 def treatment_delete(request, treatment_id):
     Treatment.objects.get(id=treatment_id).delete()
     return HttpResponseRedirect(reverse('treatment_edit'))
+
+def LRV_edit(request, treatment_id, pathogen_group_id):
+    
+    if request.method == "POST":
+        form= LogRemovalForm(request.POST)
+        if form.is_valid():
+            logremoval=LogRemoval()
+            logremoval.treatment= Treatment.objects.get(id = treatment_id)
+            logremoval.min = form.cleaned_data["min"]
+            logremoval.max=form.cleaned_data["max"]
+            logremoval.pathogen_group = PathogenGroup.objects.get(id = pathogen_group_id)
+            logremoval.reference=form.cleaned_data["reference"]
+            logremoval.save()
+            
+            return HttpResponseRedirect(reverse("treatment_edit"))
+        else:
+            return HttpResponse(request, "Form not valid")
+    else:
+        LRVForm=LogRemovalForm({"pathogen_group": PathogenGroup.objects.get(id = pathogen_group_id)})
+       
+    return render(request, "qmratool/logremoval_edit.html", {"LRVForm": LRVForm,
+    "pathogen_group_id": pathogen_group_id,
+    "treatment_id": treatment_id })
 
 
 
