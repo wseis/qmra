@@ -9,21 +9,13 @@
     <div class="col-sm-8">
         {% if user.is_authenticated %}
             <h4>New Treatment</h4>
-            <p> Please add a name and a brief description of the treatment<p>
+            <p> Please add a name and a brief description of the treatment. 
+            Afterwards you will be able to add pathogen specific log-removal values<p>
 
 <form action = "#" method = "post">{% csrf_token %}
     {{TreatForm|crispy}}
 <hr>
-    <strong>Logremoval Viruses</strong>
-    {{LRVForm|crispy}}
-<hr>
-    <strong>Logremoval Bacteria</strong>
-    {{LRVForm|crispy}}
- <hr>   
-    <strong>Logremoval Protozoa</strong>
-    {{LRVForm|crispy}}
-  <hr>  
-        
+
    <button class = "btn btn-primary" type = "submit">Save treatment</button>
 </form>
 <!--

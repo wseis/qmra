@@ -9,9 +9,9 @@
   <div class="row">
     <div class="col-sm-8">
        
-   <h4 class= "mb-5">Exposure Scenarios of {{user.username|capfirst}}</h4>
+   <h4 class= "mb-5">Treatments of {{user.username|capfirst}}</h4>
   
-        {%for scenario in scenarios%}
+        {%for treatment in treatments%}
               <div class="media px-3 mt-3">
               <div class="media-left pr-3">
                 <a href="#">
@@ -19,16 +19,19 @@
                 </a>
               </div>
                  <div class="media-body">
-                  <h5 class="media-heading">{{scenario.name|capfirst}} <span class ="ml-4"><a href= "{%url 'scenario_delete' scenario.id%}", class = "btn-sm btn-danger ml-4"> Delete scenario </a></span></h5> 
-                   {{scenario.description|capfirst }} <a class = "text_link_kwb font-italic" href="">Edit scenario</a><br>
-                    Volume ingested [L/event]  : {{scenario.volume_per_event}} <br>
-                   Number of exposures per year: {{scenario.events_per_year}}<br>
-                    
+                  <h5 class="media-heading">{{treatment.name|capfirst}} <span class ="ml-4"><a href= "{%url 'treatment_delete' treatment.id%}", class = "btn-sm btn-danger ml-4"> Delete treatment </a></span></h5> 
+                   {{treatment.description|capfirst }} <br>
+                   <p class = "mt-2">
+                   <span class = "px-2"><a class = "text_link_kwb font-italic" href="">Edit virus removal </a></span>
+                   <span class = "px-2"><a class = "text_link_kwb font-italic" href="">Edit bacteria removal </a></span>
+                   <span class = "px-2"><a class = "text_link_kwb font-italic" href="">Edit protozoa removal </a></span>
+                    </p>                 
                    
                 </div>
             </div>
+            <hr>
         {%empty%}
-        There are currently no custom scenarios. Click on <strong>Create exposure scenario  </strong> to create your first exposure scenario!
+        There are currently no custom treatment. Click on <strong>Create Treatment  </strong> to create your first treatment!
 
         {%endfor%}
 
@@ -38,13 +41,13 @@
 
   
     <div class="col-sm-3 offset-sm-1"> <!--style= "background-color: #007c9f; color: white">-->
-     <h4 class= "mb-2">Customize</h4>
+   <h4 class= "mb-2">Customize</h4>
    <p> Make it your own! </p>
   <a class = "btn btn-primary mt-3 btn-block" href="{%url 'source_create'%}"> Create source water </a>
   <a class = "btn btn-primary mt-3 btn-block" href="{%url 'treatment_create'%}"> Create treatment </a>
   <a class = "btn btn-primary mt-3 btn-block" href="{%url 'scenario_create'%}"> Create exposure scenario </a>
   
 
-</div>
+
 
 {% endblock %}

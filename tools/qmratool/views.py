@@ -11,7 +11,6 @@ import plotly.express as px
 from plotly.offline import plot
 from django_pandas.io import read_frame
 import decimal
-from django.views.generic.edit import CreateView
 
 # Create your views here.
 
@@ -133,21 +132,35 @@ def source_create(request):
 
 # Treatment management
 def treatment_create(request):
+    user = request.user
     if request.method == "POST":
-        form=TreatmentForm(request.POST)
+        form= TreatmentForm(request.POST)
         if form.is_valid():
-            assessment=RiskAssessment.objects.get(id = ra_id)
-            assessment.treatment.add(form.cleand_data)
-            assessment.save()
+            treatment=Treatment()
+            treatment.user=user
+            treatment.name = form.cleaned_data["name"]
+            treatment.description=form.cleaned_data["description"]
+            treatment.save()
+            
+            return HttpResponseRedirect(reverse("index"))
+            #return HttpResponse(request, form.cleaned_data["pathogen_group"])
         else:
-            return HttpResponse("Form not valid")
+            return HttpResponse(request, "Form not valid")
     else:
         TreatForm=TreatmentForm()
-        LRVForm = LogRemovalForm()
-    return render(request, "qmratool/treatment.html", {"TreatForm": TreatForm, "LRVForm": LRVForm })
+        #pathogen_groups = PathogenGroup.objects.all()
+    return render(request, "qmratool/treatment.html", {"TreatForm": TreatForm })
 
 
- 
+def treatment_edit(request):
+    user = request.user
+    treatments = user.treatments.all()
+    return render(request, "qmratool/treatment_edit.html", {"treatments": treatments})
+
+def treatment_delete(request, treatment_id):
+    Treatment.objects.get(id=treatment_id).delete()
+    return HttpResponseRedirect(reverse('treatment_edit'))
+
 
 
 

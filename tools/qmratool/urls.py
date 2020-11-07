@@ -19,6 +19,9 @@ urlpatterns = [
     
     # Treatment creation urls
     path('treatment_create', views.treatment_create, name='treatment_create'),
+    path('treatment_edit', views.treatment_edit, name='treatment_edit'),
+    path('treatment_delete/<int:treatment_id>', views.treatment_delete, name='treatment_delete'),
+    
     path('source_create', views.source_create, name='source_create'),
 
     # Results
