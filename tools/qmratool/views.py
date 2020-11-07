@@ -125,12 +125,6 @@ def source_create(request):
     if request.method=="POST":
         form=SourceWaterForm(request.POST)
         if form.is_valid():
-            assessment=RiskAssessment.objects.get(user = request.user, name = ra_name)
-           # 
-            assessment.source = form.cleaned_data["sourcewater"]#SourceWater.objects.get(sourcewater=form.cleaned_data["sourcewater"])
-            assessment.save()
-            return HttpResponseRedirect(reverse('treatment', args=(assessment.id,)))
-        else:
             return HttpResponse(request, "Form not valid")
     else:
         SWform=SourceWaterForm()
@@ -171,10 +165,13 @@ def calculate_risk(request, ra_id):
     # Querying for Logremoval based on selected treatments
     df_treatment=read_frame(LogRemoval.objects.filter(treatment__in=ra.treatment.all()).values("min", "max", "treatment__name", "pathogen_group__pathogen_group"))
     
+    #Querying for exposure scenario
+    exposure =read_frame(ra.exposure.all().values("events_per_year", "volume_per_event"))
+
     # Summarizing treatment to treatment max and treatment min
     df_treatment_summary=df_treatment.groupby(["pathogen_group__pathogen_group"]).sum().reset_index()
     
-    # annual risk function
+        # annual risk function
     def annual_risk(nexposure, event_probs):
         return 1-np.prod(1-np.random.choice(event_probs, nexposure, True))
     #df_inflow = df_inflow["pathogen__pathogen"].isin(["Rotavirus", "Cryptosporidium parvum", "Campylobacter jejuni"])
@@ -204,13 +201,14 @@ def calculate_risk(request, ra_id):
                                                          high= df_treat["max"], 
                                                          size= 1000) })
         risk_df["outflow"]=risk_df["inflow"] - risk_df["LRV"]
+        risk_df["dose"] = (10**risk_df["outflow"])*float(exposure.volume_per_event)
        
         if selector != "Protozoa":
-            risk_df["probs"] = 1 - (1 + (10**risk_df["outflow"]) * (2 ** (1/float(dr.alpha)) - 1)/float(dr.n50)) ** -float(dr.alpha)
+            risk_df["probs"] = 1 - (1 + (risk_df["dose"]) * (2 ** (1/float(dr.alpha)) - 1)/float(dr.n50)) ** -float(dr.alpha)
         else:
-            risk_df["probs"] = 1 - np.exp(-float(dr.k)*(10**risk_df["outflow"]))
+            risk_df["probs"] = 1 - np.exp(-float(dr.k)*(risk_df["dose"]))
         
-        results[pathogen] = [annual_risk(1, risk_df["probs"] ).round(3) for _ in range(1000)]
+        results[pathogen] = [annual_risk(int(exposure.events_per_year), risk_df["probs"] ).round(3) for _ in range(1000)]
 
     results_long = pd.melt(results)
     results_long["log probability"] = np.log10(results_long["value"])

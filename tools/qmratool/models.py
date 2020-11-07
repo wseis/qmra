@@ -13,9 +13,10 @@ class SourceWater(models.Model):
 
 
 class Treatment(models.Model):
+    user = models.ForeignKey(User, related_name="treatments", on_delete=models.CASCADE)
     name = models.CharField(max_length=64)
     group=models.CharField(max_length=64, default = "wastewater")
-    description=models.TextField(max_length=2000)
+    description=models.TextField(max_length=250)
     #category = models.CharField(max_length=64, default = "wastewater")
     def __str__(self):
       return self.name
@@ -41,7 +42,7 @@ class Pathogen(models.Model):
       return self.pathogen
 
 class LogRemoval(models.Model):
-    reference=models.ForeignKey(Reference, related_name="logremoval", on_delete=models.CASCADE)
+    reference=models.ForeignKey(Reference, related_name="logremoval",  default = 51, on_delete=models.CASCADE)
     pathogen_group=models.ForeignKey(PathogenGroup, on_delete=models.CASCADE, related_name="logremoval")
     min=models.DecimalField(    decimal_places=1, max_digits=4)
     max = models.DecimalField( decimal_places=1, max_digits=4)
@@ -113,5 +114,6 @@ class RiskAssessment(models.Model):
     exposure=models.ManyToManyField(Exposure, default=1 ,null=True,  blank = True)
     def __str__(self):
       return self.name
+
 
 
