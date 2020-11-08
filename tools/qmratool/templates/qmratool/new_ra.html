@@ -1,5 +1,6 @@
 {% extends "qmratool/layout.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block body %}
 
 
@@ -32,3 +33,6 @@
 
 
 {% endblock %}
+{%block script%}
+  <script src="{% static 'qmratool/option.js' %}"></script>
+{%endblock%}

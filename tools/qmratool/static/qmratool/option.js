@@ -1,13 +1,24 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log("page loaded")
-    ex =document.querySelector("#explain-text")
-    ex.style.display="none"
+    el = document.querySelectorAll("[id*='id_treatment_']")
+    label =document.querySelectorAll("[for*='id_treatment_']")
 
-    el = document.querySelector("#form-id")
-    el.addEventListener('mouseover', function(){
-        ex.style.display="block"
-      })
-      el.addEventListener('mouseout', function(){
-        ex.style.display="none"
-      })
+    el.forEach(element => {    
+    sel = parseInt(element.value)
+    fetch(`/api_treatments/${sel}`)
+      .then(response => response.json())
+      .then(treatments => {
+        // Print emails
+        element.setAttribute("data-toggle","tooltip") 
+        element.title = treatments[0].description
 })
+
+
+
+
+    });
+  
+})
+
+//[title~=flower]
+//[id*='someId']

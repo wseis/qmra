@@ -20,6 +20,13 @@ class Treatment(models.Model):
     #category = models.CharField(max_length=64, default = "wastewater")
     def __str__(self):
       return self.name
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "group": self.group
+        }
          
 class Reference(models.Model):
     name=models.CharField(max_length=50)

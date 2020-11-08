@@ -3,15 +3,17 @@ from .models import RiskAssessment, SourceWater,Inflow,  PathogenGroup,Exposure,
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, ButtonHolder, Submit
 
+
 class RAForm(forms.ModelForm):
+
     def __init__(self, user, *args, **kwargs):
         super(RAForm, self).__init__(*args, **kwargs)
         self.fields['treatment'].help_text = "Please select your treatment configuration"
         self.fields['source'].help_text = "Please select your source water"
         self.fields['exposure'].help_text = "Please define your exposure scenario"
-        self.helper = FormHelper(self)
         self.fields['exposure'].queryset = Exposure.objects.filter(user__in=[user, 8])
         self.fields['treatment'].queryset = Treatment.objects.filter(user__in=[user, 8])
+        self.helper = FormHelper()
          
         
     class Meta:

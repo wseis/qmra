@@ -352,3 +352,21 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "qmratool/register.html")
+
+
+
+
+def api_treatments(request):
+    treatments = Treatment.objects.filter(user__in = [request.user, 8])
+    # Filter emails returned based on mailbox
+    
+    # Return emails in reverse chronologial order
+    return JsonResponse([treatment.serialize() for treatment in treatments], safe=False)
+
+    
+def api_treatments_by_id(request, treatment_id):
+    treatments = Treatment.objects.filter(id = treatment_id)
+    # Filter emails returned based on mailbox
+    
+    # Return emails in reverse chronologial order
+    return JsonResponse([treatment.serialize() for treatment in treatments], safe=False)
