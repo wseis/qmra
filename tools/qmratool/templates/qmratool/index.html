@@ -13,11 +13,11 @@
               <div class="media px-3 mt-3">
               <div class="media-left pr-3">
                 <a href="#">
-                  <img class= "img-fluid" src="https://via.placeholder.com/100" alt="...">
+                  <img class= "img-fluid" src="/static/qmratool/placeholder2.png" alt="...">
                 </a>
               </div>
                  <div class="media-body">
-                  <h4 class="media-heading">{{assessment.name|capfirst}}</h4>
+                  <h4 class="media-heading">{{assessment.name|title}}</h4>
                    <p> {{assessment.description|capfirst}} <a class = "text_link_kwb font-italic" href="{% url "edit_assessment" assessment.id%}">Edit risk assessment</a></p>
                    <a href= "{% url "results" assessment.id%}", class = "btn-sm btn-primary sm"> Show results </a>
                 </div>

@@ -11,8 +11,8 @@ class RAForm(forms.ModelForm):
         self.fields['treatment'].help_text = "Please select your treatment configuration"
         self.fields['source'].help_text = "Please select your source water"
         self.fields['exposure'].help_text = "Please define your exposure scenario"
-        self.fields['exposure'].queryset = Exposure.objects.filter(user__in=[user, 8])
-        self.fields['treatment'].queryset = Treatment.objects.filter(user__in=[user, 8])
+        self.fields['exposure'].queryset = Exposure.objects.filter(user__in=[user, 8]).order_by("id")
+        self.fields['treatment'].queryset = Treatment.objects.filter(user__in=[user, 8]).order_by("id")
         self.helper = FormHelper()
          
         

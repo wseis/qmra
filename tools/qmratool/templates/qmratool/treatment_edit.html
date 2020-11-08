@@ -15,11 +15,11 @@
               <div class="media px-3 mt-3">
               <div class="media-left pr-3">
                 <a href="#">
-                  <img class= "img-fluid" src="https://via.placeholder.com/100" alt="...">
+                  <img class= "img-fluid" src="/static/qmratool/placeholder2.png" alt="...">
                 </a>
               </div>
                  <div class="media-body">
-                  <h5 class="media-heading">{{treatment.name|capfirst}} <span class ="ml-4"><a href= "{%url 'treatment_delete' treatment.id%}", class = "btn-sm btn-danger ml-4"> Delete treatment </a></span></h5> 
+                  <h5 class="media-heading">{{treatment.name|title}} <span class ="ml-4"><a href= "{%url 'treatment_delete' treatment.id%}", class = "btn-sm btn-danger ml-4"> Delete treatment </a></span></h5> 
                    {{treatment.description|capfirst }} <br>
                    <p class = "mt-2">
                    <span class = "px-2"><a class = "text_link_kwb font-italic" href="{% url 'LRV_edit' treatment_id=treatment.id pathogen_group_id=2 %}"> Edit virus removal </a></span>
