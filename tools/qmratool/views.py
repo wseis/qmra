@@ -164,7 +164,9 @@ def LRV_edit(request, treatment_id, pathogen_group_id):
     
     if request.method == "POST":
         pathogen_group = PathogenGroup.objects.get(id = pathogen_group_id)
-        LogRemoval.objects.get(treatment = Treatment.objects.get(id = treatment_id), pathogen_group= pathogen_group).delete()
+        LRV = LogRemoval.objects.filter(treatment = Treatment.objects.get(id = treatment_id), pathogen_group= pathogen_group)
+        if len(LRV) == 1:
+            LogRemoval.objects.get(treatment = Treatment.objects.get(id = treatment_id), pathogen_group= pathogen_group).delete()
         form= LogRemovalForm(request.POST)
         if form.is_valid():
             logremoval=LogRemoval()
