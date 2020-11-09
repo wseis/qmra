@@ -11,7 +11,7 @@
         {% if user.is_authenticated %}
             <h4>New risk assessment</h4>
             <p> Please add a name and a brief description of the risk assessment<p>
-        <form action = "{% url 'new_assessment'%}", method = "post">
+             <form action = "{% url 'new_assessment'%}", method = "post">
             {% csrf_token %}
             {{form|crispy}}
           <button class = "btn btn-primary" type = "submit">Submit</button>
@@ -33,6 +33,6 @@
 
 {% endblock %}
 {%block script%}
-  <script src="{% static 'qmratool/option.js' %}"></script>
+  <!-- <script src="{% static 'qmratool/option.js' %}"></script> -->
 
 {%endblock%}

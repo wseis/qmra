@@ -62,7 +62,7 @@ def delete_scenario(request, scenario_id):
 def new_assessment(request):
     user = request.user
     if request.method == "POST":
-        form=RAForm(user,request.POST)
+        form=RAForm(user,  request.POST)
         if form.is_valid():
             assessment=RiskAssessment()
             assessment.user=user
