@@ -10,6 +10,12 @@ class SourceWater(models.Model):
     water_source_description=models.CharField(max_length=2000)
     def __str__(self):
       return self.water_source_name
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.water_source_name,
+            "description": self.water_source_description}
+            
 
 
 class Treatment(models.Model):
@@ -111,6 +117,14 @@ class Exposure(models.Model):
     reference = models.ForeignKey(Reference, on_delete=models.CASCADE, default = 51)
     def __str__(self):
       return self.name
+    def serialize(self):
+      return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "events_per_year": self.events_per_year,
+            "volume_per_event": self.volume_per_event
+        }
     
 class RiskAssessment(models.Model):
     user=models.ForeignKey(User, on_delete=models.PROTECT, related_name="assessments")

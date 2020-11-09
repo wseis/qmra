@@ -31,6 +31,8 @@ urlpatterns = [
      # API Routes
     path("api_treatments", views.api_treatments, name="api_treatments"),
     path("api_treatments/<int:treatment_id>", views.api_treatments_by_id, name="api_treatments_by_id"),
+    path("api_sources/<int:source_id>", views.api_sources_by_id, name="api_sources_by_id"),
+    path("api_exposures/<int:exposure_id>", views.api_exposure_by_id, name="api_exposure_by_id"),
     
     #path("emails/<int:email_id>", views.email, name="email"),
     #path("emails/<str:mailbox>", views.mailbox, name="mailbox"),

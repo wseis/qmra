@@ -370,3 +370,17 @@ def api_treatments_by_id(request, treatment_id):
     
     # Return emails in reverse chronologial order
     return JsonResponse([treatment.serialize() for treatment in treatments], safe=False)
+
+def api_sources_by_id(request, source_id):
+    sources = SourceWater.objects.filter(id = source_id)
+    # Filter emails returned based on mailbox
+    
+    # Return emails in reverse chronologial order
+    return JsonResponse([source.serialize() for source in sources], safe=False)
+
+def api_exposure_by_id(request, exposure_id):
+    exposures = Exposure.objects.filter(id = exposure_id)
+    # Filter emails returned based on mailbox
+    
+    # Return emails in reverse chronologial order
+    return JsonResponse([exposure.serialize() for exposure in exposures], safe=False)
