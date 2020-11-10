@@ -255,12 +255,12 @@ def calculate_risk(request, ra_id):
         else:
             risk_df["probs"] = 1 - np.exp(-float(dr.k)*(risk_df["dose"]))
         
-        results[pathogen] = [annual_risk(int(exposure.events_per_year), risk_df["probs"] ).round(3) for _ in range(1000)]
+        results[pathogen] = [annual_risk(int(exposure.events_per_year), risk_df["probs"] ) for _ in range(1000)]
 
     results_long = pd.melt(results)
     results_long["log probability"] = np.log10(results_long["value"])
     fig = px.box(results_long, x="variable", y="log probability", 
-                                points="all", 
+                                points="all",  
                                 title="Risk assessment as probability of infection per year",
                                 color_discrete_sequence=["#007c9f", "#007c9f", "#007c9f"])
     risk_plot = plot(fig, output_type = "div")

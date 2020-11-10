@@ -20,6 +20,7 @@ class RAForm(forms.ModelForm):
         model=RiskAssessment
         fields=["name","description","source","treatment", "exposure"]
         widgets={"source": forms.RadioSelect(attrs={"empty_label":None}),
+        "exposure": forms.CheckboxSelectMultiple(),
             "treatment": forms.CheckboxSelectMultiple()}
     
      
