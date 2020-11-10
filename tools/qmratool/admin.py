@@ -39,6 +39,7 @@ class ExposureAdmin(ImportExportModelAdmin):
 
 @admin.register(Inflow)
 class InflowAdmin(ImportExportModelAdmin):
+    list_display=("id", "pathogen", "water_source", "min", "max")
     pass
 @admin.register(Guideline)
 class GuidelineAdmin(ImportExportModelAdmin):

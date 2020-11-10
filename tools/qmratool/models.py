@@ -132,7 +132,7 @@ class RiskAssessment(models.Model):
     description=models.TextField(max_length=500, blank=True)
     source=models.ForeignKey(SourceWater, on_delete=models.PROTECT, default=1,  blank = True)
     treatment=models.ManyToManyField(Treatment, related_name="treatments", default=1 ,  blank=True)
-    exposure=models.ManyToManyField(Exposure, default=1 ,null=True,  blank = True)
+    exposure=models.ForeignKey(Exposure, default=1, null=True, on_delete= models.CASCADE, blank = True)
     def __str__(self):
       return self.name
 

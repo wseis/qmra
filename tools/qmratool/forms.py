@@ -11,6 +11,7 @@ class RAForm(forms.ModelForm):
         self.fields['treatment'].help_text = "Please select your treatment configuration"
         self.fields['source'].help_text = "Please select your source water"
         self.fields['source'].empty_label = None
+        self.fields['exposure'].empty_label = None
         self.fields['exposure'].help_text = "Please define your exposure scenario"
         self.fields['exposure'].queryset = Exposure.objects.filter(user__in=[user, 8]).order_by("id")
         self.fields['treatment'].queryset = Treatment.objects.filter(user__in=[user, 8]).order_by("id")
@@ -21,7 +22,7 @@ class RAForm(forms.ModelForm):
         model=RiskAssessment
         fields=["name","description","source","treatment", "exposure"]
         widgets={"source": forms.RadioSelect(attrs={"empty_label":None}),
-            "treatment": forms.CheckboxSelectMultiple(), "exposure": forms.RadioSelect()}
+            "treatment": forms.CheckboxSelectMultiple(), "exposure": forms.RadioSelect(attrs={"empty_label":None})}
     
      
 

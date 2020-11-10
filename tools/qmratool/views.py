@@ -71,7 +71,7 @@ def new_assessment(request):
             assessment.source=form.cleaned_data["source"]
             assessment.save()
             assessment.treatment.set(form.cleaned_data["treatment"])
-            assessment.exposure.set(form.cleaned_data["exposure"])
+            assessment.exposure= form.cleaned_data["exposure"]
             assessment.save()
 
             return HttpResponseRedirect(reverse('index'))    
@@ -98,7 +98,7 @@ def edit_assessment(request, ra_id):
             assessment.source=form.cleaned_data["source"]
             assessment.save()
             assessment.treatment.set(form.cleaned_data["treatment"])
-            assessment.exposure.set(form.cleaned_data["exposure"])
+            assessment.exposure= form.cleaned_data["exposure"]
             assessment.save()
 
             return HttpResponseRedirect(reverse('index'))    
@@ -108,7 +108,7 @@ def edit_assessment(request, ra_id):
     else:
         ra = RiskAssessment.objects.get(id=ra_id)
         data = {"id": ra.id, "name":ra.name, "description":ra.description,"source": ra.source,
-        "treatment":ra.treatment.all(), "exposure":ra.exposure.all()}
+        "treatment":ra.treatment.all(), "exposure":ra.exposure}
         form = RAForm(user, data)
         
     return render(request, 'qmratool/edit_ra.html', {"form":form, "ra_id":ra.id})
@@ -213,7 +213,7 @@ def calculate_risk(request, ra_id):
     df_treatment=read_frame(LogRemoval.objects.filter(treatment__in=ra.treatment.all()).values("min", "max", "treatment__name", "pathogen_group__pathogen_group"))
     
     #Querying for exposure scenario
-    exposure =read_frame(ra.exposure.all().values("events_per_year", "volume_per_event"))
+    #exposure =read_frame(ra.exposure.all().values("events_per_year", "volume_per_event"))
 
     # Summarizing treatment to treatment max and treatment min
     df_treatment_summary=df_treatment.groupby(["pathogen_group__pathogen_group"]).sum().reset_index()
@@ -248,14 +248,14 @@ def calculate_risk(request, ra_id):
                                                          high= df_treat["max"], 
                                                          size= 1000) })
         risk_df["outflow"]=risk_df["inflow"] - risk_df["LRV"]
-        risk_df["dose"] = (10**risk_df["outflow"])*float(exposure.volume_per_event)
+        risk_df["dose"] = (10**risk_df["outflow"])*float(ra.exposure.volume_per_event)
        
         if selector != "Protozoa":
             risk_df["probs"] = 1 - (1 + (risk_df["dose"]) * (2 ** (1/float(dr.alpha)) - 1)/float(dr.n50)) ** -float(dr.alpha)
         else:
             risk_df["probs"] = 1 - np.exp(-float(dr.k)*(risk_df["dose"]))
         
-        results[pathogen] = [annual_risk(int(exposure.events_per_year), risk_df["probs"] ).round(3) for _ in range(1000)]
+        results[pathogen] = [annual_risk(int(ra.exposure.events_per_year), risk_df["probs"] ) for _ in range(1000)]
 
     results_long = pd.melt(results)
     results_long["log probability"] = np.log10(results_long["value"])
