@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+           <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<!--<script src="https://rawgit.com/rasmusab/bayes.js/master/distributions.js"></script>
+
+<script src="https://rawgit.com/rasmusab/bayes.js/master/mcmc.js"></script> -->
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> 
+    <script src="/static/bayes/modules/mcmc.js"></script>
+    <script src="/static/bayes/modules/distributions.js"></script>
+     <script src="/static/bayes/user_input.js"></script>
+     <link rel="stylesheet" href= "/static/qmratool/style.css" >
+    </head>
+    <body>
+ <nav class="navbar navbar-expand-lg border-bottom" style="background-color: white;">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <a class="navbar-brand text_link_kwb" href="#"><b>QMRA</b><i><sub>calculator</sub></i></a>
+          
+            <div class="collapse navbar-collapse">
+              <ul class="navbar-nav mr-auto">
+                {% if user.is_authenticated %}
+                  
+                        <li class="nav-item active">
+                        <a class="nav-link text_link_kwb" href="{%url 'index'%}"> Risk Assessments</a>
+                        </li>
+                         <li class="nav-item active">
+                        <a class="nav-link text_link_kwb" href="{%url 'treatment_edit'%}"> My Treatments</a>
+                        </li>
+                         <li class="nav-item active">
+                        <a class="nav-link text_link_kwb" href="{%url 'scenario_edit'%}"> My Exposure scenarios</a>
+                        </li>
+                        <li class="nav-item active">
+                        <a class="nav-link text_link_kwb" href="{%url 'bayes'%}"> Go Bayesian Demo</a>
+                        </li>
+                </ul>
+                <ul class= "navbar-nav navbar-right">
+                  <li class="nav-item active">
+                        <a class=" nav-link text_link_kwb " href=""><strong>{{ user.username }}</strong></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class=" nav-link text_link_kwb " href="">FAQ</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class=" nav-link text_link_kwb " href="">Info</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link text_link_kwb" href="{% url 'logout' %}">Log Out</a>
+                    </li>
+                </ul>
+                {% else %}
+                <ul class= "navbar-nav navbar-right">
+                    <li class="nav-item active">
+                        <a class="nav-link text_link_kwb" href="{% url 'login' %}">Log In</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link text_link_kwb" href="{% url 'register' %}">Register</a>
+                    </li>
+                  </ul>   
+                {% endif %}
+              </ul>
+            </div>
+          </nav>
+
+
+
+<div class="container mt-5">
+ <div id = "row" class = "row">
+    <div id = "left" class = "col-8">
+    <h4> Bayesian Markov Chain Monte Carlo for Paramter estimation! </h4>
+    <p class = "mt-4">
+        <button class="btn btn-primary" onclick="sample_loop()">Start sampling</button>
+        <button class="btn btn-primary" onclick="stop_sample_loop()">Stop sampling and plot histograms</button>
+        <button class="btn btn-primary" onclick="clear_samples()">Clear samples</button>
+    </p>
+
+        <div id="mcmc_plots_div"> </div>
+        <hr>
+        <div class = "row">
+            <div class = "col">
+            <div id='text_output_div'></div>
+            </div>
+            <div class = "col">
+            <div id='sd_output_div'></div>
+            </div>
+    </div>
+    
+</div>
+    <div id = "right" class = "col-4">
+        <h4> Try different priors! </h4>
+        <p class = "mt-4">
+       Here you can upload data and specify prior to see the effects of prior information on parameter estimates. 
+       If you do not know what a prior is, please see the <strong><a class = "text_link_kwb" href="#"> Info </a></strong> section for some basic information and some useful links.
+        </p>
+            <form id = "form">
+                <h6> Data upload</h6>
+                  <div class="form-group">
+                         <label for="exampleFormControlTextarea1">Please copy and paste your data here!</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+               
+                <h6> Prior definition</h6>
+        <div class="form-group">
+             <label for="exampleFormControlSelect1">Select distribution for mean (mu)</label>
+              <select class="form-control" id="exampleFormControlSelect1">
+                <option>Normal</option>
+        </select>
+        <div class="form-row mt-3">
+            <div class="col">
+                <input type="text" class="form-control" placeholder="mean" id = "user_mean"></input>
+            </div>
+             <div class="col">
+         <input type="text" class="form-control" placeholder="SD" id ="user_sd"></input>
+        </div>
+        </div>
+        </div>
+           <div class="form-group">
+             <label for="exampleFormControlSelect1">Select distribution for SD (sigma)</label>
+              <select class="form-control" id="exampleFormControlSelect1">
+                <option>Uniform</option>
+            </select>
+        <div class="form-row mt-3">
+            <div class="col">
+            <input type="text" class="form-control" placeholder="min" id = "user_min">
+            </div>
+            <div class="col">
+         <input type="text" class="form-control" placeholder="max", id = "user_max">
+        </div>
+        </div>
+        </div>
+         <button id = "submit-data" class=  "btn btn-primary">Submit</button>  
+                
+         </form>
+    <div class = "alert alert-danger mt-3" role = "alert">
+        Uniform priors are usually avoided as they put hard constraints on the min and max. 
+        However, they serve well to see effects of prior choices.
+    </div>
+
+</div>
+</div>
+</div>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="/static/bayes/bayes.js"></script>
+    </body>
+</html>
+
+
+

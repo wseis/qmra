@@ -24,6 +24,9 @@ def index(request):
         return HttpResponseRedirect(reverse('login'))
     return render(request, "qmratool/index.html", {"assessments": assessment})
 
+def bayes(request):
+    return render(request,  "bayes/bayes2.html")
+
 
 # Exposure Scenario managememt
 def create_scenario(request):

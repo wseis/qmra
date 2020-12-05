@@ -27,6 +27,7 @@ urlpatterns = [
 
     # Results
     path("results/<int:ra_id>", views.calculate_risk, name="results"),
+    path("bayes", views.bayes, name="bayes"),
 
      # API Routes
     path("api_treatments", views.api_treatments, name="api_treatments"),
