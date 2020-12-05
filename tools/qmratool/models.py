@@ -22,7 +22,9 @@ class Treatment(models.Model):
     user = models.ForeignKey(User, related_name="treatments", on_delete=models.CASCADE)
     name = models.CharField(max_length=64)
     group=models.CharField(max_length=64, default = "wastewater")
-    description=models.TextField(max_length=250)
+    category=models.CharField(max_length=64, choices=[("wastewater", "wastewater"),
+    ("drinking_water", "drinking water"), ("surface_water", "surface water")] ,default = "wastewater")
+    description=models.TextField(max_length=1000)
     #category = models.CharField(max_length=64, default = "wastewater")
     def __str__(self):
       return self.name
