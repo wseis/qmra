@@ -244,8 +244,8 @@ def calculate_risk(request, ra_id):
                                     
                                                          
 
-        risk_df = pd.DataFrame({"inflow": np.random.normal(loc=(np.log10(float(d["min"]))+np.log10(float(d["max"]) ))/2, 
-                                                            scale = (np.log10(float(d["max"]))-np.log10(float(d["min"]) ))/4,  
+        risk_df = pd.DataFrame({"inflow": np.random.normal(loc=(np.log10(float(d["min"])+10**(-8))+np.log10(float(d["max"]) ))/2, 
+                                                            scale = (np.log10(float(d["max"]))-np.log10(float(d["min"])+10**(-8) ))/4,  
                                                             size = 1000),
                                 "LRV": np.random.uniform(low= df_treat["min"], 
                                                          high= df_treat["max"], 
@@ -266,6 +266,19 @@ def calculate_risk(request, ra_id):
                                 points="all", 
                                 title="Risk assessment as probability of infection per year",
                                 color_discrete_sequence=["#007c9f", "#007c9f", "#007c9f"])
+    
+    fig.update_layout(shapes=[
+    dict(
+      type= 'line',
+      y0= np.log10(0.03), y1=np.log10(0.03),
+      x0 =-.5, x1=2.5,
+      line=dict(
+        color="MediumPurple",
+        width=4,
+        dash="dot") 
+    )
+    ])
+    
     risk_plot = plot(fig, output_type = "div")
 
 
