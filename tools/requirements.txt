@@ -2,4 +2,7 @@ django-import-export
 numpy
 pandas
 plotly
-decimal
+django-crispy-forms
+django-formtools
+django-extentions
+django-pandas
