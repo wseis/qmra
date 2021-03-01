@@ -263,7 +263,7 @@ def calculate_risk(request, ra_id):
     results_long = pd.melt(results)
     results_long["log probability"] = np.log10(results_long["value"])
     fig = px.box(results_long, x="variable", y="log probability", 
-                                points="all", 
+                                points="all",  
                                 title="Risk assessment as probability of infection per year",
                                 color_discrete_sequence=["#007c9f", "#007c9f", "#007c9f"])
     
