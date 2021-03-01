@@ -4,5 +4,5 @@ pandas
 plotly
 django-crispy-forms
 django-formtools
-django-extentions
+django-extensions
 django-pandas
