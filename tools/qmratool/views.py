@@ -227,57 +227,71 @@ def calculate_risk(request, ra_id):
     #df_inflow = df_inflow["pathogen__pathogen"].isin(["Rotavirus", "Cryptosporidium parvum", "Campylobacter jejuni"])
     
     results = pd.DataFrame()
-    for pathogen in ["Rotavirus", "Cryptosporidium parvum", "Campylobacter jejuni"]:#df_inflow["pathogen__pathogen"]:
-        d = df_inflow.loc[df_inflow["pathogen__pathogen"] == pathogen]
-        dr = dr_models.loc[dr_models["pathogen"]==pathogen]
-        #result.append(pathogen)
 
-        if pathogen == "Rotavirus":
-            selector = "Viruses"
-        elif pathogen == "Cryptosporidium parvum":
+    for index, row in df_inflow.iterrows():
+        d = df_inflow.loc[df_inflow["pathogen__pathogen"] ==row["pathogen__pathogen"]]
+        dr = dr_models.loc[dr_models["pathogen"]==row["pathogen__pathogen"]]
+
+        if row["pathogen__pathogen"] == "Rotavirus":
+            selector = "Viruses" 
+        elif row["pathogen__pathogen"]== "Cryptosporidium parvum":
             selector = "Protozoa"
         else:
             selector = "Bacteria"
         #result.append(selector)
 
         df_treat = df_treatment_summary[df_treatment_summary["pathogen_group__pathogen_group"]==selector]
-                                    
-                                                         
+
+
 
         risk_df = pd.DataFrame({"inflow": np.random.normal(loc=(np.log10(float(d["min"])+10**(-8))+np.log10(float(d["max"]) ))/2, 
                                                             scale = (np.log10(float(d["max"]))-np.log10(float(d["min"])+10**(-8) ))/4,  
-                                                            size = 1000),
+                                                            size = 10000),
                                 "LRV": np.random.uniform(low= df_treat["min"], 
-                                                         high= df_treat["max"], 
-                                                         size= 1000) })
+                                                        high= df_treat["max"], 
+                                                        size= 10000) })
         risk_df["outflow"]=risk_df["inflow"] - risk_df["LRV"]
         risk_df["dose"] = (10**risk_df["outflow"])*float(ra.exposure.volume_per_event)
-       
+
         if selector != "Protozoa":
             risk_df["probs"] = 1 - (1 + (risk_df["dose"]) * (2 ** (1/float(dr.alpha)) - 1)/float(dr.n50)) ** -float(dr.alpha)
         else:
             risk_df["probs"] = 1 - np.exp(-float(dr.k)*(risk_df["dose"]))
-        
-        results[pathogen] = [annual_risk(int(ra.exposure.events_per_year), risk_df["probs"] ) for _ in range(1000)]
+
+        results[row["pathogen__pathogen"]] = [annual_risk(int(ra.exposure.events_per_year), risk_df["probs"] ) for _ in range(1000)]
+
 
     results_long = pd.melt(results)
     results_long["log probability"] = np.log10(results_long["value"])
-    fig = px.box(results_long, x="variable", y="log probability", 
-                                points="all",  
-                                title="Risk assessment as probability of infection per year",
+
+    fig = px.box(results_long, x="variable", y="value",
+                                points="all",  log_y =True, 
+                                title="Risk as probability of infection per year",
                                 color_discrete_sequence=["#007c9f", "#007c9f", "#007c9f"])
-    
-    fig.update_layout(shapes=[
-    dict(
-      type= 'line',
-      y0= np.log10(0.03), y1=np.log10(0.03),
-      x0 =-.5, x1=2.5,
-      line=dict(
-        color="MediumPurple",
-        width=4,
-        dash="dot") 
-    )
-    ])
+
+    #fig.update_layout(shapes=[
+    #dict(
+    #  type= 'line',
+    #  y0= 0.03, y1= 0.03,
+    #  x0 =-.5, x1=2.5,
+    #  line=dict(
+    #    color="MediumPurple",
+    #    width=4,
+    #    dash="dot") 
+    #)
+    #])
+
+    fig.update_layout(
+        font_family="Helvetica Neue, Helvetica, Arial, sans-serif",
+        font_color="black",
+        title = {'text':'Risk assessment as probability of infection per year'},
+        xaxis_title = "Reference Pathogen",
+        yaxis_title = "Probability of infection per year",
+        #markersize= 12,
+        )
+
+    fig.update_traces(marker_size = 8)#['#75c3ff', "red"],#, marker_line_color='#212c52',
+
     
     risk_plot = plot(fig, output_type = "div")
 
@@ -285,25 +299,50 @@ def calculate_risk(request, ra_id):
      # reshaping dataframe for plotting
     df_inflow2 =pd.melt(df_inflow, ("pathogen__pathogen", "water_source__water_source_name"))
     df_inflow2 = df_inflow2[df_inflow2.pathogen__pathogen.isin(["Rotavirus", "Cryptosporidium parvum", "Campylobacter jejuni"])]
-    fig2 = px.bar(df_inflow2, x="variable", y = "value", log_y=True,
-    facet_col="pathogen__pathogen", barmode="group", 
-    color_discrete_sequence=["#007c9f", "rgb(0, 86, 100)", "grey", "red3", "steelblue"],
-    
-    title="Inflow concentration")
+    df_inflow2 = df_inflow2.rename(columns={"pathogen__pathogen": "Pathogen", "variable":""})
+    fig2 = px.bar(df_inflow2, 
+             x="", y = "value", 
+             log_y=True,
+            facet_col="Pathogen", 
+            barmode="group", 
+            category_orders={"Pathogen": ["Rotavirus", "Campylobacter jejuni", "Cryptosporidium parvum"]},
+            color_discrete_sequence=["#007c9f", "rgb(0, 86, 100)", "grey", "red3", "steelblue"])
+
+              
+    fig2.update_layout(
+        font_family="Helvetica Neue, Helvetica, Arial, sans-serif",
+        font_color="black",
+        title = {'text':'Inflow concentrations of referene pathogens'},
+        yaxis_title = "Source water concentraitons in N/L",
+        )
+       
     plot_div2 = plot(fig2, output_type = "div")
 
     # reshaping     
     df = pd.melt(df_treatment, ("treatment__name", "pathogen_group__pathogen_group"))
-    fig = px.bar(df, x="variable", y = "value", 
-    color="treatment__name", facet_col="pathogen_group__pathogen_group",
-    color_discrete_sequence=["#007c9f", "rgb(0, 86, 100)", "grey"],
-    title="Log-removal of selected treatment train")
+    df = df.rename(columns = {"treatment__name": "Treatment", "pathogen_group__pathogen_group": "Pathogen Group", "variable":""})
+    fig = px.bar(df, x="", y = "value", 
+    color="Treatment", facet_col="Pathogen Group",
+    category_orders={"Pathogen Group": ["Viruses", "Bacteria", "Protozoa"]},
+    color_discrete_sequence=["#007c9f", "rgb(0, 86, 100)", "grey"])
+    #title="Log-removal of selected treatment train")
     fig.update_layout(legend=dict(
-                     orientation="h",
-                     yanchor="bottom",
-                     y=1.1,
-                     xanchor="right",
-                    x=1))
+                 orientation="h",
+                 yanchor="top",
+                 y=-.1,
+                 xanchor="left",
+                x=0))
+
+
+    fig.update_layout(
+        font_family="Helvetica Neue, Helvetica, Arial, sans-serif",
+        font_color="black",
+        title = {'text':'Inflow concentrations of referene pathogens'},
+        
+        yaxis_title = "Logremoval of individual treatment step",
+        )
+
+
     plot_div = plot(fig, output_type = "div")
     
    
