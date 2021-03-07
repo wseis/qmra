@@ -145,3 +145,9 @@ class Text(models.Model):
     content = models.TextField(max_length=20000)
     def __str__(self):
       return self.title
+
+class QA(models.Model):
+    question = models.CharField(max_length=120)
+    answer = models.TextField(max_length=20000)
+    def __str__(self):
+      return self.question

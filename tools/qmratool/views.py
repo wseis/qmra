@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.shortcuts import render
-from .forms import RAForm, SourceWaterForm, TreatmentForm, ExposureForm, LogRemovalForm, InflowForm, ComparisonForm
+from .forms import RAForm, SourceWaterForm,  TreatmentForm, ExposureForm, LogRemovalForm, InflowForm, ComparisonForm
 from .models import *
 from django.views.decorators.csrf import ensure_csrf_cookie
 import numpy as np
@@ -19,6 +19,9 @@ def about(request):
     content = Text.objects.get(title = "About") 
     return render(request, "qmratool/about.html", {"content":md.markdown(content.content)})
 
+def qa(request):
+    content = QA.objects.all() 
+    return render(request, "qmratool/QA.html", {'content': content})
 
 # Overview index page
 def index(request):
