@@ -138,4 +138,4 @@ class RiskAssessment(models.Model):
 
 
 class Comparison(models.Model):
-    ra = models.ManyToManyField(RiskAssessment, blank=True)
+    risk_assessment = models.ManyToManyField(RiskAssessment, blank=True)

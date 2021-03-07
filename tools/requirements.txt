@@ -6,3 +6,4 @@ django-crispy-forms
 django-formtools
 django-extensions
 django-pandas
+markdown2

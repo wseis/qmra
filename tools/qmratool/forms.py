@@ -68,8 +68,10 @@ class LogRemovalForm(forms.ModelForm):
 class ComparisonForm(forms.ModelForm):
     class Meta:
         model= Comparison
-        fields = ["ra"]
+        fields = ["risk_assessment"]
+        widgets={"risk_assessment": forms.CheckboxSelectMultiple()}
     def __init__(self, user,  *args, **kwargs):
         super(ComparisonForm, self).__init__(*args, **kwargs)
-        self.fields["ra"].queryset = RiskAssessment.objects.filter(user = user)#User.objects.get(id = request.user.id))
+        self.fields["risk_assessment"].queryset = RiskAssessment.objects.filter(user = user) 
+        self.fields["risk_assessment"].help_text = "Select risk assessments for comparison" 
         self.helper = FormHelper()

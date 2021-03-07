@@ -1,5 +1,5 @@
 {% extends "qmratool/layout.html" %}
-
+{% load crispy_forms_tags %}
 {% block body %}
 
 <div class="container" style="padding: 5%">
@@ -7,7 +7,10 @@
   <div class="row">
     <div class="col-sm-8">
         <form action = "{% url 'comparison' %}" method= "post">
-        {{form}}
+        
+        {% csrf_token %}
+        {{form|crispy}}
+        <button class = "btn btn-primary mt-3" type = "submit">Run comparison</button> 
     </form>
   </div>
 
