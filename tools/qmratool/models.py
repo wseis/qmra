@@ -101,8 +101,6 @@ class DoseResponse(models.Model):
     reference=models.ForeignKey(Reference, on_delete=models.CASCADE)
 
 
-
-
 class Guideline(models.Model):
     name=models.CharField(max_length=250)
     description=models.CharField(max_length=250)
@@ -139,4 +137,5 @@ class RiskAssessment(models.Model):
       return self.name
 
 
-
+class Comparison(models.Model):
+    ra = models.ManyToManyField(RiskAssessment, blank=True)

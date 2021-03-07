@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.shortcuts import render
-from .forms import RAForm, SourceWaterForm, TreatmentForm, ExposureForm, LogRemovalForm, InflowForm
+from .forms import RAForm, SourceWaterForm, TreatmentForm, ExposureForm, LogRemovalForm, InflowForm, ComparisonForm
 from .models import *
 from django.views.decorators.csrf import ensure_csrf_cookie
 import numpy as np
@@ -26,6 +26,18 @@ def index(request):
 
 def bayes(request):
     return render(request,  "bayes/bayes2.html")
+
+
+# 
+def comparison(request):
+    user  = request.user
+    if request.method == "POST":
+        return HttpResponse("Post received")
+    else:
+        form = ComparisonForm(user=user)
+    return render(request, 'qmratool/comparison.html', {"form":form})
+
+
 
 
 # Exposure Scenario managememt

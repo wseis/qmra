@@ -25,9 +25,11 @@ urlpatterns = [
     path('LRV_edit/<int:treatment_id>/<int:pathogen_group_id>', views.LRV_edit, name = 'LRV_edit'),
     path('source_create', views.source_create, name='source_create'),
 
+       
     # Results
     path("results/<int:ra_id>", views.calculate_risk, name="results"),
     path("bayes", views.bayes, name="bayes"),
+    path("comparisons", views.comparison, name = "comparison"),
 
      # API Routes
     path("api_treatments", views.api_treatments, name="api_treatments"),

@@ -1,5 +1,5 @@
 from django import forms
-from .models import RiskAssessment, SourceWater,Inflow,  PathogenGroup,Exposure, Treatment, LogRemoval, Reference
+from .models import User, RiskAssessment, SourceWater,Inflow,  PathogenGroup,Exposure, Treatment, LogRemoval, Reference, Comparison
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, ButtonHolder, Submit
 
@@ -65,5 +65,11 @@ class LogRemovalForm(forms.ModelForm):
         self.fields['pathogen_group'].widget = forms.HiddenInput()
 
         
-  
- 
+class ComparisonForm(forms.ModelForm):
+    class Meta:
+        model= Comparison
+        fields = ["ra"]
+    def __init__(self, user,  *args, **kwargs):
+        super(ComparisonForm, self).__init__(*args, **kwargs)
+        self.fields["ra"].queryset = RiskAssessment.objects.filter(user = user)#User.objects.get(id = request.user.id))
+        self.helper = FormHelper()

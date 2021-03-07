@@ -1,0 +1,24 @@
+{% extends "qmratool/layout.html" %}
+
+{% block body %}
+
+<div class="container" style="padding: 5%">
+
+  <div class="row">
+    <div class="col-sm-8">
+        <form action = "{% url 'comparison' %}" method= "post">
+        {{form}}
+    </form>
+  </div>
+
+  <div class="col-sm-3 offset-sm-1"> <!--style= "background-color: #007c9f; color: white">--> 
+    <h4 class= "mb-3">Options</h4>
+    <a class = "btn btn-primary mt-3" href="{%url 'new_assessment'%}">Start new risk assessment</a>
+    <button class = "btn btn-primary mt-3"> Compare risk assessment </button>
+
+  </div>
+
+
+
+{% endblock %}
+
