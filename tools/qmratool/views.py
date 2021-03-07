@@ -11,8 +11,13 @@ import plotly.express as px
 from plotly.offline import plot
 from django_pandas.io import read_frame
 import decimal
+import markdown2 as md
 
 # Create your views here.
+
+def about(request):
+    content = Text.objects.get(title = "About") 
+    return render(request, "qmratool/about.html", {"content":md.markdown(content.content)})
 
 
 # Overview index page

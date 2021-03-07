@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Treatment, RiskAssessment, User, LogRemoval, Exposure, Reference, SourceWater, Pathogen, PathogenGroup, Health, Inflow, Guideline, DoseResponse
+from .models import Treatment, Text, RiskAssessment, User, LogRemoval, Exposure, Reference, SourceWater, Pathogen, PathogenGroup, Health, Inflow, Guideline, DoseResponse
 # Register your models here.
 
 from import_export.admin import ImportExportModelAdmin
@@ -59,6 +59,7 @@ class DoseResponseAdmin(ImportExportModelAdmin):
 #admin.site.register(Treatment)
 admin.site.register(RiskAssessment)
 admin.site.register(User)
+admin.site.register(Text)
 #admin.site.register(LogRemoval)
 #admin.site.register(Exposure)
 #admin.site.register(Reference)

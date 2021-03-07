@@ -44,10 +44,10 @@
                         <a class=" nav-link text_link_kwb " href=""><strong>{{ user.username }}</strong></a>
                     </li>
                     <li class="nav-item active">
-                        <a class=" nav-link text_link_kwb " href="">FAQ</a>
+                        <a class=" nav-link text_link_kwb " href="">QA/Info</a>
                     </li>
                     <li class="nav-item active">
-                        <a class=" nav-link text_link_kwb " href="">Info</a>
+                        <a class=" nav-link text_link_kwb " href="{% url 'about' %}">About</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link text_link_kwb" href="{% url 'logout' %}">Log Out</a>
@@ -61,9 +61,12 @@
                     <li class="nav-item active">
                         <a class="nav-link text_link_kwb" href="{% url 'register' %}">Register</a>
                     </li>
+                      <li class="nav-item active">
+                        <a class=" nav-link text_link_kwb " href="{% url 'about' %}">About</a>
+                    </li>
                   </ul>   
                 {% endif %}
-              </ul>
+            
             </div>
           </nav>
         
