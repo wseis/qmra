@@ -31,6 +31,7 @@ class PathogenAdmin(ImportExportModelAdmin):
 
 @admin.register(LogRemoval)
 class LogRemovalAdmin(ImportExportModelAdmin):
+    list_display=("id", "treatment", "pathogen_group", "min", "max", "reference")
     pass
 
 @admin.register(Exposure)
