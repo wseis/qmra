@@ -340,18 +340,7 @@ def calculate_risk(request, ra_id):
                                 title="Risk as probability of infection per year",
                                 color_discrete_sequence=["#007c9f", "#007c9f", "#007c9f"])
 
-    #fig.update_layout(shapes=[
-    #dict(
-    #  type= 'line',
-    #  y0= 0.03, y1= 0.03,
-    #  x0 =-.5, x1=2.5,
-    #  line=dict(
-    #    color="MediumPurple",
-    #    width=4,
-    #    dash="dot") 
-    #)
-    #])
-
+  
     fig.update_layout(
         font_family="Helvetica Neue, Helvetica, Arial, sans-serif",
         font_color="black",
@@ -377,13 +366,13 @@ def calculate_risk(request, ra_id):
             facet_col="Pathogen", 
             barmode="group", 
             category_orders={"Pathogen": ["Rotavirus", "Campylobacter jejuni", "Cryptosporidium parvum"]},
-            color_discrete_sequence=["#007c9f", "rgb(0, 86, 100)", "grey", "red3", "steelblue"])
+            color_discrete_sequence=["#005269", "#007c9e", "#a3d1ec","#3494ae","#00B8eb"])
 
               
     fig2.update_layout(
         font_family="Helvetica Neue, Helvetica, Arial, sans-serif",
         font_color="black",
-        title = {'text':'Inflow concentrations of referene pathogens'},
+        title = {'text':'Inflow concentrations of reference pathogens'},
         yaxis_title = "Source water concentraitons in N/L",
         )
        
@@ -395,7 +384,7 @@ def calculate_risk(request, ra_id):
     fig = px.bar(df, x="", y = "value", 
     color="Treatment", facet_col="Pathogen Group",
     category_orders={"Pathogen Group": ["Viruses", "Bacteria", "Protozoa"]},
-    color_discrete_sequence=["#007c9f", "rgb(0, 86, 100)", "grey"])
+    color_discrete_sequence=["#005269", "#007c9e", "#a3d1ec","#3494ae","#00B8eb"])
     #title="Log-removal of selected treatment train")
     fig.update_layout(legend=dict(
                  orientation="h",
@@ -408,7 +397,7 @@ def calculate_risk(request, ra_id):
     fig.update_layout(
         font_family="Helvetica Neue, Helvetica, Arial, sans-serif",
         font_color="black",
-        title = {'text':'Inflow concentrations of referene pathogens'},
+        title = {'text':'Treatment performance of selected treatments'},
         
         yaxis_title = "Logremoval of individual treatment step",
         )
@@ -420,9 +409,7 @@ def calculate_risk(request, ra_id):
 
     return render(request,"qmratool/results.html", {"plot_div":plot_div, 
     "plot_div2":plot_div2, 
-    #"data":df_inflow.to_html(),
-    #"summary":df_treatment_summary.to_html(),
-    #"samples":df_treatment.to_html,
+
     "risk_plot": risk_plot
     })
 
