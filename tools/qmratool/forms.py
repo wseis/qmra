@@ -12,8 +12,8 @@ class RAForm(forms.ModelForm):
         self.fields['source'].empty_label = None
         self.fields['exposure'].empty_label = None
         self.fields['exposure'].help_text = "Please define your exposure scenario"
-        self.fields['exposure'].queryset = Exposure.objects.filter(user__in=[user, 8]).order_by("id")
-        self.fields['treatment'].queryset = Treatment.objects.filter(user__in=[user, 8]).order_by("id").order_by("category")
+        self.fields['exposure'].queryset = Exposure.objects.filter(user__in=[user, 1]).order_by("id")
+        self.fields['treatment'].queryset = Treatment.objects.filter(user__in=[user, 1]).order_by("id").order_by("category")
         self.helper = FormHelper()
     class Meta:
         model=RiskAssessment

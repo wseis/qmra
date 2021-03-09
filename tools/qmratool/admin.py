@@ -52,14 +52,14 @@ class HealthAdmin(ImportExportModelAdmin):
 class DoseResponseAdmin(ImportExportModelAdmin):
     pass
 
-#@admin.register(User)
-#class UserAdmin(ImportExportModelAdmin):
- #   list_display=("id", "username", "firstname", "lastname")
+@admin.register(User)
+class UserAdmin(ImportExportModelAdmin):
+    list_display=("id", "username")
     
   #  pass
 #admin.site.register(Treatment)
 admin.site.register(RiskAssessment)
-admin.site.register(User)
+#admin.site.register(User)
 admin.site.register(Text)
 admin.site.register(QA)
 #admin.site.register(LogRemoval)

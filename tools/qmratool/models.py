@@ -19,7 +19,7 @@ class SourceWater(models.Model):
 
 
 class Treatment(models.Model):
-    user = models.ForeignKey(User, related_name="treatments", on_delete=models.CASCADE)
+    user = models.ForeignKey(User,  related_name="treatments", on_delete=models.CASCADE)
     name = models.CharField(max_length=64)
     group=models.CharField(max_length=64, default = "wastewater")
     category=models.CharField(max_length=64, choices=[("wastewater", "wastewater"),
