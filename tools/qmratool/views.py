@@ -292,79 +292,41 @@ def LRV_edit(request, treatment_id, pathogen_group_id):
 
 def calculate_risk(request, ra_id):
     ra = RiskAssessment.objects.get(id = ra_id)
-    
     # Selecting inflow concentration based in source water type
     df_inflow = read_frame(Inflow.objects.filter(water_source=ra.source).values("min", "max", "pathogen__pathogen", "water_source__water_source_name"))
-    df_inflow = df_inflow[df_inflow["pathogen__pathogen"].isin(["Rotavirus", "Cryptosporidium parvum", "Campylobacter jejuni"])]
-    
-    # Querying dose response parameters based on pathogen inflow
-    dr_models = read_frame(DoseResponse.objects.filter(pathogen__in=Pathogen.objects.filter(pathogen__in=df_inflow["pathogen__pathogen"])))
-    
+    df_inflow = df_inflow[df_inflow["pathogen__pathogen"].isin(["Rotavirus", "Campylobacter jejuni", "Cryptosporidium parvum"])]
     # Querying for Logremoval based on selected treatments
     df_treatment=read_frame(LogRemoval.objects.filter(treatment__in=ra.treatment.all()).values("min", "max", "treatment__name", "pathogen_group__pathogen_group"))
-    
-    #Querying for exposure scenario
-    #exposure =read_frame(ra.exposure.all().values("events_per_year", "volume_per_event"))
 
-    # Summarizing treatment to treatment max and treatment min
-    df_treatment_summary=df_treatment.groupby(["pathogen_group__pathogen_group"]).sum().reset_index()
-    
-        # annual risk function
-    def annual_risk(nexposure, event_probs):
-        return 1-np.prod(1-np.random.choice(event_probs, nexposure, True))
-    
-    results = pd.DataFrame()
+    results_long = simulate_risk(ra)
+    results_long["pathogen"] = results_long["variable"].str.split("_", expand=True)[0]
+    results_long["stat"] = results_long["variable"].str.split("_", expand=True)[1]
 
-    for index, row in df_inflow.iterrows():
-        d = df_inflow.loc[df_inflow["pathogen__pathogen"] ==row["pathogen__pathogen"]]
-        dr = dr_models.loc[dr_models["pathogen"]==row["pathogen__pathogen"]]
-
-        if row["pathogen__pathogen"] == "Rotavirus":
-            selector = "Viruses" 
-        elif row["pathogen__pathogen"]== "Cryptosporidium parvum":
-            selector = "Protozoa"
-        else:
-            selector = "Bacteria"
-        #result.append(selector)
-
-        df_treat = df_treatment_summary[df_treatment_summary["pathogen_group__pathogen_group"]==selector]
-
-
-
-        risk_df = pd.DataFrame({"inflow": np.random.normal(loc=(np.log10(float(d["min"])+10**(-12))+np.log10(float(d["max"]) ))/2, 
-                                                            scale = (np.log10(float(d["max"]))-np.log10(float(d["min"])+10**(-12) ))/4,  
-                                                            size = 10000),
-                                "LRV": np.random.uniform(low= df_treat["min"], 
-                                                        high= df_treat["max"], 
-                                                        size= 10000) })
-        risk_df["outflow"]=risk_df["inflow"] - risk_df["LRV"]
-        risk_df["dose"] = (10**risk_df["outflow"])*float(ra.exposure.volume_per_event)
-
-        if selector != "Protozoa":
-            risk_df["probs"] = 1 - (1 + (risk_df["dose"]) * (2 ** (1/float(dr.alpha)) - 1)/float(dr.n50)) ** -float(dr.alpha)
-        else:
-            risk_df["probs"] = 1 - np.exp(-float(dr.k)*(risk_df["dose"]))
-
-        results[row["pathogen__pathogen"]] = [annual_risk(int(ra.exposure.events_per_year), risk_df["probs"] ) for _ in range(1000)]
-
-
-    results_long = pd.melt(results)
-    results_long["log probability"] = np.log10(results_long["value"])
-
-    fig = px.box(results_long, x="variable", y="value",
-                                points="all",  log_y =True, 
-                                title="Risk as probability of infection per year",
-                                color_discrete_sequence=["#007c9f", "#007c9f", "#007c9f"])
+    fig = px.box(results_long, 
+             x="stat", 
+             y="value", color="pathogen",
+                            points="all",  
+                            log_y =True, 
+                            title="Risk as probability of infection per year",
+                            color_discrete_sequence=["#75c3ff", "#007c9f", "#212c52"])
 
   
     fig.update_layout(
         font_family="Helvetica Neue, Helvetica, Arial, sans-serif",
         font_color="black",
         title = {'text':'Risk assessment as probability of infection per year'},
-        xaxis_title = "Reference Pathogen",
+        xaxis_title = "",
         yaxis_title = "Probability of infection per year",
         #markersize= 12,
         )
+    fig.add_hline(y=0.0001, line_dash="dashdot", line=dict(color="LightSeaGreen", width = 3))
+    fig.update_layout(legend=dict(
+                 orientation="h",
+                 yanchor="top",
+                 #text= "Reference pathogen",
+                 y=-.1,
+                 xanchor="left",
+                x=0))
 
     fig.update_traces(marker_size = 8)#['#75c3ff', "red"],#, marker_line_color='#212c52',
 
