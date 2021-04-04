@@ -52,7 +52,7 @@ class ExposureForm(forms.ModelForm):
 class TreatmentForm(forms.ModelForm):
     class Meta:
         model = Treatment
-        fields=["name", "description", "group"]
+        fields=["name", "description"]
 
 
 class LogRemovalForm(forms.ModelForm):
