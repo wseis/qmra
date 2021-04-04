@@ -279,6 +279,7 @@ def calculate_risk(request, ra_id):
     
     # Selecting inflow concentration based in source water type
     df_inflow = read_frame(Inflow.objects.filter(water_source=ra.source).values("min", "max", "pathogen__pathogen", "water_source__water_source_name"))
+    df_inflow = df_inflow[df_inflow["pathogen__pathogen"].isin(["Rotavirus", "Cryptosporidium parvum", "Campylobacter jejuni"])]
     
     # Querying dose response parameters based on pathogen inflow
     dr_models = read_frame(DoseResponse.objects.filter(pathogen__in=Pathogen.objects.filter(pathogen__in=df_inflow["pathogen__pathogen"])))
@@ -295,7 +296,6 @@ def calculate_risk(request, ra_id):
         # annual risk function
     def annual_risk(nexposure, event_probs):
         return 1-np.prod(1-np.random.choice(event_probs, nexposure, True))
-    #df_inflow = df_inflow["pathogen__pathogen"].isin(["Rotavirus", "Cryptosporidium parvum", "Campylobacter jejuni"])
     
     results = pd.DataFrame()
 
@@ -315,8 +315,8 @@ def calculate_risk(request, ra_id):
 
 
 
-        risk_df = pd.DataFrame({"inflow": np.random.normal(loc=(np.log10(float(d["min"])+10**(-8))+np.log10(float(d["max"]) ))/2, 
-                                                            scale = (np.log10(float(d["max"]))-np.log10(float(d["min"])+10**(-8) ))/4,  
+        risk_df = pd.DataFrame({"inflow": np.random.normal(loc=(np.log10(float(d["min"])+10**(-12))+np.log10(float(d["max"]) ))/2, 
+                                                            scale = (np.log10(float(d["max"]))-np.log10(float(d["min"])+10**(-12) ))/4,  
                                                             size = 10000),
                                 "LRV": np.random.uniform(low= df_treat["min"], 
                                                         high= df_treat["max"], 
@@ -534,8 +534,8 @@ def simulate_risk(ra):
 
 
 
-        risk_df = pd.DataFrame({"inflow": np.random.normal(loc=(np.log10(float(d["min"])+10**(-8))+np.log10(float(d["max"]) ))/2, 
-                                                            scale = (np.log10(float(d["max"]))-np.log10(float(d["min"])+10**(-8) ))/4,  
+        risk_df = pd.DataFrame({"inflow": np.random.normal(loc=(np.log10(float(d["min"])+10**(-11))+np.log10(float(d["max"]) ))/2, 
+                                                            scale = (np.log10(float(d["max"]))-np.log10(float(d["min"])+10**(-11) ))/4,  
                                                             size = 10000),
                                 "LRV": np.random.uniform(low= df_treat["min"], 
                                                          high= df_treat["max"], 

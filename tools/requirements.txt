@@ -7,3 +7,4 @@ django-formtools
 django-extensions
 django-pandas
 markdown2
+python-decouple
