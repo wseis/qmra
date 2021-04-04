@@ -54,18 +54,30 @@ def comparison(request):
                 
             df = pd.concat(results)
 
-            fig = px.box(df, x="variable", y="value", color="Assessment", 
-                            points="all",  log_y =True, 
+            df["pathogen"] = df["variable"].str.split("_", expand=True)[0]
+            df["stat"] = df["variable"].str.split("_", expand=True)[1]
+            dfmin = df.groupby(["pathogen", "Assessment"]).min("value").reset_index().assign(stat = "min")
+            dfmax = df.groupby(["pathogen", "Assessment"]).max("value").reset_index().assign(stat = "max")
+            df_summary = dfmin.append(dfmax).sort_values(by = "value", ascending = False)
+            fig = px.box(df_summary, x="Assessment", y="value", 
+                            color="pathogen", 
+                          
+                            log_y =True, 
+                            labels={
+                             "pathogen": "Reference pathogen"
+                             },
                             title="Risk as probability of infection per year",
-                            color_discrete_sequence=["#005269", "#007c9e", "#a3d1ec","#3494ae","#00B8eb"])
+                            color_discrete_sequence=["#004254", "#007c9e", "#a3d1ec","#3494ae","#00B8eb"])
 
+          
 
             fig.update_layout(
                 font_family="Helvetica Neue, Helvetica, Arial, sans-serif",
                 font_color="black",
                 title = {'text':'Risk assessment as probability of infection per year'},
-                xaxis_title = "Reference Pathogen",
+               
                 yaxis_title = "Probability of infection per year",
+
                 #markersize= 12,
                 )
 
@@ -85,8 +97,12 @@ def comparison(request):
                             borderwidth=0))
 
 
-            fig.update_traces(marker_size = 8)#['#75c3ff', "red"],#, marker_line_color='#212c52',
+            fig.add_hline(y=0.0001, line_dash="dashdot", line=dict(color="LightSeaGreen", width = 3),
+         
+             )
 
+            fig.update_traces(marker_size = 8,hovertemplate=None, hoverinfo="skip",
+                 line=dict(width=0))
 
             risk_plot = plot(fig, output_type = "div")
 
@@ -534,21 +550,31 @@ def simulate_risk(ra):
 
 
 
-        risk_df = pd.DataFrame({"inflow": np.random.normal(loc=(np.log10(float(d["min"])+10**(-11))+np.log10(float(d["max"]) ))/2, 
-                                                            scale = (np.log10(float(d["max"]))-np.log10(float(d["min"])+10**(-11) ))/4,  
-                                                            size = 10000),
-                                "LRV": np.random.uniform(low= df_treat["min"], 
-                                                         high= df_treat["max"], 
-                                                         size= 10000) })
+        risk_df = pd.DataFrame({"inflow": np.random.normal(loc=(np.log10(float(d["min"])+10**(-8))+np.log10(float(d["max"]) ))/2, 
+                                                        scale = (np.log10(float(d["max"]))-np.log10(float(d["min"])+10**(-8) ))/4,  
+                                                        size = 10000),
+                            "LRV": np.random.uniform(low= df_treat["min"], 
+                                                     high= df_treat["min"], 
+                                                     size= 10000),
+                            "LRVmax": np.random.uniform(low= df_treat["max"], 
+                                                     high= df_treat["max"], 
+                                                     size= 10000)})
         risk_df["outflow"]=risk_df["inflow"] - risk_df["LRV"]
+        risk_df["outflow_min"]=risk_df["inflow"] - risk_df["LRVmax"]
+
         risk_df["dose"] = (10**risk_df["outflow"])*float(ra.exposure.volume_per_event)
+        risk_df["dose_min"] = (10**risk_df["outflow_min"])*float(ra.exposure.volume_per_event)
 
         if selector != "Protozoa":
             risk_df["probs"] = 1 - (1 + (risk_df["dose"]) * (2 ** (1/float(dr.alpha)) - 1)/float(dr.n50)) ** -float(dr.alpha)
+            risk_df["probs_min"] = 1 - (1 + (risk_df["dose_min"]) * (2 ** (1/float(dr.alpha)) - 1)/float(dr.n50)) ** -float(dr.alpha)
+
         else:
             risk_df["probs"] = 1 - np.exp(-float(dr.k)*(risk_df["dose"]))
+            risk_df["probs_min"] = 1 - np.exp(-float(dr.k)*(risk_df["dose_min"]))
 
-        results[row["pathogen__pathogen"]] = [annual_risk(int(ra.exposure.events_per_year), risk_df["probs"] ) for _ in range(1000)]
+        results[row["pathogen__pathogen"]+"_MinimumLRV"] = [annual_risk(int(ra.exposure.events_per_year), risk_df["probs"] ) for _ in range(1000)]
+        results[row["pathogen__pathogen"]+"_MaximumLRV"] = [annual_risk(int(ra.exposure.events_per_year), risk_df["probs_min"] ) for _ in range(1000)]
 
     results_long = pd.melt(results)
     results_long["log probability"] = np.log10(results_long["value"])
