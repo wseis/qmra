@@ -87,6 +87,8 @@ class Health(models.Model):
     reference=models.ForeignKey(Reference, on_delete=models.CASCADE)
     infection_to_illness=models.DecimalField( decimal_places=2, max_digits=3)	
     dalys_per_case=models.DecimalField(decimal_places=6, max_digits=6)
+    def __str__(self):
+      return self.pathogen.name
 
 class DoseResponse(models.Model):
     pathogen=	models.ForeignKey(Pathogen, on_delete=models.CASCADE)

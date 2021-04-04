@@ -299,8 +299,14 @@ def calculate_risk(request, ra_id):
     df_treatment=read_frame(LogRemoval.objects.filter(treatment__in=ra.treatment.all()).values("min", "max", "treatment__name", "pathogen_group__pathogen_group"))
 
     results_long = simulate_risk(ra)
+    
     results_long["pathogen"] = results_long["variable"].str.split("_", expand=True)[0]
     results_long["stat"] = results_long["variable"].str.split("_", expand=True)[1]
+
+    health = read_frame(Health.objects.all())
+    results_long = pd.merge(results_long, health, on = "pathogen")
+    results_long["DALYs pppy"] = results_long.value*results_long.infection_to_illness.astype(float)*results_long.dalys_per_case.astype(float)
+
 
     fig = px.box(results_long, 
              x="stat", 
@@ -332,6 +338,37 @@ def calculate_risk(request, ra_id):
 
     
     risk_plot = plot(fig, output_type = "div")
+
+    fig = px.box(results_long, 
+             x="stat", 
+             y="DALYs pppy", color="pathogen",
+                            points="all",  
+                            log_y =True, 
+                            
+                            color_discrete_sequence=["#75c3ff", "#007c9f", "#212c52"])
+
+  
+    fig.update_layout(
+        font_family="Helvetica Neue, Helvetica, Arial, sans-serif",
+        font_color="black",
+        title = {'text':'Risk in Disability adjusted life years (DALYs) per person per year (pppy)'},
+        xaxis_title = "",
+        yaxis_title = "DALYs pppy",
+        #markersize= 12,
+        )
+    fig.add_hline(y=0.000001, line_dash="dashdot", line=dict(color="LightSeaGreen", width = 3))
+    fig.update_layout(legend=dict(
+                 orientation="h",
+                 yanchor="top",
+                 #text= "Reference pathogen",
+                 y=-.1,
+                 xanchor="left",
+                x=0))
+
+    fig.update_traces(marker_size = 8)#['#75c3ff', "red"],#, marker_line_color='#212c52',
+
+    
+    daly_plot = plot(fig, output_type = "div")
 
 
      # reshaping dataframe for plotting
@@ -387,7 +424,7 @@ def calculate_risk(request, ra_id):
 
     return render(request,"qmratool/results.html", {"plot_div":plot_div, 
     "plot_div2":plot_div2, 
-
+    "daly_plot":daly_plot ,
     "risk_plot": risk_plot
     })
 
