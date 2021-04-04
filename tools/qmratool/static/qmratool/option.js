@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
         explain.style.display="block"
         explain.style.color="#007c9f"
-        explain.style.backgroundColor = "#eff1f4";
-        explain.style.backgroundColor = "#eff1f4";
+        //explain.style.backgroundColor = "#eff1f4";
+        explain.style.backgroundColor = "white";
         explain.style.border = "thin solid #007c9f";
         explain.style.borderRadius = "5px";
         explain.style.padding = "20px";
@@ -57,8 +57,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
         explain.style.display="block"
         explain.style.color="#007c9f"
-        explain.style.backgroundColor = "#eff1f4";
-        explain.style.backgroundColor = "#eff1f4";
+        //explain.style.backgroundColor = "#eff1f4";
+        explain.style.backgroundColor = "white";
         explain.style.border = "thin solid #007c9f";
         explain.style.borderRadius = "5px";
         explain.style.padding = "20px";
