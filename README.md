@@ -9,14 +9,14 @@ For local installation:
     - setup and activate a virtual environment
     - clone this repository
     - cd into qmra/tools
-    
-### install django
+
+### Install django
 
 ```
 pip install django
 
 ```
-### install necessary requirements
+### Install necessary requirements
 
 ```python
 
