@@ -115,7 +115,7 @@ class Exposure(models.Model):
     name = models.CharField(max_length=250)
     description = models.CharField(max_length=250)
     events_per_year = models.IntegerField(default = 10)
-    volume_per_event = models.DecimalField( decimal_places=4, max_digits=10)
+    volume_per_event = models.DecimalField( decimal_places=6, max_digits=10)
     reference = models.ForeignKey(Reference, on_delete=models.CASCADE, default = 51)
     def __str__(self):
       return self.name
