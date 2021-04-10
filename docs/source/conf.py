@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 import sphinx_rtd_theme
-project = 'qmra'
+project = 'QMRA'
 copyright = '2021, Wolfgang Seis'
 author = 'Wolfgang Seis'
 
