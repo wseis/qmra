@@ -18,9 +18,6 @@ The implemented simulations rely on a freely available `database <https://kwb-r.
 The tool allows to estimate the risk of infection for three reference pathogen (Rotavirus, *Campylobacer jejuni*, and *Cryptosporidium parvum*) for mutliple source waters and treatment scenarios.
 
 
-Hallo
-=====
-
 Indices and tables
 ==================
 
