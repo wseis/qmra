@@ -5,7 +5,7 @@ Welcome to QMRA's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-QMRA is a Django project which experiments with deploying state of the art techniques 
+QMRA is a Django project which experiments with deploying state-of-the-art techniques 
 for Quantitative Microbial Risk Assessment (QMRA). 
 
 The implemented simulations rely on a freely available `database <https://kwb-r.github.io/qmra.db/>`_, which was developed within the research project `Aquanes <https://cordis.europa.eu/project/id/689450>`_.
