@@ -56,7 +56,7 @@ User specific exposure scenarios
 ################################
 
 Users are able to create own exposure scenarios. Exposure scenrarios are represented by point estimates for the number of exposure events per year,
-and the ingested water volume ingested by the exposed population. As for user specific treatments the user can specify a name and short description 
+and the ingested water volume ingested per event. As for user specific treatments the user can specify a name and short description 
 for each exposure scenario.
 
 Indices and tables
