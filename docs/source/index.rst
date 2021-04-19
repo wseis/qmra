@@ -52,6 +52,13 @@ LRV values are determined by measuring pathogens (or indicator organisms) in the
 
 \   
 
+**Attention**
+
+For calculating the overall mean performance of the system the mean of the 
+*removal fractions* has to be calculated and not the mean of the log-values.
+
+\
+
 User specific exposure scenarios
 ################################
 
