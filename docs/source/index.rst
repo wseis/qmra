@@ -39,7 +39,7 @@ Second, by creating own scenarios (treatments, exposure scenarios) and providing
 User specific treatments
 ########################
 
-Users are able to create own treatments. For this, the user has to provide a name, and short descritpion of the treatment as well as
+Users are able to create own treatments. For this, the user has to provide a name, and short description of the treatment as well as
 numerical values for the treatment performances in terms of log removal values (LRV). 
 
 LRVs have to be provided for each group of pathogen (bacteria, viruses, protozoa). The input form for LRV shows input fields for the
