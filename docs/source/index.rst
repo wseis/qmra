@@ -5,6 +5,7 @@ Welcome to QMRA's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+
 QMRA is a Django project which experiments with deploying state-of-the-art techniques 
 for Quantitative Microbial Risk Assessment (QMRA). 
 
@@ -46,16 +47,22 @@ minimum (min) and maximum (max) LRV. The range defined by these value represents
 
 LRV values are determined by measuring pathogens (or indicator organisms) in the influent and effluent of the treatment step and calculating LRV by:
 
+\
+
+\
+
 .. math::
 
     LRV = log_{10} \frac{Influent\:concentration}{Effluent\:concentration}
 
-\   
+\
 
-**Attention**
+\
 
-For calculating the overall mean performance of the system the mean of the 
-*removal fractions* has to be calculated and not the mean of the log-values.
+.. note::
+
+    For calculating the overall mean performance of the system the mean of the 
+    *removal fractions* has to be calculated and not the mean of the log-values.
 
 \
 
