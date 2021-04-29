@@ -12,6 +12,7 @@ from plotly.offline import plot
 from django_pandas.io import read_frame
 import decimal
 import markdown2 as md
+from django.db import IntegrityError
 
 # Create your views here.
 
