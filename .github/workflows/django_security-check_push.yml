@@ -11,7 +11,7 @@ on:
 env:
   FAIL_LEVEL: WARNING
   ENV_TYPE: venv
-  APP_PATH: tools/
+  APP_PATH: tools
   DEP_PATH: tools/requirements.txt
 
 jobs:
@@ -31,4 +31,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: security-check-output
-          path: {$APP_PATH}/output.txt
+          path: ${APP_PATH}/output.txt
