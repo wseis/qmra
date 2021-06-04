@@ -1,6 +1,11 @@
 name: Django Security Check (on pull-request)
 
-on: pull_request_target
+on: 
+  pull_request_target:
+    branches:
+      - master
+      - main
+      - dev
 
 env:
   FAIL_LEVEL: WARNING
