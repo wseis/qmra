@@ -40,14 +40,6 @@ jobs:
     - name: Run Tests
       run: |
         coverage run --omit=*/tests/* tools/manage.py test
-    - name: Run Tests
-      env:
-        DB: ${{ matrix.db }}
-        DB_USER: ${{ matrix.db_user }}
-        DB_PASSWORD: ${{ matrix.db_password }}
-        SECRET_KEY: dummy-key
-      run: |
-        coverage run --omit=*/tests/* --source=hc manage.py test
     - name: Coveralls
       if: matrix.config.os  == 'ubuntu-latest' && matrix.python-version == '3.7'
       run: coveralls --service=github
