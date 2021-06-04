@@ -17,7 +17,7 @@ env:
   DEP_PATH: tools
   ENV_TYPE: venv
   FAIL_LEVEL: WARNING
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   test:
