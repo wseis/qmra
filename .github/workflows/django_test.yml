@@ -13,6 +13,7 @@ on:
       - dev
 
 env:
+  APP_PATH: tools
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
@@ -37,9 +38,9 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -r tools/requirements.txt
-        pip install coverage coveralls
+        sudo python -m pip install --upgrade pip
+        sudo pip install -r ${APP_PATH)/requirements.txt
+        sudo pip install coverage coveralls
     - name: Run Tests
       run: |
         coverage run --omit=*/tests/* ${APP_PATH)/manage.py test
