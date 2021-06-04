@@ -32,3 +32,4 @@ jobs:
         with:
           name: security-check-output
           path: ${GITHUB_WORKSPACE}/${APP_PATH}output.txt
+
