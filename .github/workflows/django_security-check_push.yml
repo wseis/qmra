@@ -27,13 +27,8 @@ jobs:
       - name: Scan Django settings for security issues
         id: check
         uses: victoriadrake/django-security-check@master
-      - id: results
-        run: |
-          OUTPUT=$(cat output.txt)
-          FORMATTED=${OUTPUT//$'\n'/%0A}
-          echo ::set-output name=file::**Django Security Check identified issues:** %0A$FORMATTED
       - name: Upload output
         uses: actions/upload-artifact@v2
         with:
           name: security-check-output
-          path: ${{ steps.results.outputs.file }}
+          path: ${GITHUB_WORKSPACE}/${APP_PATH}/output.txt
