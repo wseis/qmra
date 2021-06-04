@@ -1,0 +1,38 @@
+name: Django Security Check
+
+on:
+  push:
+    branches:
+      - master
+      - main
+      - dev
+  pull_request:
+    branches:
+      - master
+      - main
+      - dev
+
+env:
+  FAIL_LEVEL: WARNING
+  ENV_TYPE: venv
+  APP_PATH: tools/
+  DEP_PATH: tools/requirements.txt
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out master
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 1
+      - name: Scan Django settings for security issues
+        id: check
+        uses: victoriadrake/django-security-check@master
+      - name: Upload output
+        uses: actions/upload-artifact@v2
+        with:
+          name: security-check-output
+          path: output.txt
