@@ -6,11 +6,7 @@ on:
       - master
       - main
       - dev
-  pull_request:
-    branches:
-      - master
-      - main
-      - dev
+
 
 env:
   FAIL_LEVEL: WARNING
