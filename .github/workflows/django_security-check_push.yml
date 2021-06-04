@@ -9,7 +9,7 @@ on:
 
 
 env:
-  FAIL_LEVEL: WARNING
+  FAIL_LEVEL: INFO
   ENV_TYPE: venv
   APP_PATH: tools/
   DEP_PATH: tools/requirements.txt
@@ -27,8 +27,13 @@ jobs:
       - name: Scan Django settings for security issues
         id: check
         uses: victoriadrake/django-security-check@master
+      - id: results
+        run: |
+          OUTPUT=$(cat output.txt)
+          FORMATTED=${OUTPUT//$'\n'/%0A}
+          echo ::set-output name=file::**Django Security Check identified issues:** %0A$FORMATTED
       - name: Upload output
         uses: actions/upload-artifact@v2
         with:
           name: security-check-output
-          path: ${APP_PATH}output.txt
+          path: `${{ steps.results.outputs.file }}`
