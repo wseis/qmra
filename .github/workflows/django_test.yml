@@ -39,11 +39,11 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo python -m pip install --upgrade pip
-        sudo pip install -r ${APP_PATH)/requirements.txt
+        sudo pip install -r ${APP_PATH}/requirements.txt
         sudo pip install coverage coveralls
     - name: Run Tests
       run: |
-        coverage run --omit=*/tests/* ${APP_PATH)/manage.py test
+        coverage run --omit=*/tests/* ${APP_PATH}/manage.py test
     - name: Coveralls
       if: matrix.config.os  == 'ubuntu-latest' && matrix.python-version == '3.7'
       run: coveralls --service=github
