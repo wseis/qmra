@@ -26,6 +26,8 @@ jobs:
           - {os: ubuntu-latest, python-version: '3.9'}
     steps:
     - uses: actions/checkout@v2
+    - name: Install System Dependencies
+      run: apt-get install python3-testresources
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
@@ -36,4 +38,4 @@ jobs:
         pip install -r tools/requirements.txt
     - name: Run Tests
       run: |
-        python --source=tools manage.py test
+        python tools/manage.py test
