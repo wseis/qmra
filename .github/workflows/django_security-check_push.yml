@@ -31,4 +31,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: security-check-output
-          path: output.txt
+          path: {$APP_PATH}/output.txt
