@@ -1,11 +1,8 @@
-name: Django Security Check (on pull-request)
+name: Django Security Check (on pull-request "base" branch)
 
-on: 
+on:
   pull_request_target:
-    branches:
-      - master
-      - main
-      - dev
+    types: [assigned, opened, synchronize, reopened]
 
 env:
   FAIL_LEVEL: WARNING
