@@ -31,5 +31,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: security-check-output
-          path: ${{ github.workspace }}/${APP_PATH}/output.txt
+          path: ${{ github.workspace }}/${{ env.APP_PATH}}/output.txt
 
