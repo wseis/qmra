@@ -12,8 +12,8 @@ env:
   FAIL_LEVEL: INFO
   ENV_TYPE: venv
   APP_PATH: tools/
-  DEP_PATH: ${APP_PATH}requirements.txt
-  OUTPUT_PATH: ${{ github.workspace }}/${APP_PATH}output.txt
+  DEP_PATH: tools/requirements.txt
+  OUTPUT_PATH: ${{ github.workspace }}/tools/output.txt
 
 jobs:
   build:
