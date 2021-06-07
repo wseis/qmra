@@ -13,7 +13,6 @@ env:
   ENV_TYPE: venv
   APP_PATH: tools/
   DEP_PATH: tools/requirements.txt
-  OUTPUT_PATH: ${{ github.workspace }}/tools/output.txt
 
 jobs:
   build:
@@ -32,5 +31,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: security-check-output
-          path: ${OUTPUT_PATH}
+          path: ${{ github.workspace }}/tools/output.txt
 
