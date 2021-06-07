@@ -12,12 +12,7 @@ env:
 
 jobs:
   build:
-
-jobs:
-  build:
-
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out master
         uses: actions/checkout@v2
