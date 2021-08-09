@@ -326,7 +326,9 @@ def calculate_risk(request, ra_id):
         yaxis_title = "Probability of infection per year",
         #markersize= 12,
         )
-    fig.add_hline(y=0.0001, line_dash="dashdot", line=dict(color="LightSeaGreen", width = 3))
+    fig.add_hline(y=0.0001, 
+                    line_dash="dashdot", 
+                    line=dict(color="LightSeaGreen", width = 3))
     fig.update_layout(legend=dict(
                  orientation="h",
                  yanchor="top",
@@ -357,7 +359,7 @@ def calculate_risk(request, ra_id):
         yaxis_title = "DALYs pppy",
         #markersize= 12,
         )
-    fig.add_hline(y=0.000001, line_dash="dashdot", line=dict(color="LightSeaGreen", width = 3))
+    
     fig.update_layout(legend=dict(
                  orientation="h",
                  yanchor="top",
@@ -365,7 +367,13 @@ def calculate_risk(request, ra_id):
                  y=-.1,
                  xanchor="left",
                 x=0))
-
+    fig.add_hline(y=0.000001, 
+                        line_dash="dashdot", 
+                        #line=dict(color="LightSeaGreen", width = 3),
+                        annotation_text="tolerable risk level")
+                        #annotation_position = "top left",
+                        #annotation=dict(font_size=20, font_family="Times New Roman"))
+                        #annotation_position="bottom right")
     fig.update_traces(marker_size = 8)#['#75c3ff', "red"],#, marker_line_color='#212c52',
 
     
@@ -530,8 +538,9 @@ def simulate_risk(ra):
     df_treatment=read_frame(LogRemoval.objects.filter(treatment__in=ra.treatment.all()).values("min", "max", "treatment__name", "pathogen_group__pathogen_group"))
     
     # Summarizing treatment to treatment max and treatment min
-    df_treatment_summary=df_treatment.groupby(["pathogen_group__pathogen_group"]).sum().reset_index()
-
+    #df_treatment_summary=df_treatment.groupby(["pathogen_group__pathogen_group"]).sum().reset_index()
+    df_treatment_summary=df_treatment.groupby(["pathogen_group__pathogen_group"])[["min", "max"]].apply(lambda x : x.sum()).reset_index()
+    
     results = pd.DataFrame()
 
     for index, row in df_inflow.iterrows():
