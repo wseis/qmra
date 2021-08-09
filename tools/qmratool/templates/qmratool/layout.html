@@ -13,14 +13,15 @@
      {%endblock%}
     </head>
     <body>
-
-        <nav class="navbar navbar-expand-lg border-bottom" style="background-color: white;">
+  
+        
+  
+        <nav class="navbar navbar-expand-sm border-bottom" style="background-color: white;">
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-           <!-- <a class="navbar-brand text_link_kwb" href="#"><b>QMRA</b><i><sub>calculator</sub></i></a>-->
-              <a class="navbar-brand" href="#">
+              <a class="navbar-brand" href="{%url 'index'%}">
                 <img src="/static/qmratool/Logo2_letters.png" width="90" height="66" class="d-inline-block align-top" alt="">
               
             </a>
@@ -70,14 +71,14 @@
             
             </div>
           </nav>
-        
+    
 
         <div class="body">
             {% block body %}
             {% endblock %}
             
         </div>
-       </div>
+       
  
 
 
@@ -91,3 +92,30 @@
       
     </body>
 </html>
+<!--
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">Navbar</a>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          </li>
+        </ul>
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </nav>
+  -->
