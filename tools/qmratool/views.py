@@ -79,6 +79,12 @@ def comparison(request):
                 title = {'text':'Risk assessment as probability of infection per year'},
                
                 yaxis_title = "Probability of infection per year",
+                annotations=[go.Annotation(y = -4, x =1.2,
+                        text = "Tolerable risk level of 1/10000 infections pppy",
+                        bgcolor = "#007c9f",
+                        bordercolor= "white",
+                        borderpad = 5,
+                        font = dict(color = "white"))]
 
                 #markersize= 12,
                 )
