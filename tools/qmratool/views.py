@@ -415,7 +415,14 @@ def calculate_risk(request, ra_id):
             category_orders={"Pathogen": ["Rotavirus", "Campylobacter jejuni", "Cryptosporidium parvum"]},
             color_discrete_sequence=["#005269", "#007c9e", "#a3d1ec","#3494ae","#00B8eb"])
 
-              
+    fig2.for_each_annotation(lambda a: a.update(text=a.text.split("=")[-1], 
+                            font = dict(size = 13, color = "black")))
+    
+    
+
+
+
+
     fig2.update_layout(
         font_family="Helvetica Neue, Helvetica, Arial, sans-serif",
         font_color="black",
@@ -432,6 +439,8 @@ def calculate_risk(request, ra_id):
     color="Treatment", facet_col="Pathogen Group",
     category_orders={"Pathogen Group": ["Viruses", "Bacteria", "Protozoa"]},
     color_discrete_sequence=["#005269", "#007c9e", "#a3d1ec","#3494ae","#00B8eb"])
+
+    fig.for_each_annotation(lambda a: a.update(text=a.text.split("=")[-1], font = dict(size = 13)))
     #title="Log-removal of selected treatment train")
     fig.update_layout(legend=dict(
                  orientation="h",
