@@ -105,7 +105,7 @@ def comparison(request):
                             borderwidth=0))
 
 
-            fig.add_hline(y=0.0001, line_dash="dashdot", line=dict(color="LightSeaGreen", width = 3),
+            fig.add_hline(y=0.0001, line_dash="dashdot", line=dict(color="#007c9f", width = 3),
          
              )
 
