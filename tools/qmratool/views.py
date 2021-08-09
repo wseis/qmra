@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.shortcuts import render
+from plotly.shapeannotation import annotation_params_for_line
 from .forms import RAForm, SourceWaterForm,  TreatmentForm, ExposureForm, LogRemovalForm, InflowForm, ComparisonForm
 from .models import *
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -13,7 +14,7 @@ from django_pandas.io import read_frame
 import decimal
 import markdown2 as md
 from django.db import IntegrityError
-
+import plotly.graph_objs as go
 # Create your views here.
 
 def about(request):
@@ -327,15 +328,25 @@ def calculate_risk(request, ra_id):
         #markersize= 12,
         )
     fig.add_hline(y=0.0001, 
-                    line_dash="dashdot", 
-                    line=dict(color="LightSeaGreen", width = 3))
+                    line_dash="dashdot",
+                    line=dict(color="#007c9f", width = 3))
     fig.update_layout(legend=dict(
                  orientation="h",
                  yanchor="top",
                  #text= "Reference pathogen",
                  y=-.1,
                  xanchor="left",
-                x=0))
+                x=0),
+                annotations=[go.Annotation(y = -4, x =1.2,
+                        text = "Tolerable risk level of 1/10000 infections pppy",
+                        bgcolor = "#007c9f",
+                        bordercolor= "white",
+                        borderpad = 5,
+                        font = dict(color = "white"))])
+
+
+   
+    #fig.update_annotations(y = 0.0001, x = 1,  text = "Tolerable risk level")
 
     fig.update_traces(marker_size = 8)#['#75c3ff', "red"],#, marker_line_color='#212c52',
 
@@ -357,6 +368,12 @@ def calculate_risk(request, ra_id):
         title = {'text':'Risk in Disability adjusted life years (DALYs) per person per year (pppy)'},
         xaxis_title = "",
         yaxis_title = "DALYs pppy",
+        annotations=[go.Annotation(y = -6, x = 1.2,
+                        text = "Tolerable risk level of 1µDALY pppy",
+                        bgcolor = "#007c9f",
+                        bordercolor= "white",
+                        borderpad = 5,
+                        font = dict(color = "white"))]
         #markersize= 12,
         )
     
@@ -368,9 +385,9 @@ def calculate_risk(request, ra_id):
                  xanchor="left",
                 x=0))
     fig.add_hline(y=0.000001, 
-                        line_dash="dashdot", 
-                        #line=dict(color="LightSeaGreen", width = 3),
-                        annotation_text="tolerable risk level")
+                        line_dash="dashdot",
+                        line=dict(color="#007c9f", width = 3))
+                        #annotation_text="tolerable risk level")
                         #annotation_position = "top left",
                         #annotation=dict(font_size=20, font_family="Times New Roman"))
                         #annotation_position="bottom right")
