@@ -32,6 +32,8 @@ urlpatterns = [
        
     # Results
     path("results/<int:ra_id>", views.calculate_risk, name="results"),
+    path("export/<int:ra_id>", views.export_summary, name="export"),
+    
     path("bayes", views.bayes, name="bayes"),
     path("comparisons", views.comparison, name = "comparison"),
 

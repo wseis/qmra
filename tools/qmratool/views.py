@@ -302,6 +302,32 @@ def LRV_edit(request, treatment_id, pathogen_group_id):
     "pathogen": pathogen_group })
 
 
+# Exporting risk assessment results
+
+@login_required(login_url="/login")
+def export_summary(request, ra_id):
+    
+    ra = RiskAssessment.objects.get(id = ra_id)
+    if ra.user == request.user:
+        results_long = simulate_risk(ra)
+        results_long.rename(columns = {'value':'infection_prob'}, inplace = True)
+        results_long["pathogen"] = results_long["variable"].str.split("_", expand=True)[0]
+        results_long["stat"] = results_long["variable"].str.split("_", expand=True)[1]
+
+        health = read_frame(Health.objects.all())
+        results_long = pd.merge(results_long, health, on = "pathogen")
+        results_long["DALYs pppy"] = results_long.infection_prob*results_long.infection_to_illness.astype(float)*results_long.dalys_per_case.astype(float)
+        results_long = results_long.groupby(["pathogen", "stat"]).describe(percentiles = [.05, 0.25, 0.5, 0.75, 0.95])[["infection_prob", "DALYs pppy"]]
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename='+str(ra.name)+"_summary.csv"
+
+        #results_long.to_csv(path_or_buf=response, sep=',',float_format='%.2f', index=False, decimal=".")
+        results_long.to_csv(path_or_buf=response, sep=',', decimal=".")
+        
+        return response
+    else:
+        return HttpResponseRedirect(reverse('login'))
+
 
 
 # Modelling risk
@@ -474,7 +500,8 @@ def calculate_risk(request, ra_id):
     return render(request,"qmratool/results.html", {"plot_div":plot_div, 
     "plot_div2":plot_div2, 
     "daly_plot":daly_plot ,
-    "risk_plot": risk_plot
+    "risk_plot": risk_plot,
+    "ra":ra
     })
 
 
