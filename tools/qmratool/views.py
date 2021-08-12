@@ -2,19 +2,20 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.shortcuts import render
-from plotly.shapeannotation import annotation_params_for_line
+
 from .forms import RAForm, SourceWaterForm,  TreatmentForm, ExposureForm, LogRemovalForm, InflowForm, ComparisonForm
 from .models import *
-from django.views.decorators.csrf import ensure_csrf_cookie
+
 import numpy as np
 import pandas as  pd
 import plotly.express as px
 from plotly.offline import plot
 from django_pandas.io import read_frame
-import decimal
+
 import markdown2 as md
 from django.db import IntegrityError
 import plotly.graph_objs as go
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def about(request):
@@ -38,7 +39,7 @@ def bayes(request):
     return render(request,  "bayes/bayes2.html")
 
 
-# 
+@login_required(login_url="/login")
 def comparison(request):
     user  = request.user
     if request.method == "POST":
@@ -124,6 +125,7 @@ def comparison(request):
 
 
 # Exposure Scenario managememt
+@login_required(login_url="/login")
 def create_scenario(request):
     user = request.user
     if request.method == "POST":
@@ -144,19 +146,20 @@ def create_scenario(request):
         form=ExposureForm
     return render(request, "qmratool/scenario_create.html",{"form":form})
 
-
+@login_required(login_url="/login")
 def edit_scenario(request):
     user = request.user
     scenarios = user.scenarios.all()
     return render(request, "qmratool/scenario_edit.html", {"scenarios":scenarios})
 
-
+@login_required(login_url="/login")
 def delete_scenario(request, scenario_id):
     Exposure.objects.get(id=scenario_id).delete()
     return HttpResponseRedirect(reverse('scenario_edit'))
 
 
 # Risk assessment management
+@login_required(login_url="/login")
 def new_assessment(request):
     user = request.user
     if request.method == "POST":
@@ -182,7 +185,7 @@ def new_assessment(request):
        
     return render(request, 'qmratool/new_ra.html', {"form":form, "content":content})
 
-
+@login_required(login_url="/login")
 def edit_assessment(request, ra_id):
     user = request.user
     if request.method == "POST":
@@ -211,12 +214,13 @@ def edit_assessment(request, ra_id):
         
     return render(request, 'qmratool/edit_ra.html', {"form":form, "ra_id":ra.id})
 
-
+@login_required(login_url="/login")
 def delete_assessment(request, ra_id):
     RiskAssessment.objects.get(id=ra_id).delete()
     return HttpResponseRedirect(reverse('index'))    
 
 # Source water management
+@login_required(login_url="/login")
 def source_create(request):
     
     if request.method=="POST":
@@ -229,6 +233,7 @@ def source_create(request):
         return render(request, "qmratool/source.html", { "SWform":SWform, "InflowForm": Inflowform})
 
 # Treatment management
+@login_required(login_url="/login")
 def treatment_create(request):
     user = request.user
     if request.method == "POST":
@@ -249,15 +254,18 @@ def treatment_create(request):
         #pathogen_groups = PathogenGroup.objects.all()
     return render(request, "qmratool/treatment.html", {"TreatForm": TreatForm })
 
+@login_required(login_url="/login")
 def treatment_edit(request):
     user = request.user
     treatments = user.treatments.all()
     return render(request, "qmratool/treatment_edit.html", {"treatments": treatments})
 
+@login_required(login_url="/login")
 def treatment_delete(request, treatment_id):
     Treatment.objects.get(id=treatment_id).delete()
     return HttpResponseRedirect(reverse('treatment_edit'))
 
+@login_required(login_url="/login")
 def LRV_edit(request, treatment_id, pathogen_group_id):
     
     if request.method == "POST":
@@ -297,7 +305,7 @@ def LRV_edit(request, treatment_id, pathogen_group_id):
 
 
 # Modelling risk
-
+@login_required(login_url="/login")
 def calculate_risk(request, ra_id):
     ra = RiskAssessment.objects.get(id = ra_id)
     # Selecting inflow concentration based in source water type
@@ -524,7 +532,7 @@ def register(request):
 
 
 
-
+@login_required(login_url="/login")
 def api_treatments(request):
     treatments = Treatment.objects.filter(user__in = [request.user, 8])
     # Filter emails returned based on mailbox
@@ -532,7 +540,7 @@ def api_treatments(request):
     # Return emails in reverse chronologial order
     return JsonResponse([treatment.serialize() for treatment in treatments], safe=False)
 
-    
+@login_required(login_url="/login")
 def api_treatments_by_id(request, treatment_id):
     treatments = Treatment.objects.filter(id = treatment_id)
     # Filter emails returned based on mailbox
@@ -540,6 +548,7 @@ def api_treatments_by_id(request, treatment_id):
     # Return emails in reverse chronologial order
     return JsonResponse([treatment.serialize() for treatment in treatments], safe=False)
 
+@login_required(login_url="/login")
 def api_sources_by_id(request, source_id):
     sources = SourceWater.objects.filter(id = source_id)
     # Filter emails returned based on mailbox
@@ -547,6 +556,7 @@ def api_sources_by_id(request, source_id):
     # Return emails in reverse chronologial order
     return JsonResponse([source.serialize() for source in sources], safe=False)
 
+@login_required(login_url="/login")
 def api_exposure_by_id(request, exposure_id):
     exposures = Exposure.objects.filter(id = exposure_id)
     # Filter emails returned based on mailbox
