@@ -4,11 +4,12 @@
   <div class = "container">
   <div class = "row">
   <div class = "col">
+    {%if ra.id %}
     <div class = "m-4"> <!--style= "background-color: #007c9f; color: white">--> 
       <a class = "btn btn-primary mt-3" href="{%url 'export' ra.id%}">Export summary as csv</a>
       
     </div>
-  
+    {%endif %}
   <div id="hero-graph">
               {% autoescape off %}
               {{ risk_plot }}
