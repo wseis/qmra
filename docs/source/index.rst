@@ -62,7 +62,9 @@ LRV values are determined by measuring pathogens (or indicator organisms) in the
 .. note::
 
     For calculating the overall mean performance of the system, the mean of the 
-    *removal fractions* has to be calculated and not the mean of the log-values.
+    *removal fractions* has to be calculated and not the mean of the log-values. 
+    So, if your individual LRV observations are 1, 2, and 3, the mean LRV is **not** 2, 
+    but only 1.43. 
 
 \
 
