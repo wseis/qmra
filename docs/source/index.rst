@@ -33,7 +33,13 @@ Default values vs. user inputs
 
 QMRA allows the user to perform a first-stage risk assessment of the water supply system by two different options. 
 First, by using default values derived from international guideline documents and scientific literature (see `database <https://kwb-r.github.io/qmra.db/>`_). 
-Second, by creating own scenarios (treatments, exposure scenarios) and providing numeric values for the model input of interest.
+Second, by creating own scenarios (treatments, exposure scenarios) and providing numeric values for the model input of interest. 
+The ability to create own scenarios based on self-created treatments and exposure scenarios is a powerfull feature, which enables users to
+adapt the tool the specific local needs. Examples to use this feature to answer specific questions include:
+
+#.  comparison of risks caused by specific activities at the wastewateer treatment plants.
+#.  derivation of necessary log-removal values by creating unspecified treatments representing specific LRVs.
+#.  comparison of different system configurations by creating treatments with specific configurations (e.g. low / high UV dose disinfection)   
 
 
 User specific treatments
