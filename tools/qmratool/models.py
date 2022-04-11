@@ -19,7 +19,7 @@ class SourceWater(models.Model):
 
 
 class Treatment(models.Model):
-    user = models.ForeignKey(User,  related_name="treatments", on_delete=models.CASCADE)
+    user = models.ForeignKey(User,  related_name="treatments", default = 1, on_delete=models.CASCADE)
     name = models.CharField(max_length=64)
     group=models.CharField(max_length=64, default = "wastewater")
     category=models.CharField(max_length=64, choices=[("wastewater", "wastewater"),
@@ -88,7 +88,7 @@ class Health(models.Model):
     infection_to_illness=models.DecimalField( decimal_places=2, max_digits=3)	
     dalys_per_case=models.DecimalField(decimal_places=6, max_digits=6)
     def __str__(self):
-      return self.pathogen.name
+      return self.pathogen.pathogen
 
 class DoseResponse(models.Model):
     pathogen=	models.ForeignKey(Pathogen, on_delete=models.CASCADE)
@@ -111,7 +111,7 @@ class Guideline(models.Model):
 
 
 class Exposure(models.Model):
-    user = models.ForeignKey(User, related_name="scenarios", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name="scenarios", default = 1, on_delete=models.CASCADE)
     name = models.CharField(max_length=250)
     description = models.CharField(max_length=250)
     events_per_year = models.IntegerField(default = 10)
