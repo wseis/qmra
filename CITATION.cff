@@ -1,0 +1,10 @@
+cff-version: 0.1.2
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Seis
+    given-names: Wolfgang
+    orcid: https://orcid.org/0000-0002-7436-8575
+title: "QMRA"
+version: 0.1.2
+doi: 10.5281/zenodo.6457255
+date-released: 2022-04-13
