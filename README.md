@@ -20,7 +20,7 @@ pip install django
 
 ```python
 
-pip install -r requirEments.txt
+pip install -r requirements.txt
 
 ```
 ### Create new superuser for admin page
