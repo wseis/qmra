@@ -19,6 +19,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def about(request):
+
     content = Text.objects.get(title = "About") 
     return render(request, "qmratool/about.html", {"content":md.markdown(content.content)})
 
@@ -28,6 +29,7 @@ def qa(request):
 
 # Overview index page
 def index(request):
+ 
     if request.user.is_authenticated:
         assessment = RiskAssessment.objects.filter(user = request.user)
     else:
