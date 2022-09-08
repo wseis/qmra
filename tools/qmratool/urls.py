@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-
+from .views import UserDeleteView
 #from django.conf.urls import url
 #from myproject.accounts import views
 
@@ -17,6 +17,7 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
     path("password", views.change_password, name = 'change_password'),
+    path('<pk>/delete_user/', UserDeleteView.as_view(), name="delete_user"),
     #risk assessment creation urls
     path("new", views.new_assessment, name="new_assessment"),
     path("edit/<int:ra_id>", views.edit_assessment, name="edit_assessment"),

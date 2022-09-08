@@ -583,6 +583,18 @@ def change_password(request):
         'form': form
     })
 
+from django.views.generic.edit import DeleteView
+
+class UserDeleteView(DeleteView):
+    # specify the model you want to use
+    model = User
+     
+    # can specify success url
+    # url to redirect after successfully
+    # deleting object
+    success_url ="/login"
+     
+    template_name = "qmratool/usermodel_confirm_delete.html"
 
 
 

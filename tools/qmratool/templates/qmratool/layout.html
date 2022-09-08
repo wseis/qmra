@@ -49,7 +49,7 @@
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         
                         <a class="dropdown-item" href="{% url 'change_password' %}" tabindex="0">Change password</a>
-                        <a class="dropdown-item" href="" tabindex="0">Delete account</a>
+                        <a class="dropdown-item" href="{% url 'delete_user' user.id %}" tabindex="0">Delete account</a>
                       </div>
                         
                     </li>
