@@ -129,7 +129,7 @@ class Exposure(models.Model):
         }
     
 class RiskAssessment(models.Model):
-    user=models.ForeignKey(User, on_delete=models.PROTECT, related_name="assessments")
+    user=models.ForeignKey(User, on_delete=models.CASCADE, related_name="assessments")
     name=models.CharField(max_length=64, default="")
     description=models.TextField(max_length=500, blank=True)
     source=models.ForeignKey(SourceWater, on_delete=models.PROTECT, default=1,  blank = True)
