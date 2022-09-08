@@ -1,6 +1,10 @@
 from django.urls import path
 from . import views
 
+#from django.conf.urls import url
+#from myproject.accounts import views
+
+
 #from .views import TreatmentCreateView
 
 urlpatterns = [
@@ -12,6 +16,7 @@ urlpatterns = [
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
+    path("password", views.change_password, name = 'change_password'),
     #risk assessment creation urls
     path("new", views.new_assessment, name="new_assessment"),
     path("edit/<int:ra_id>", views.edit_assessment, name="edit_assessment"),
