@@ -10,7 +10,8 @@
     <form method="post">{% csrf_token %}
       
  
-        <p>Are you sure you want to delete "{{ object }}"?</p>
+        <p>Are you sure you want to delete "{{ object }}"? This will delete all configured risk assessments and treatments, 
+          and all user related information </p>
      
             <input type="submit" class="btn btn-primary" value="Confirm">
         </form>
