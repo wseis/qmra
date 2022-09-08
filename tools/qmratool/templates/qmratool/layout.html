@@ -41,8 +41,17 @@
                      
                 </ul>
                 <ul class= "navbar-nav navbar-right">
-                  <li class="nav-item active">
-                        <a class=" nav-link text_link_kwb " href=""><strong>{{ user.username }}</strong></a>
+                  <li class="nav-item dropdown">
+
+                    <button class="btn nav-item active text_link_kwb dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <strong>{{ user.username }}</strong>
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        
+                        <a class="dropdown-item" href="{% url 'change_password' %}" tabindex="0">Change password</a>
+                        <a class="dropdown-item" href="" tabindex="0">Delete account</a>
+                      </div>
+                        
                     </li>
                     <li class="nav-item active">
                         <a class=" nav-link text_link_kwb " href="{% url 'qa' %}">QA/Info</a>
