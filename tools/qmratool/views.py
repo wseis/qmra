@@ -10,11 +10,12 @@ import numpy as np
 import pandas as  pd
 import plotly.express as px
 from plotly.offline import plot
+import plotly.graph_objs as go
 from django_pandas.io import read_frame
 
 import markdown2 as md
 from django.db import IntegrityError
-import plotly.graph_objs as go
+
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
