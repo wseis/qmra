@@ -2,83 +2,93 @@
 
 {% block body %}
   <div class = "container">
-  <div class = "row">
-  <div class = "col">
-    {%if ra.id %}
-    <div class = "m-4"> <!--style= "background-color: #007c9f; color: white">--> 
-      <a class = "btn btn-primary mt-3" href="{%url 'export' ra.id%}">Export summary as csv</a>
-      
+      <div class = "row">
+        <div class = "col">
+        {%if ra.id %}
+        <div class = "m-4"> <!--style= "background-color: #007c9f; color: white">--> 
+          <a class = "btn btn-primary mt-3" href="{%url 'export' ra.id%}">Export summary as csv</a>
+        
+        </div>
+        {%endif %}
+        <div id="hero-graph">
+          {% autoescape off %}
+          {{ risk_plot }}
+          {% endautoescape %}
+        </div>
+        {% if comparison %}
+        <div>
+          <p class="text_link_kwb mt-3"> For each pathogen, the outer boundaries of each barplot refer to the range between the maximum of the maximum LRV scenario and the minimum of the minimum risk scenario (maximal range).
+            The inner range refers to the range between the mean of the maximum and the mean of the minimum risk scenario (difference in means). 
+            The mean of the distribution is often considered as the preferred point estimator, for deciding whether health targets are achieved. 
+           </p> 
+        </div>
+        {%endif%}
+        <div id="hero-graph">
+          {% autoescape off %}
+          {{ daly_plot }}
+          {% endautoescape %}
+        </div>
+        <div id="hero-graph">
+          {% autoescape off %}
+          {{ plot_div }}
+          {% endautoescape %}
+        </div>
+        <div id="hero-graph">
+          {% autoescape off %}
+          {{ plot_div2 }}
+          {% endautoescape %}
+        </div>
+        <div id="hero-graph">
+          {% autoescape off %}
+          {{ hist_inflow }}
+          {% endautoescape %}
+        </div>
+        <div id="hero-graph">
+          {% autoescape off %}
+          {{ hist_outflow }}
+          {% endautoescape %}
+        </div>
+        <div id="hero-graph">
+          {% autoescape off %}
+          {{ hist_prob }}
+          {% endautoescape %}
+        </div>
+        <div id="hero-graph">
+          {% autoescape off %}
+          {{ hist_res }}
+          {% endautoescape %}
+        </div>
+      </div>
     </div>
-    {%endif %}
-  <div id="hero-graph">
-              {% autoescape off %}
-              {{ risk_plot }}
-              {% endautoescape %}
-              </div>
-               <div id="hero-graph">
-              {% autoescape off %}
-              {{ daly_plot }}
-              {% endautoescape %}
-              </div>
-               <div id="hero-graph">
-              {% autoescape off %}
-              {{ plot_div }}
-              {% endautoescape %}
-              </div>
-                <div id="hero-graph">
-              {% autoescape off %}
-              {{ plot_div2 }}
-              {% endautoescape %}
-              </div>
-                 <div id="hero-graph">
-              {% autoescape off %}
-              {{ hist_inflow }}
-              {% endautoescape %}
-              </div>
-                  <div id="hero-graph">
-              {% autoescape off %}
-              {{ hist_outflow }}
-              {% endautoescape %}
-              </div>
-                  <div id="hero-graph">
-              {% autoescape off %}
-              {{ hist_prob }}
-              {% endautoescape %}
-              </div>
-                   <div id="hero-graph">
-              {% autoescape off %}
-              {{ hist_res }}
-              {% endautoescape %}
-              </div>
-              <div class="row justify-content-center">
-                <div class = "col-auto">
-              <div class="table table-hover">
-              {% autoescape off %}
-              {{data}}
-              
-              {% endautoescape %}
-              </div>
-              <div class="table table-hover">
-              {% autoescape off %}
-              {{samples}}
-              
-              {% endautoescape %}
-              </div>
-                <div class="table table-hover">
-              {% autoescape off %}
-              {{dr_models}}
-              
-              {% endautoescape %}
-              </div>
-    <div class="table table-hover">
-              {% autoescape off %}
-              {{summary}}
-              
-              {% endautoescape %}
-              </div>
+    <div class="row justify-content-center">
+      <div class = "col-auto">
+        <div class="table table-hover">
+        {% autoescape off %}
+        {{data}}
+        
+        {% endautoescape %}
+        </div>
+        <div class="table table-hover">
+        {% autoescape off %}
+        {{samples}}
+        
+        {% endautoescape %}
+        </div>
+        <div class="table table-hover">
+        {% autoescape off %}
+        {{dr_models}}
+        
+        {% endautoescape %}
+        </div>
+        <div class="table table-hover">
+        {% autoescape off %}
+        {{summary}}
+        
+        {% endautoescape %}
+        </div>
 
-              </div>
-              </div>
-              </div>
-              </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

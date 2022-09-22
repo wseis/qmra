@@ -74,7 +74,7 @@ def comparison(request):
             risk_plot = plot(fig, output_type = "div")
 
 
-            return render(request, "qmratool/results.html",  {"risk_plot": risk_plot})
+            return render(request, "qmratool/results.html",  {"risk_plot": risk_plot, "comparison": True})
     else:
         form = ComparisonForm(user=user)
     return render(request, 'qmratool/comparison.html', {"form":form})
