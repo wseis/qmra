@@ -3,6 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.shortcuts import render
 
+from qmratool.helper_functions import plot_comparison
+
 from .forms import RAForm, SourceWaterForm,  TreatmentForm, ExposureForm, LogRemovalForm, InflowForm, ComparisonForm
 from .models import *
 
@@ -65,56 +67,9 @@ def comparison(request):
             dfmin = df.groupby(["pathogen", "Assessment"]).min("value").reset_index().assign(stat = "min")
             dfmax = df.groupby(["pathogen", "Assessment"]).max("value").reset_index().assign(stat = "max")
             df_summary = dfmin.append(dfmax).sort_values(by = "value", ascending = False)
-            fig = px.box(df_summary, x="Assessment", y="value", 
-                            color="pathogen", 
-                          
-                            log_y =True, 
-                            labels={
-                             "pathogen": "Reference pathogen"
-                             },
-                            title="Risk as probability of infection per year",
-                            color_discrete_sequence=["#004254", "#007c9e", "#a3d1ec","#3494ae","#00B8eb"])
+            df_mean = df.groupby(["pathogen", "Assessment", "stat"]).mean("value").reset_index().sort_values(by = "value", ascending = False)
 
-          
-
-            fig.update_layout(
-                font_family="Helvetica Neue, Helvetica, Arial, sans-serif",
-                font_color="black",
-                title = {'text':'Risk assessment as probability of infection per year'},
-               
-                yaxis_title = "Probability of infection per year",
-                annotations=[go.Annotation(y = -4, x =1.2,
-                        text = "Tolerable risk level of 1/10000 infections pppy",
-                        bgcolor = "#007c9f",
-                        bordercolor= "white",
-                        borderpad = 5,
-                        font = dict(color = "white"))]
-
-                #markersize= 12,
-                )
-
-            fig.update_layout(legend=dict(
-                            orientation="h",
-                            yanchor="top",
-                            y=-.2,
-                            xanchor="left",
-                            x=0,
-                               font=dict(
-                                family="Courier",
-                                size=14,
-                                color="black"
-                            ),
-                            bgcolor="white",
-                            bordercolor="#007c9e",
-                            borderwidth=0))
-
-
-            fig.add_hline(y=0.0001, line_dash="dashdot", line=dict(color="#007c9f", width = 3),
-         
-             )
-
-            fig.update_traces(marker_size = 8,hovertemplate=None, hoverinfo="skip",
-                 line=dict(width=0))
+            fig = plot_comparison(df_summary, df_mean)
 
             risk_plot = plot(fig, output_type = "div")
 

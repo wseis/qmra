@@ -1,3 +1,7 @@
+import plotly.express as px
+from plotly.offline import plot
+import plotly.graph_objs as go
+
 def plot_comparison(df, df2):
     fig = px.box(df, x="Assessment", y="value", 
                     color="pathogen", 
@@ -14,11 +18,11 @@ def plot_comparison(df, df2):
                     color="pathogen", 
 
                     log_y =True, 
-                    labels={
-                     "pathogen": "Reference pathogen"
-                     },
+                   # labels={
+                   #  "pathogen": "Reference pathogen"
+                   #  },
                     title="Risk as probability of infection per year",
-                    color_discrete_sequence=["red", "red", "red","red","red"]).select_traces()
+                    color_discrete_sequence=["#00566E", "#00566E", "#00566E","#00566E","#00566E"]).select_traces()
     ))
 
 
