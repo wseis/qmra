@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>{% block title %} QMRA.org {% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href= "/static/qmratool/style.css" >
+          
+    </head>
+    <body>
+        <main class = "container">
+            <row class = "row">
+                <col class = col>
+                <form  method="post" enctype="multipart/form-data" action = "{% url 'logremoval:import'%}">
+                        {% csrf_token %}
+                    <div class="custom-file mt-4" id="customFile" lang="en">
+                        <input type="file" class="custom-file-input" id="exampleInputFile" type="file" name="myfile" aria-describedby="fileHelp">
+                        <label class="custom-file-label" for="exampleInputFile"> File</label>
+                    </div>
+                        <button class = "btn btn-outline-primary mt-3" type="submit">Upload</button>
+                    </form>
+                </col>
+            </row>
+            {% if data %}
+            <row class = "row">
+                <col class = col>
+                    {{data | safe}}
+                </col>
+            </row>
+            {% endif%}
+
+        </main>
+    </body>
+</html>

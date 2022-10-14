@@ -45,6 +45,7 @@ INSTALLED_APPS = [
      "anymail",
     'import_export',
     'django_extensions',
+    'logremoval'
 
 ]
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
