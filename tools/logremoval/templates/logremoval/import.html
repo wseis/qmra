@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -14,7 +16,7 @@
                 <form  method="post" enctype="multipart/form-data" action = "{% url 'logremoval:import'%}">
                         {% csrf_token %}
                     <div class="custom-file mt-4" id="customFile" lang="en">
-                        <input type="file" class="custom-file-input" id="exampleInputFile" type="file" name="myfile" aria-describedby="fileHelp">
+                        <input type="file" class="custom-file-input" id="file_id" type="file" name="myfile" aria-describedby="fileHelp">
                         <label class="custom-file-label" for="exampleInputFile"> File</label>
                     </div>
                         <button class = "btn btn-outline-primary mt-3" type="submit">Upload</button>
@@ -23,11 +25,14 @@
             </row>
             {% if data %}
             <row class = "row">
-                <col class = col>
-                    {{data | safe}}
+                <col class = "col">
+                    <table class = "table table-hover">
+                        {{data| safe}}
+                    </table>
                 </col>
             </row>
             {% endif%}
         </main>
     </body>
+    <script type="text/javascript" src="{% static 'logremoval/js/import.js' %}"></script>
 </html>
