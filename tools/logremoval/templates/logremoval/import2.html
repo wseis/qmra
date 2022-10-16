@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Bathing Waters</title>
+    <link rel = "stylesheet" href = "{%static 'logremoval/css/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+       
+    <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
+    <script type="text/javascript" src="{% static 'logremoval/js/import.js' %}"></script>
+    
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="menu-icon">
+        <strong> &#9776;</strong>
+      </div>
+      <header class="header">
+        <div class="header_search">Search...</div>
+        <div class="header_avatar">Logout</div>
+      </header>
+      <aside class="aside">
+        <div class="aside_close-icon">
+          <strong>&times;</strong>
+        </div>
+        <ul class="aside_list">
+          <li class="aside_list-item">Overview</li>
+          <li class="aside_list-item">Predictions</li>
+          <li class="aside_list-item">Weather</li>
+          <li class="aside_list-item">Flow</li>
+          <li class="aside_list-item">Email</li>
+        </ul>
+      </aside>
+    
+      <main class="main">
+        
+        <form  method="post" enctype="multipart/form-data" action = "{% url 'logremoval:import'%}">
+            {% csrf_token %}
+            <div class="custom-file mt-4" id="customFile" lang="en">
+            <input type="file" class="custom-file-input" id="file_id" type="file" name="myfile" aria-describedby="fileHelp">
+            <label class="custom-file-label" for="exampleInputFile"> File</label>
+            </div>
+            <button class = "btn btn-outline-primary mt-3" type="submit">Upload</button>
+        </form>
+      
+        <div class="main_overview">
+          <div class="overview_card">
+            <div class="overview_card-info">Sample size inflow</div>
+            <div class="overview_card-icon">{{n_inflow}}</div>
+          </div>
+          <div class="overview_card">
+            <div class="overview_card-info">Sample size outflow</div>
+            <div class="overview_card-icon">{{n_outflow}}</div>
+          </div>
+          <div class="overview_card">
+            <div class="overview_card-info">N paired samples</div>
+            <div class="overview_card-icon">{{n_paired}}</div>
+          </div>
+          <div class="overview_card">
+            <div class="overview_card-info">Overview</div>
+            <div class="overview_card-icon">Card</div>
+          </div>
+        </div>
+
+        <div class="main_cards">
+          <div class="card" id = "tester"> 
+            {% autoescape off %}
+            {{ lrvplot }}
+            {% endautoescape %}</div>
+          <div class="card">    
+          <h1>{{P10}}</h1>
+        </div>
+          <div class="card">
+      
+        </div>
+      </main>
+      <footer class="footer">
+        <div class="footer_copyright">&copy;2020</div>
+        <div class="footer_byline">Made with &hearts;</div>
+      </footer>
+    </div>
+    <script type="text/javascript">
+      const menuIcon = document.querySelector('.menu-icon');
+      const aside = document.querySelector('.aside');
+      const asideClose = document.querySelector('.aside_close-icon');
+
+      function toggle(el, className) {
+        if (el.classList.contains(className)) {
+          el.classList.remove(className);
+        } else {
+          el.classList.add(className);
+        }
+      }
+
+      menuIcon.addEventListener('click', function() {
+        toggle(aside, 'active');
+      });
+
+      asideClose.addEventListener('click', function() {
+        toggle(aside, 'active');
+      });
+    </script>
+    
+  </body>
+</html>
