@@ -35,7 +35,7 @@ class ImportView(View):
         df = pd.DataFrame({"inflow": inflow+1, "outflow": outflow+1})
         df["LRV"] =np.log10((df["inflow"])/df["outflow"])
         quantiles = df.quantile([.1, .5, .9])
-        lrvplot = px.histogram(df, "LRV")
+        lrvplot = px.histogram(df, "LRV", color_discrete_sequence=['#0003e2'])
         inplot = px.histogram(df, "inflow")
         outplot = px.histogram(df, "outflow")
 

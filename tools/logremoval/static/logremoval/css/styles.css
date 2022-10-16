@@ -1,9 +1,14 @@
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+  background-color: #0003e2 !important;
+  border-color: #0003e2!important;
+  }
+
 body {
     margin: 0;
     padding: 0;
     color: white;
     box-sizing: border-box;
-    font-family: monospace;
+    font-family: sans-serif;
     font-size: 15px;
   }
   .grid-container {
@@ -20,12 +25,12 @@ body {
   
   .header {
     grid-area: header;
-    background-color: whitesmoke;
+    background-color: #0003e2;
   }
   
   .aside {
     grid-area: aside;
-    background-color: darkblue;
+    background-color: #0003e2;
   }
   
   .main {
@@ -34,7 +39,7 @@ body {
   }
   .footer {
     grid-area: footer;
-    background-color: whitesmoke;
+    background-color: #0003e2;
   }
   
   /* flexing header and footer*/
@@ -43,7 +48,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: darkblue;
+    color: white;
     padding: 0 15px;
   }
   
@@ -75,7 +80,7 @@ body {
   }
   
   .aside_list-item:hover {
-    background-color: royalblue;
+    background-color: rgb(12, 48, 156);
     cursor: pointer;
   }
   
@@ -84,7 +89,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    border-bottom: 1px solid lightgreen;
+    border-bottom: 1px solid #0003e2;
   }
   .overview_card {
     flex-basis: 250px;
@@ -96,15 +101,17 @@ body {
     padding: 20px;
     /* background-color: seagreen; */
     height: 100px;
-    border: 1px solid darkblue;
+    background-color: #0003e2;;
+    border: 1px solid #0003e2;
     border-radius: 4px;
-    color: darkblue;
+    color: white;
   }
   /* Layout for main-cards section // below main_overview */
   .main_cards {
     margin: 10px;
     display: grid;
     grid-template-columns: 1fr;
+    border: 1px solid
     grid-template-rows: 500px 200px 300px;
     grid-template-areas:
       'card1'
@@ -114,9 +121,9 @@ body {
   }
   .card {
     padding: 20px;
-    border: 1px solid tomato;
+    border: 1px solid #0003e2;
     border-radius: 4px;
-    color: tomato;
+    color: #0003e2;
   }
   
   .card:first-child {

@@ -36,13 +36,13 @@
     
       <main class="main">
         
-        <form  method="post" enctype="multipart/form-data" action = "{% url 'logremoval:import'%}">
+        <form  class = "mx-5" method="post" enctype="multipart/form-data" action = "{% url 'logremoval:import'%}">
             {% csrf_token %}
             <div class="custom-file mt-4" id="customFile" lang="en">
             <input type="file" class="custom-file-input" id="file_id" type="file" name="myfile" aria-describedby="fileHelp">
             <label class="custom-file-label" for="exampleInputFile"> File</label>
             </div>
-            <button class = "btn btn-outline-primary mt-3" type="submit">Upload</button>
+            <button class = "btn btn-primary mt-3" type="submit">Upload</button>
         </form>
       
         <div class="main_overview">
@@ -75,7 +75,7 @@
           <h3>90. Percentile: {{P90}}</h1>
         </div>
           <div class="card">
-            <h1>50. Percentile <br> {{P50}}</h1>
+            
         </div>
       </main>
       <footer class="footer">
