@@ -1,0 +1,48 @@
+// generated with brms 2.16.1
+
+data {
+  int<lower=1> N;  // total number of observations
+  int Y[N];  // response variable
+  int<lower=-1,upper=2> cens[N];  // indicates censoring
+  int N_new;
+ 
+  
+}
+
+parameters {
+  real Intercept;  // temporary intercept for centered predictors
+  real<lower=0> shape;  // shape parameter
+}
+model {
+  // likelihood including constants
+ 
+    // initialize linear predictor term
+    vector[N] mu = Intercept + rep_vector(0.0, N);
+    for (n in 1:N) {
+      // apply the inverse link function
+      mu[n] = exp(mu[n]);
+    }
+    for (n in 1:N) {
+    // special treatment of censored data
+      if (cens[n] == 0) {
+        target += neg_binomial_2_lpmf(Y[n] | mu[n], shape);
+      } else if (cens[n] == 1) {
+        target += neg_binomial_2_lccdf(Y[n] | mu[n], shape);
+      } else if (cens[n] == -1) {
+        target += neg_binomial_2_lcdf(Y[n] | mu[n], shape);
+      }
+    }
+  
+  // priors including constants
+  target += student_t_lpdf(Intercept | 3, 2, 2.5);
+  target += gamma_lpdf(shape | 0.01, 0.01);
+}
+generated quantities {
+  // actual population-level intercept
+  real b_Intercept = Intercept;
+  vector[N_new] y_sim;
+  
+  for (n in 1:N_new) {
+    y_sim[n] = neg_binomial_2_rng(exp(b_Intercept), shape);
+  }
+}
