@@ -39,16 +39,18 @@ class ImportView(View):
         inplot = px.histogram(df, "inflow")
         outplot = px.histogram(df, "outflow")
 
+        print(quantiles)
+
         return render(request, self.template_name, {"table": quantiles,
-        "lrvplot": plot(lrvplot, output_type='div'),
-        "inplot": plot(inplot, output_type='div'),
-        "outplot": plot(outplot, output_type='div'),
-        "n_inflow": n_inflow,
-        "n_outflow": n_outflow,
-        "n_paired": n_paired,
-        "P10": quantiles["LRV"].iloc[0]. round(2),
-        "P50": quantiles["LRV"].iloc[1]. round(2),
-        "P90": quantiles["LRV"].iloc[2]. round(2)})
+                                                    "lrvplot": plot(lrvplot, output_type='div'),
+                                                    "inplot": plot(inplot, output_type='div'),
+                                                    "outplot": plot(outplot, output_type='div'),
+                                                    "n_inflow": n_inflow,
+                                                    "n_outflow": n_outflow,
+                                                    "n_paired": n_paired,
+                                                    "P10": quantiles["LRV"].iloc[0]. round(2),
+                                                    "P50": quantiles["LRV"].iloc[1]. round(2),
+                                                    "P90": quantiles["LRV"].iloc[2]. round(2)})
 
 def simulate_negbin(model):
     mu = np.exp(model.params[0])
