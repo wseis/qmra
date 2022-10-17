@@ -2,6 +2,19 @@
   background-color: #0003e2 !important;
   border-color: #0003e2!important;
   }
+  .btn-outline-primary {
+    color: #0003e2  !important;
+    background-color: transparent!important;
+    background-image: none!important;
+    border-color: #0003e2 !important;
+}
+
+.btn-outline-primary:hover {
+    color: white !important;
+    background-color: #0003e2  !important;
+    border-color: white !important;
+}
+
 
 body {
     margin: 0;
@@ -105,6 +118,17 @@ body {
     border: 1px solid #0003e2;
     border-radius: 4px;
     color: white;
+  }
+  .tab_link {
+    flex-basis: 250px;
+    flex-grow: 1;
+    margin: 10px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    /* background-color: seagreen; */
+  
   }
   /* Layout for main-cards section // below main_overview */
   .main_cards {
