@@ -39,7 +39,6 @@ class ImportView(View):
         inplot = px.histogram(df, "inflow")
         outplot = px.histogram(df, "outflow")
 
-        print(quantiles)
 
         return render(request, self.template_name, {"table": quantiles,
                                                     "lrvplot": plot(lrvplot, output_type='div'),
@@ -48,6 +47,7 @@ class ImportView(View):
                                                     "n_inflow": n_inflow,
                                                     "n_outflow": n_outflow,
                                                     "n_paired": n_paired,
+                                                    "P_lt5": np.mean(df["LRV"]>5).round(2)*100, 
                                                     "P10": quantiles["LRV"].iloc[0]. round(2),
                                                     "P50": quantiles["LRV"].iloc[1]. round(2),
                                                     "P90": quantiles["LRV"].iloc[2]. round(2)})

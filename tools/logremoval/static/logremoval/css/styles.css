@@ -93,7 +93,7 @@ body {
   }
   
   .aside_list-item:hover {
-    background-color: rgb(12, 48, 156);
+    background-color: #E35A17;
     cursor: pointer;
   }
   
@@ -159,7 +159,9 @@ body {
   .card:nth-child(3) {
     grid-area: card3;
   }
-  
+  .metric {
+  text-align: center;
+  }
   /* responsive layout */
   @media only screen and (min-width: 750px) {
     .grid-container {
