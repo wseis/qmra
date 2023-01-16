@@ -50,7 +50,7 @@ class HealthAdmin(ImportExportModelAdmin):
     pass
 @admin.register(DoseResponse)
 class DoseResponseAdmin(ImportExportModelAdmin):
-    pass
+    list_display=["pathogen"]
 
 @admin.register(User)
 class UserAdmin(ImportExportModelAdmin):
