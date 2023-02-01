@@ -14,12 +14,14 @@ class RAForm(forms.ModelForm):
         self.fields['exposure'].help_text = "Please define your exposure scenario"
         self.fields['exposure'].queryset = Exposure.objects.filter(user__in=[user, 1]).order_by("id")
         self.fields['treatment'].queryset = Treatment.objects.filter(user__in=[user, 1]).order_by("id").order_by("category")
+
         self.helper = FormHelper()
     class Meta:
         model=RiskAssessment
         fields=["name","description","source","treatment", "exposure"]
         widgets={"source": forms.RadioSelect(attrs={"empty_label":None}),
-            "treatment": forms.CheckboxSelectMultiple(), "exposure": forms.RadioSelect(attrs={"empty_label":None})}
+            "treatment": forms.CheckboxSelectMultiple(), 
+            "exposure": forms.RadioSelect(attrs={"empty_label":None})}
     
 
 
