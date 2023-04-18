@@ -83,15 +83,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'tools.wsgi.application'
 
 
-ANYMAIL = {
-    # (exact settings here depend on your ESP...)
-    "MAILGUN_API_KEY": config("MAILGUN_API_KEY"),
-    "MAILGUN_API_URL": "https://api.eu.mailgun.net/v3",
-    "MAILGUN_SENDER_DOMAIN": 'mg.qmra.org',  # your Mailgun domain, if needed
-}
-EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"  # or sendgrid.EmailBackend, or...
-DEFAULT_FROM_EMAIL = "noreply@mg.qmra.org"  # if you don't already have this in settings
-SERVER_EMAIL = "your-server@mg.qmra.org"  # ditto (default from-email for Django errors)
+#ANYMAIL = {
+#    # (exact settings here depend on your ESP...)
+#    "MAILGUN_API_KEY": config("MAILGUN_API_KEY"),
+#    "MAILGUN_API_URL": "https://api.eu.mailgun.net/v3",
+#    "MAILGUN_SENDER_DOMAIN": 'mg.qmra.org',  # your Mailgun domain, if needed
+#}
+#EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"  # or sendgrid.EmailBackend, or...
+#DEFAULT_FROM_EMAIL = "noreply@mg.qmra.org"  # if you don't already have this in settings
+#SERVER_EMAIL = "your-server@mg.qmra.org"  # ditto (default from-email for Django errors)
 
 
 AUTH_USER_MODEL = 'qmratool.User'
