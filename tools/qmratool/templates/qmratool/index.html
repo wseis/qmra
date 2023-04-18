@@ -1,4 +1,4 @@
-{% extends "qmratool/layout.html" %}
+{% extends "qmratool/layout2.html" %}
 
 {% block body %}
 
@@ -30,14 +30,11 @@
 
   </div>
 
-  <div class="col-sm-3 offset-sm-1"> <!--style= "background-color: #007c9f; color: white">--> 
-    <h4 class= "mb-3">Options</h4>
-    <a class = "btn btn-primary mt-3" href="{%url 'new_assessment'%}">Start new risk assessment</a>
-    <a class = "btn btn-primary mt-3" href="{%url 'comparison'%}">Compare risk assessment</a>
-    
-  </div>
 {%endif%}
-
-
 {% endblock %}
 
+{% block side-list %}
+  <li class="aside_list-item"> <a href="{%url 'new_assessment'%}"> New Risk Assessment</a></li>
+  <li class="aside_list-item"> <a href="{%url 'comparison'%}"> Compare Assessment</a></li>
+{% endblock %}
+        

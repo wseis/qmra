@@ -1,7 +1,6 @@
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
-   background-color: #0003e2 !important; 
+  background-color: #0003e2 !important;
   border-color: #0003e2!important;
-  color: white;
   }
   .btn-outline-primary {
     color: #0003e2  !important;
@@ -102,15 +101,8 @@ body {
   .aside_list-item:hover {
     background-color: #8081F1;
     cursor: pointer;
-    color: white;
-  
   }
-  a:link { text-decoration: none;
-    color: #0003e2;
-   }
-  a:hover { text-decoration: none;
-    color: white;
-   }
+  
   /* Layout for main content overview  and its cards*/
   .main_overview {
     display: flex;
