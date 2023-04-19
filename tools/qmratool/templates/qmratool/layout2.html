@@ -12,8 +12,6 @@
     <script type="text/javascript" src="{% static 'logremoval/js/import.js' %}"></script>
     {% block script%}
     {% endblock %}
-    
-    
   </head>
   <body>
     <div class="grid-container">
@@ -24,7 +22,6 @@
         <div class="header_avatar" </div>
         <a class="header_avatar" href="{% url 'logout' %}">Logout</a>
       </header>
-
       <aside class="aside">
         <div class="aside_close-icon">
           <strong>&times;</strong>
@@ -32,7 +29,6 @@
         <div class="logo">
           <img src = "{%static 'logremoval/img/QMRA-1.png' %}" class = "logo" alt="KWB Logo" width="150" height="150">
         </div>
-   
         <ul class="aside_list">   
           <li class="aside_list-item">
             <a class="" href="{%url 'index'%}"> Risk Assessments</a>
@@ -43,20 +39,13 @@
              <li class="aside_list-item">
             <a class="" href="{%url 'scenario_edit'%}"> My Exposure scenarios</a>
             </li>
-         
-        
         {% block side-list %}
-     
-        {% endblock %}
-        
+        {% endblock %} 
         </ul>
       </aside>
-    
       <main class="main">
-        
         {% block body %}
         {% endblock %}
-
       </main>
       <footer class="footer">
         <div class="footer_copyright"></div>

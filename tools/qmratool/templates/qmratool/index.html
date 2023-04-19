@@ -1,7 +1,5 @@
 {% extends "qmratool/layout2.html" %}
-
 {% block body %}
-
 <div class="container" style="padding: 5%">
   <div class="row action-panel">
     <div class="col">
@@ -9,12 +7,10 @@
       <a class = "btn btn-primary" href="{%url 'comparison'%}"> Compare Assessment</a>
     </div>
   </div>
-
   <div class="row">
     <div class="col-sm-8">
     {% if user.is_authenticated %}
     <h4 class= "mb-5">Risk assessments of {{user.username|capfirst}}</h4>
-  
         {%for assessment in assessments%}
               <div class="media px-3 mt-3">
               <div class="media-left pr-3">
