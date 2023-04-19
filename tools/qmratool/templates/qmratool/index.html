@@ -27,7 +27,7 @@
                  <div class="media-body">
                   <h4 class="media-heading">{{assessment.name|title}}</h4>
                    <p> {{assessment.description|capfirst}} <a class = "text_link_kwb font-italic" href="{% url 'edit_assessment' assessment.id%}">Edit risk assessment</a></p>
-                   <a class = "btn btn-primary" href= "{% url 'results' assessment.id%}" > Show results </a>
+                   <a class = "btn-sm btn-primary" href= "{% url 'results' assessment.id%}" > Show results </a>
                 </div>
             </div>
             

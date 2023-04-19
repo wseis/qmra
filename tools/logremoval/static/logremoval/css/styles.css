@@ -1,7 +1,7 @@
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
-  color: white;
-  background-color: #8081F1;
-  border-color:#8081F1;
+  color: white !important;
+  background-color: #8081F1 !important;
+  border-color:#8081F1 !important;
   }
 
 body {
