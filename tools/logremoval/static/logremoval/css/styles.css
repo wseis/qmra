@@ -1,21 +1,8 @@
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
-  background-color: #0003e2 !important;
-  border-color: #0003e2 !important;
-  color:white;
+  color: white;
+  background-color: #8081F1;
+  border-color:#8081F1;
   }
-  .btn-outline-primary {
-    color: #0003e2  !important;
-    background-color: transparent!important;
-    background-image: none!important;
-    border-color: #0003e2 !important;
-}
-
-.btn-outline-primary:hover {
-    color: white !important;
-    background-color: #0003e2  !important;
-    border-color: white !important;
-}
-
 
 body {
     margin: 0;
@@ -112,9 +99,6 @@ body {
    a:visited {
     color: #0003e2;
   }
-  a:hover { 
-    color: white;
-   }
 
    .action-panel{
     margin: 30px;
