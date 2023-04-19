@@ -25,9 +25,31 @@
                 </a>
               </div>
                  <div class="media-body">
-                  <h4 class="media-heading">{{assessment.name|title}}</h4>
-                   <p> {{assessment.description|capfirst}} <a class = "text_link_kwb font-italic" href="{% url 'edit_assessment' assessment.id%}">Edit risk assessment</a></p>
-                   <a class = "btn-sm btn-primary" href= "{% url 'results' assessment.id%}" > Show results </a>
+                  <h4 class="media-heading d-flex justify-content-between">{{assessment.name|title}}
+                    <span>
+                    <svg width="93" height="21" viewBox="0 0 93 21" fill="none" xmlns:xlink=“http://www.w3.org/1999/xlink">
+                      <a xlink:href="{% url 'edit_assessment' assessment.id%}" target="__blank">
+                        <circle cx="10.0881" cy="10.4404" r="10" fill="#AFAFAF"/>
+                        <path d="M4.76792 16.3104L5.98981 11.7283L13.7284 3.98966L17.0886 7.34985L9.35 15.0885L4.76792 16.3104Z" fill="white"/>
+                        </a>
+                        <a xlink:href="{% url 'results' assessment.id%}" target="__blank">
+                          <circle cx="83" cy="10.4404" r="10" fill="#AFAFAF"/>
+                          <rect x="86.7112" y="8.67017" width="2.89722" height="4.68829" rx="0.2" fill="white"/>
+                          <rect x="76.3914" y="8.67017" width="2.89722" height="4.68829" rx="0.2" fill="white"/>
+                          <rect x="79.8399" y="5.56421" width="6.32002" height="4.18985" fill="white"/>
+                          <path d="M76.3914 10.2712H89.6084V11.6038H76.3914V10.2712Z" fill="white"/>
+                          <rect x="79.2886" y="11.6038" width="7.4226" height="3.71238" fill="#AFAFAF"/>
+                          <rect x="79.8399" y="12.0989" width="6.32002" height="2.72249" fill="white"/>
+                        </a>
+                        <a xlink:href="{% url 'delete' assessment.id%}" target="__blank">
+                          <circle cx="36.0439" cy="10.4404" r="10" fill="#AFAFAF"/>
+                          <rect x="39.9143" y="4.34375" width="3.1485" height="14.0952" transform="rotate(45 39.9143 4.34375)" fill="white"/>
+                          <rect x="42.1406" y="14.3105" width="3.1485" height="14.0952" transform="rotate(135 42.1406 14.3105)" fill="white"/>
+                        </a>
+                    </svg>
+                  </span>
+                  </h4>
+                   <p> {{assessment.description|capfirst}} </p>
                 </div>
             </div>
             

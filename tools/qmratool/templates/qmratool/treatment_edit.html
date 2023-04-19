@@ -20,8 +20,18 @@
                   </svg>
                 </a>
               </div>
-                 <div class="media-body">
-                  <h5 class="media-heading">{{treatment.name|title}} <span class ="ml-4"><a href= "{%url 'treatment_delete' treatment.id%}", class = "alert alert-danger ml-2"> X </a></span></h5> 
+                 <div class="media-body ">
+                  <h5 class="media-heading d-flex justify-content-between">{{treatment.name|title}} 
+                    <span class ="ml-4">
+                    <svg width="93" height="21" viewBox="0 0 93 21" fill="none" xmlns:xlink=“http://www.w3.org/1999/xlink">
+                      <a xlink:href="{%url 'treatment_delete' treatment.id%}" target="__blank">
+                      <circle cx="36.0439" cy="10.4404" r="10" fill="#AFAFAF"/>
+                      <rect x="39.9143" y="4.34375" width="3.1485" height="14.0952" transform="rotate(45 39.9143 4.34375)" fill="white"/>
+                      <rect x="42.1406" y="14.3105" width="3.1485" height="14.0952" transform="rotate(135 42.1406 14.3105)" fill="white"/>
+                      </a>
+                    </svg>
+                  </span>
+                </h5> 
                    {{treatment.description|capfirst }} <br>
                    <p class = "mt-2">
                    <span class = "px-2"><a class = "text_link_kwb font-italic" href="{% url 'LRV_edit' treatment_id=treatment.id pathogen_group_id=2 %}"> Edit virus removal </a></span>
