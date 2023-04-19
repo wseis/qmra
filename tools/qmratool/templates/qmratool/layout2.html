@@ -10,6 +10,9 @@
        
     <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
     <script type="text/javascript" src="{% static 'logremoval/js/import.js' %}"></script>
+    {% block script%}
+    {% endblock %}
+    
     
   </head>
   <body>
@@ -20,7 +23,9 @@
       <header class="header">
         <div class="header_search"><strong contenteditable >WWTP Braunschweig</strong></div>
         <div class="header_avatar">Logout</div>
+      
       </header>
+
       <aside class="aside">
         <div class="aside_close-icon">
           <strong>&times;</strong>
@@ -29,14 +34,20 @@
           <img src = "{%static 'logremoval/img/QMRA-1.png' %}" class = "logo" alt="KWB Logo" width="150" height="150">
         </div>
    
-        <ul class="aside_list">
+        <ul class="aside_list">   
+          <li class="aside_list-item">
+            <a class="" href="{%url 'index'%}"> Risk Assessments</a>
+            </li>
+             <li class="aside_list-item">
+            <a class="" href="{%url 'treatment_edit'%}"> My Treatments</a>
+            </li>
+             <li class="aside_list-item">
+            <a class="" href="{%url 'scenario_edit'%}"> My Exposure scenarios</a>
+            </li>
+         
         
         {% block side-list %}
-          <li class="aside_list-item">Overview</li>
-          <li class="aside_list-item">Bacteria</li>
-          <li class="aside_list-item">Virus</li>
-          <li class="aside_list-item">Protozoa</li>
-          <li class="aside_list-item">Contact</li>
+     
         {% endblock %}
         
         </ul>

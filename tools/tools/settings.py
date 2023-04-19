@@ -45,7 +45,8 @@ INSTALLED_APPS = [
      "anymail",
     'import_export',
     'django_extensions',
-    'logremoval'
+    'logremoval',
+    'crispy_bootstrap4',
 
 ]
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
@@ -60,6 +61,7 @@ MIDDLEWARE = [
    
 ]
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 ROOT_URLCONF = 'tools.urls'

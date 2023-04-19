@@ -3,6 +3,12 @@
 {% block body %}
 
 <div class="container" style="padding: 5%">
+  <div class="row action-panel">
+    <div class="col">
+      <button class="btn btn-primary"> <a class = "btn-sm btn-primary" href="{%url 'new_assessment'%}"> New Risk Assessment</a></button>
+      <button class="btn btn-primary"> <a class = "btn-sm btn-primary" href="{%url 'comparison'%}"> Compare Assessment</a></button>    
+    </div>
+  </div>
 
   <div class="row">
     <div class="col-sm-8">
@@ -13,13 +19,16 @@
               <div class="media px-3 mt-3">
               <div class="media-left pr-3">
                 <a href="#">
-                  <img class= "img-fluid" src="/static/qmratool/placeholder2.png" alt="...">
+                  <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="50" height="50" rx="4" fill="#9A9BF4"/>
+                    </svg>
+                    
                 </a>
               </div>
                  <div class="media-body">
                   <h4 class="media-heading">{{assessment.name|title}}</h4>
                    <p> {{assessment.description|capfirst}} <a class = "text_link_kwb font-italic" href="{% url "edit_assessment" assessment.id%}">Edit risk assessment</a></p>
-                   <a href= "{% url "results" assessment.id%}", class = "btn-sm btn-primary sm"> Show results </a>
+                   <a href= "{% url "results" assessment.id%}", class = "btn-primary-outline"> Show results </a>
                 </div>
             </div>
             
@@ -28,13 +37,13 @@
 
         {%endfor%}
 
+    </div>
   </div>
+</div>
 
 {%endif%}
 {% endblock %}
 
 {% block side-list %}
-  <li class="aside_list-item"> <a href="{%url 'new_assessment'%}"> New Risk Assessment</a></li>
-  <li class="aside_list-item"> <a href="{%url 'comparison'%}"> Compare Assessment</a></li>
 {% endblock %}
         
