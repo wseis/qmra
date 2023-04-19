@@ -1,6 +1,5 @@
-{% extends "qmratool/layout.html" %}
+{% extends "qmratool/layout2.html" %}
 {% load crispy_forms_tags %}
-
 
 {% block body %}
 <div class="container" style="padding: 5%">
@@ -8,34 +7,16 @@
   <div class="row">
     <div class="col-sm-8">
         {% if user.is_authenticated %}
-            <h4>New Treatment</h4>
+        <h4>New Treatment</h4>
             <p> Please add a name and a brief description of the treatment. 
             Afterwards you will be able to add pathogen specific log-removal values<p>
-
-<form action = "treatment_create" method = "post">{% csrf_token %}
-    {{TreatForm|crispy}}
-<hr>
-
-   <button class = "btn btn-primary" type = "submit">Save treatment</button>
-</form>
-<!--
-<form action = "{% url 'treatment_create'%}" method = "post">{% csrf_token %}
-   
-       
-  <button type="submit" value="Save"> >Submit</button>
-</form>-->
-{%endif%}
-
+        <form action = "treatment_create" method = "post">{% csrf_token %}
+            {{TreatForm|crispy}}
+          <hr>
+          <button class = "btn btn-primary" type = "submit">Save treatment</button>
+        </form>
+      {%endif%}
+    </div>
   </div>
-
-  <div class="col-sm-3 offset-sm-1"> <!--style= "background-color: #007c9f; color: white">-->
-   <h4 class= "mb-2">Customize</h4>
-   <p> Make it your own! </p>
-  <!-- <a class = "btn btn-primary mt-3 btn-block" href="{%url 'source_create'%}"> Create source water </a>-->
-  <a class = "btn btn-primary mt-3 btn-block" href="{%url 'treatment_create'%}"> Create treatment </a>
-  <a class = "btn btn-primary mt-3 btn-block" href="{%url 'scenario_create'%}"> Create exposure scenario </a>
-  
-
-  </div>
-
+</div>
 {% endblock %}

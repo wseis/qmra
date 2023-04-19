@@ -1,33 +1,20 @@
-{% extends "qmratool/layout.html" %}
+{% extends "qmratool/layout2.html" %}
 {% load crispy_forms_tags %}
 {% block body %}
 
-
-
 <div class="container" style="padding: 5%">
-
   <div class="row">
     <div class="col-sm-8">
         {% if user.is_authenticated %}
             <h4>Create new exposure scenario</h4>
             <p> Please add a name, a brief description, the number of exposure events per year and the volume per event<p>
-        <form action = "{% url 'scenario_create'%}", method = "post">
-            {% csrf_token %}
-            {{form|crispy}}
-          <button class = "btn btn-primary" type = "submit">Submit</button>
-        </form>
-{%endif%}
-
+            <form action = "{% url 'scenario_create'%}", method = "post">
+                {% csrf_token %}
+                {{form|crispy}}
+              <button class = "btn btn-primary" type = "submit">Submit</button>
+            </form>
+        {%endif%}
    </div>
-
-  <div class="col-sm-3 offset-sm-1"> <!--style= "background-color: #007c9f; color: white">-->
-   <h4 class= "mb-2">Customize</h4>
-   <p> Make it your own! </p>
- <!-- <a class = "btn btn-primary mt-3 btn-block" href="{%url 'source_create'%}"> Create source water </a>-->
-  <a class = "btn btn-primary mt-3 btn-block" href="{%url 'treatment_create'%}"> Create treatment </a>
-  <a class = "btn btn-primary mt-3 btn-block" href="{%url 'scenario_create'%}"> Create exposure scenario </a>
- 
   </div>
-
-
+</div>
 {% endblock %}
