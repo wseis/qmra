@@ -52,8 +52,14 @@ body {
     color: white;
     padding: 0 15px;
   }
+
+  .header_item{
+    color:#0003e2;
+  }
   
   
+
+
   /* flexing aside */
   .aside {
     display: flex;
