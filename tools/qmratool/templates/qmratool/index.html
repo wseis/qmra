@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-8">
+    <div class="col-10">
     {% if user.is_authenticated %}
     <h4 class= "mb-5">Risk assessments of {{user.username|capfirst}}</h4>
         {%for assessment in assessments%}
