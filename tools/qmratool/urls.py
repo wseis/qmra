@@ -51,5 +51,8 @@ urlpatterns = [
     
     #path("emails/<int:email_id>", views.email, name="email"),
     #path("emails/<str:mailbox>", views.mailbox, name="mailbox"),
+
+    # administration routes
+    path("dsgvo", views.dsgvo, name = "dsgvo"),
 ]
 

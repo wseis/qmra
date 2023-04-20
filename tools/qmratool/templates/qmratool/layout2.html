@@ -30,15 +30,18 @@
           <img src = "{%static 'logremoval/img/QMRA-1.png' %}" class = "logo" alt="KWB Logo" width="150" height="150">
         </div>
         <ul class="aside_list">   
+          <a class="aside_list-item-text" href="{%url 'index'%}">
           <li class="aside_list-item">
-            <a class="" href="{%url 'index'%}"> Risk Assessments</a>
-            </li>
-             <li class="aside_list-item">
-            <a class="" href="{%url 'treatment_edit'%}"> My Treatments</a>
-            </li>
-             <li class="aside_list-item">
-            <a class="" href="{%url 'scenario_edit'%}"> My Exposure scenarios</a>
-            </li>
+             Risk Assessments
+            </li></a>
+            <a class="aside_list-item-text" href="{%url 'treatment_edit'%}">
+            <li class="aside_list-item">
+             My Treatments
+            </li></a>
+          </li>
+            <a class="aside_list-item-text" href="{%url 'scenario_edit'%}"> <li class="aside_list-item">
+             My Exposure scenarios
+            </li></a>
         {% block side-list %}
         {% endblock %} 
         </ul>
@@ -48,7 +51,7 @@
         {% endblock %}
       </main>
       <footer class="footer">
-        <div class="footer_copyright">DSGVO</div>
+        <a class="footer-item" href= "{% url 'dsgvo' %}">DSGVO</a>
         <div class="footer_byline"><strong>Kompetenzzentrum Wasser Berlin</strong></div>
       </footer>
     </div>

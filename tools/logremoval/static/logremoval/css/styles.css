@@ -85,20 +85,40 @@ body {
     padding: 20px 20px 20px 40px;
     color: #0003e2;
   }
-  
   .aside_list-item:hover {
     background-color: #8081F1;
     cursor: pointer;
     color: white;
   
   }
-  a:link { text-decoration: none;
+  .aside_list-item-text {
+    color: #0003e2;
+  }
+  
+  
+  .aside_list-item-text:hover {
+    text-decoration: none;
+    background-color: #8081F1;
+    cursor: pointer;
+    color: white;
+  
+  }
+  /*a:link { text-decoration: none;
     color: #0003e2;
    }
   
    a:visited {
     color: #0003e2;
+  }*/
+  .footer-item{
+    color: white;
   }
+  .footer-item:hover{
+
+    color: #8081F1;
+    text-decoration: none;
+  }
+
 
    .action-panel{
     margin: 30px;
@@ -149,6 +169,7 @@ body {
       'card3';
     grid-gap: 10px;
   }
+
   .card {
     padding: 20px;
     border: 1px solid #0003e2;

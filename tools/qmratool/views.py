@@ -307,6 +307,8 @@ def calculate_risk(request, ra_id):
     results_long = pd.merge(results_long, health, on = "pathogen")
     results_long["DALYs pppy"] = results_long.value*results_long.infection_to_illness.astype(float)*results_long.dalys_per_case.astype(float)
 
+    risk_colors = ["#78BEF9", "#8081F1",  "#5F60B3"]
+    risk_colors_extended = ["#78BEF9", "#8081F1",  "#5F60B3","#3D3E73", "#F29C99", "#7375D9", "#CBCCF4"]
 
     fig = px.box(results_long, 
              x="stat", 
@@ -314,7 +316,7 @@ def calculate_risk(request, ra_id):
                             points="all",  
                             log_y =True, 
                             title="Risk as probability of infection per year",
-                            color_discrete_sequence=["#75c3ff", "#007c9f", "#212c52"])
+                            color_discrete_sequence=risk_colors)
 
   
     fig.update_layout(
@@ -327,7 +329,7 @@ def calculate_risk(request, ra_id):
         )
     fig.add_hline(y=0.0001, 
                     line_dash="dashdot",
-                    line=dict(color="#007c9f", width = 3))
+                    line=dict(color="#0003e2", width = 3))
     fig.update_layout(legend=dict(
                  orientation="h",
                  yanchor="top",
@@ -337,7 +339,7 @@ def calculate_risk(request, ra_id):
                 x=0),
                 annotations=[go.Annotation(y = -4, x =1.2,
                         text = "Tolerable risk level of 1/10000 infections pppy",
-                        bgcolor = "#007c9f",
+                        bgcolor = "#0003e2",
                         bordercolor= "white",
                         borderpad = 5,
                         font = dict(color = "white"))])
@@ -357,7 +359,7 @@ def calculate_risk(request, ra_id):
                             points="all",  
                             log_y =True, 
                             
-                            color_discrete_sequence=["#75c3ff", "#007c9f", "#212c52"])
+                            color_discrete_sequence=risk_colors)
 
   
     fig.update_layout(
@@ -368,7 +370,7 @@ def calculate_risk(request, ra_id):
         yaxis_title = "DALYs pppy",
         annotations=[go.Annotation(y = -6, x = 1.2,
                         text = "Tolerable risk level of 1µDALY pppy",
-                        bgcolor = "#007c9f",
+                        bgcolor = "#0003e2",
                         bordercolor= "white",
                         borderpad = 5,
                         font = dict(color = "white"))]
@@ -384,7 +386,7 @@ def calculate_risk(request, ra_id):
                 x=0))
     fig.add_hline(y=0.000001, 
                         line_dash="dashdot",
-                        line=dict(color="#007c9f", width = 3))
+                        line=dict(color="#0003e2", width = 3))
                         #annotation_text="tolerable risk level")
                         #annotation_position = "top left",
                         #annotation=dict(font_size=20, font_family="Times New Roman"))
@@ -395,6 +397,7 @@ def calculate_risk(request, ra_id):
     daly_plot = plot(fig, output_type = "div")
 
 
+    
      # reshaping dataframe for plotting
     df_inflow2 =pd.melt(df_inflow, ("pathogen__pathogen", "water_source__water_source_name"))
     df_inflow2 = df_inflow2[df_inflow2.pathogen__pathogen.isin(["Rotavirus", "Cryptosporidium parvum", "Campylobacter jejuni"])]
@@ -405,7 +408,7 @@ def calculate_risk(request, ra_id):
             facet_col="Pathogen", 
             barmode="group", 
             category_orders={"Pathogen": ["Rotavirus", "Campylobacter jejuni", "Cryptosporidium parvum"]},
-            color_discrete_sequence=["#005269", "#007c9e", "#a3d1ec","#3494ae","#00B8eb"])
+            color_discrete_sequence=risk_colors_extended)
 
     fig2.for_each_annotation(lambda a: a.update(text=a.text.split("=")[-1], 
                             font = dict(size = 13, color = "black")))
@@ -430,7 +433,7 @@ def calculate_risk(request, ra_id):
     fig = px.bar(df, x="", y = "value", 
     color="Treatment", facet_col="Pathogen Group",
     category_orders={"Pathogen Group": ["Viruses", "Bacteria", "Protozoa"]},
-    color_discrete_sequence=["#005269", "#007c9e", "#a3d1ec","#3494ae","#00B8eb"])
+    color_discrete_sequence=risk_colors_extended)
 
     fig.for_each_annotation(lambda a: a.update(text=a.text.split("=")[-1], font = dict(size = 13)))
     #title="Log-removal of selected treatment train")
@@ -654,3 +657,6 @@ def simulate_risk(ra):
     results_long = pd.melt(results)
     results_long["log probability"] = np.log10(results_long["value"])
     return results_long
+
+def dsgvo(request):
+    return render(request, "qmratool/DSGVO.html")
