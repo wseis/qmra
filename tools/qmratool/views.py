@@ -452,11 +452,11 @@ def calculate_risk(request, ra_id):
 
     plot_div = plot(fig, output_type = "div")
     
-    return render(request,"qmratool/results.html", {"plot_div":plot_div, 
-    "plot_div2":plot_div2, 
-    "daly_plot":daly_plot ,
+    return render(request,"qmratool/results.html", {"plot_div": plot_div, 
+    "plot_div2": plot_div2, 
+    "daly_plot": daly_plot ,
     "risk_plot": risk_plot,
-    "ra":ra
+    "ra": ra
     })
 
 
