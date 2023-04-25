@@ -1,3 +1,4 @@
+import django
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
@@ -10,6 +11,9 @@ from .forms import RAForm, SourceWaterForm,  TreatmentForm, ExposureForm
 from .forms import LogRemovalForm, InflowForm, ComparisonForm
 
 from .models import *
+from django.utils.encoding import force_str
+django.utils.encoding.force_text = force_str
+
 from django_pandas.io import read_frame
 from plotly.offline import plot
 

@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
      "anymail",
-    'import_export',
+  #  'import_export',
     'django_extensions',
     #'logremoval',
     'crispy_bootstrap4',

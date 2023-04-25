@@ -1,59 +1,58 @@
 from django.contrib import admin
 from .models import Treatment, QA, Text, RiskAssessment, User, LogRemoval, Exposure, Reference, SourceWater, Pathogen, PathogenGroup, Health, Inflow, Guideline, DoseResponse
-# Register your models here.
 
-from import_export.admin import ImportExportModelAdmin
+#from import_export.admin import ImportExportModelAdmin
 # Register your models here.
 
 @admin.register(SourceWater)
-class SourceWaterAdmin(ImportExportModelAdmin):
+class SourceWaterAdmin(admin.ModelAdmin):
     pass
 
 
 @admin.register(Treatment)
-class TreatmentAdmin(ImportExportModelAdmin):
+class TreatmentAdmin(admin.ModelAdmin):
     list_display=("id", "name", "group", "category")
     pass
 
 @admin.register(Reference)
-class ReferenceAdmin(ImportExportModelAdmin):
+class ReferenceAdmin(admin.ModelAdmin):
     list_display=("id", "name", "link")
     pass
 
 @admin.register(PathogenGroup)
-class PathogenGroupAdmin(ImportExportModelAdmin):
+class PathogenGroupAdmin(admin.ModelAdmin):
     pass
 
 
 @admin.register(Pathogen)
-class PathogenAdmin(ImportExportModelAdmin):
+class PathogenAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(LogRemoval)
-class LogRemovalAdmin(ImportExportModelAdmin):
+class LogRemovalAdmin(admin.ModelAdmin):
     list_display=("id", "treatment", "pathogen_group", "min", "max", "reference")
     pass
 
 @admin.register(Exposure)
-class ExposureAdmin(ImportExportModelAdmin):
+class ExposureAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(Inflow)
-class InflowAdmin(ImportExportModelAdmin):
+class InflowAdmin(admin.ModelAdmin):
     list_display=("id", "pathogen", "water_source", "min", "max")
     pass
 @admin.register(Guideline)
-class GuidelineAdmin(ImportExportModelAdmin):
+class GuidelineAdmin(admin.ModelAdmin):
     pass
 @admin.register(Health)
-class HealthAdmin(ImportExportModelAdmin):
+class HealthAdmin(admin.ModelAdmin):
     pass
 @admin.register(DoseResponse)
-class DoseResponseAdmin(ImportExportModelAdmin):
-    list_display=["pathogen"]
+class DoseResponseAdmin(admin.ModelAdmin):
+    list_display=("pathogen")
 
 @admin.register(User)
-class UserAdmin(ImportExportModelAdmin):
+class UserAdmin(admin.ModelAdmin):
     list_display=("id", "username")
     
   #  pass
