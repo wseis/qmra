@@ -30,6 +30,7 @@ def qa(request):
     content = QA.objects.all() 
     return render(request, "qmratool/QA.html", {'content': content})
 
+
 # Overview index page
 def index(request):
  
@@ -100,11 +101,13 @@ def create_scenario(request):
         form=ExposureForm
     return render(request, "qmratool/scenario_create.html",{"form":form})
 
+
 @login_required(login_url="/login")
 def edit_scenario(request):
     user = request.user
     scenarios = user.scenarios.all()
     return render(request, "qmratool/scenario_edit.html", {"scenarios":scenarios})
+
 
 @login_required(login_url="/login")
 def delete_scenario(request, scenario_id):
@@ -139,6 +142,7 @@ def new_assessment(request):
        
     return render(request, 'qmratool/new_ra.html', {"form":form, "content":content})
 
+
 @login_required(login_url="/login")
 def edit_assessment(request, ra_id):
     user = request.user
@@ -168,10 +172,12 @@ def edit_assessment(request, ra_id):
         
     return render(request, 'qmratool/edit_ra.html', {"form":form, "ra_id":ra.id})
 
+
 @login_required(login_url="/login")
 def delete_assessment(request, ra_id):
     RiskAssessment.objects.get(id=ra_id).delete()
     return HttpResponseRedirect(reverse('index'))    
+
 
 # Source water management
 @login_required(login_url="/login")
@@ -185,6 +191,7 @@ def source_create(request):
         SWform=SourceWaterForm()
         Inflowform = InflowForm()
         return render(request, "qmratool/source.html", { "SWform":SWform, "InflowForm": Inflowform})
+
 
 # Treatment management
 @login_required(login_url="/login")
@@ -208,16 +215,19 @@ def treatment_create(request):
         #pathogen_groups = PathogenGroup.objects.all()
     return render(request, "qmratool/treatment.html", {"TreatForm": TreatForm })
 
+
 @login_required(login_url="/login")
 def treatment_edit(request):
     user = request.user
     treatments = user.treatments.all()
     return render(request, "qmratool/treatment_edit.html", {"treatments": treatments})
 
+
 @login_required(login_url="/login")
 def treatment_delete(request, treatment_id):
     Treatment.objects.get(id=treatment_id).delete()
     return HttpResponseRedirect(reverse('treatment_edit'))
+
 
 @login_required(login_url="/login")
 def LRV_edit(request, treatment_id, pathogen_group_id):
@@ -257,7 +267,6 @@ def LRV_edit(request, treatment_id, pathogen_group_id):
 
 
 # Exporting risk assessment results
-
 @login_required(login_url="/login")
 def export_summary(request, ra_id):
     
@@ -391,9 +400,6 @@ def calculate_risk(request, ra_id):
 
     
     daly_plot = plot(fig, output_type = "div")
-
-
-    
      # reshaping dataframe for plotting
     df_inflow2 =pd.melt(df_inflow, ("pathogen__pathogen", "water_source__water_source_name"))
     df_inflow2 = df_inflow2[df_inflow2.pathogen__pathogen.isin(["Rotavirus", "Cryptosporidium parvum", "Campylobacter jejuni"])]
@@ -409,11 +415,6 @@ def calculate_risk(request, ra_id):
     fig2.for_each_annotation(lambda a: a.update(text=a.text.split("=")[-1], 
                             font = dict(size = 13, color = "black")))
     
-    
-
-
-
-
     fig2.update_layout(
         font_family="Helvetica Neue, Helvetica, Arial, sans-serif",
         font_color="black",
@@ -449,11 +450,8 @@ def calculate_risk(request, ra_id):
         yaxis_title = "Logremoval of individual treatment step",
         )
 
-
     plot_div = plot(fig, output_type = "div")
     
-   
-
     return render(request,"qmratool/results.html", {"plot_div":plot_div, 
     "plot_div2":plot_div2, 
     "daly_plot":daly_plot ,
