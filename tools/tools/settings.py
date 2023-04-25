@@ -45,7 +45,7 @@ INSTALLED_APPS = [
      "anymail",
     'import_export',
     'django_extensions',
-    'logremoval',
+    #'logremoval',
     'crispy_bootstrap4',
 
 ]
