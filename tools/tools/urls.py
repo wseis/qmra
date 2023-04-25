@@ -19,6 +19,5 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),  # new
-    path('', include('qmratool.urls')),
-    path('lrv/', include('logremoval.urls'))
+    path('', include('qmratool.urls'))
 ]

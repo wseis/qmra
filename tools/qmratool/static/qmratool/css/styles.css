@@ -1,21 +1,8 @@
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+  color: white !important;
   background-color: #8081F1 !important;
-  border-color: #0003e2!important;
-  color: #0003e2!important;
+  border-color:#8081F1 !important;
   }
-  .btn-outline-primary {
-    color: #0003e2  !important;
-    background-color: transparent!important;
-    background-image: none!important;
-    border-color: #0003e2 !important;
-}
-
-.btn-outline-primary:hover {
-    color: white !important;
-    background-color: #0003e2  !important;
-    border-color: white !important;
-}
-
 
 body {
     margin: 0;
@@ -53,7 +40,7 @@ body {
   }
   .footer {
     grid-area: footer;
-    background-color: #EAEAFD;
+    background-color: #0003e2;
   }
   
   /* flexing header and footer*/
@@ -65,8 +52,14 @@ body {
     color: white;
     padding: 0 15px;
   }
+
+  .header_item{
+    color:#0003e2;
+  }
   
   
+
+
   /* flexing aside */
   .aside {
     display: flex;
@@ -98,12 +91,44 @@ body {
     padding: 20px 20px 20px 40px;
     color: #0003e2;
   }
-  
   .aside_list-item:hover {
     background-color: #8081F1;
     cursor: pointer;
+    color: white;
+  
+  }
+  .aside_list-item-text {
+    color: #0003e2;
   }
   
+  
+  .aside_list-item-text:hover {
+    text-decoration: none;
+    background-color: #8081F1;
+    cursor: pointer;
+    color: white;
+  
+  }
+  /*a:link { text-decoration: none;
+    color: #0003e2;
+   }
+  
+   a:visited {
+    color: #0003e2;
+  }*/
+  .footer-item{
+    color: white;
+  }
+  .footer-item:hover{
+
+    color: #8081F1;
+    text-decoration: none;
+  }
+
+
+   .action-panel{
+    margin: 30px;
+   }
   /* Layout for main content overview  and its cards*/
   .main_overview {
     display: flex;
@@ -150,6 +175,7 @@ body {
       'card3';
     grid-gap: 10px;
   }
+
   .card {
     padding: 20px;
     border: 1px solid #0003e2;
@@ -178,7 +204,7 @@ body {
       grid-template-areas:
         'aside header'
         'aside main'
-        'aside footer';
+        'footer footer';
       height: 100vh;
     }
   
