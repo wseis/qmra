@@ -1,6 +1,6 @@
 import plotly.express as px
-from plotly.offline import plot
 import plotly.graph_objs as go
+
 
 def plot_comparison(df, df2):
     fig = px.box(df, x="Assessment", y="value", 

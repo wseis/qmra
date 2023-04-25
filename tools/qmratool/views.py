@@ -2,29 +2,29 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.shortcuts import render
+from django.db import IntegrityError
+from django.contrib.auth.decorators import login_required
 
 from qmratool.helper_functions import plot_comparison
+from .forms import RAForm, SourceWaterForm,  TreatmentForm, ExposureForm
+from .forms import LogRemovalForm, InflowForm, ComparisonForm
 
-from .forms import RAForm, SourceWaterForm,  TreatmentForm, ExposureForm, LogRemovalForm, InflowForm, ComparisonForm
 from .models import *
+from django_pandas.io import read_frame
+from plotly.offline import plot
 
 import numpy as np
 import pandas as  pd
 import plotly.express as px
-from plotly.offline import plot
 import plotly.graph_objs as go
-from django_pandas.io import read_frame
-
 import markdown2 as md
-from django.db import IntegrityError
-
-from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-def about(request):
 
+def about(request):
     content = Text.objects.get(title = "About") 
     return render(request, "qmratool/about.html", {"content":md.markdown(content.content)})
+
 
 def qa(request):
     content = QA.objects.all() 
@@ -39,9 +39,6 @@ def index(request):
         assessment=[]
         return HttpResponseRedirect(reverse('login'))
     return render(request, "qmratool/index.html", {"assessments": assessment})
-
-def bayes(request):
-    return render(request,  "bayes/bayes2.html")
 
 
 @login_required(login_url="/login")
@@ -78,7 +75,6 @@ def comparison(request):
     else:
         form = ComparisonForm(user=user)
     return render(request, 'qmratool/comparison.html', {"form":form})
-
 
 
 
