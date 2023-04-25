@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Bathing Waters</title>
+    <!-- <link rel = "stylesheet" href = "{%static 'logremoval/css/styles.css' %}"> -->
+    <link rel="stylesheet" href= "/static/qmratool/css/styles.css" >
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+       
+    <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
+    <script type="text/javascript" src="{% static 'qmratool/js/import.js' %}"></script>
+    {% block script%}
+    {% endblock %}
+  </head>
+  <body>
+    <div class="grid-container">
+      <div class="menu-icon">
+        <img src = "/static/qmratool/img/Menu.svg" class = "logo" alt="KWB Logo">
+      </div>
+      <header class="header">
+        <a class="" href="""><strong></strong></a>
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <strong>{{ user.username }}</strong>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="{% url 'change_password' %}" tabindex="0">Change password</a>
+              <a class="dropdown-item" href="{% url 'delete_user' user.id %}" tabindex="0">Delete account</a>
+              <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+            </div>
+          
+      </header>
+      <aside class="aside">
+        <div class="aside_close-icon">
+          <img src = "{%static 'qmratool/img/close.png' %}" class = "logo" alt="KWB Logo">
+        </div>
+        <div class="logo">
+          <img src = "{%static 'qmratool/img/QMRA-1.png' %}" class = "logo" alt="KWB Logo" width="150" height="150">
+        </div>
+        <ul class="aside_list">   
+          <a class="aside_list-item-text" href="{%url 'index'%}">
+          <li class="aside_list-item">
+             Risk Assessments
+            </li></a>
+            <a class="aside_list-item-text" href="{%url 'treatment_edit'%}">
+            <li class="aside_list-item">
+             My Treatments
+            </li></a>
+          </li>
+            <a class="aside_list-item-text" href="{%url 'scenario_edit'%}"> <li class="aside_list-item">
+             My Exposure scenarios
+            </li></a>
+        {% block side-list %}
+        {% endblock %} 
+        </ul>
+      </aside>
+      <main class="main">
+        {% block body %}
+        {% endblock %}
+      </main>
+      <footer class="footer">
+        <a class="footer-item" href= "{% url 'dsgvo' %}">DSGVO</a>
+        <div class="footer_byline"><strong>Kompetenzzentrum Wasser Berlin</strong></div>
+      </footer>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      const menuIcon = document.querySelector('.menu-icon');
+      const aside = document.querySelector('.aside');
+      const asideClose = document.querySelector('.aside_close-icon');
+
+      function toggle(el, className) {
+        if (el.classList.contains(className)) {
+          el.classList.remove(className);
+        } else {
+          el.classList.add(className);
+        }
+      }
+
+      menuIcon.addEventListener('click', function() {
+        toggle(aside, 'active');
+      });
+
+      asideClose.addEventListener('click', function() {
+        toggle(aside, 'active');
+      });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    
+  </body>
+</html>

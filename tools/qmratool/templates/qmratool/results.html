@@ -1,4 +1,4 @@
-{% extends "qmratool/layout.html" %}
+{% extends "qmratool/layout2.html" %}
 
 {% block body %}
   <div class = "container">
@@ -7,7 +7,6 @@
         {%if ra.id %}
         <div class = "m-4"> <!--style= "background-color: #007c9f; color: white">--> 
           <a class = "btn btn-primary mt-3" href="{%url 'export' ra.id%}">Export summary as csv</a>
-        
         </div>
         {%endif %}
         <div id="hero-graph">
@@ -23,6 +22,7 @@
            </p> 
         </div>
         {%endif%}
+        {%if ra.id %}   
         <div id="hero-graph">
           {% autoescape off %}
           {{ daly_plot }}
@@ -58,37 +58,8 @@
           {{ hist_res }}
           {% endautoescape %}
         </div>
-      </div>
-    </div>
-    <div class="row justify-content-center">
-      <div class = "col-auto">
-        <div class="table table-hover">
-        {% autoescape off %}
-        {{data}}
-        
-        {% endautoescape %}
-        </div>
-        <div class="table table-hover">
-        {% autoescape off %}
-        {{samples}}
-        
-        {% endautoescape %}
-        </div>
-        <div class="table table-hover">
-        {% autoescape off %}
-        {{dr_models}}
-        
-        {% endautoescape %}
-        </div>
-        <div class="table table-hover">
-        {% autoescape off %}
-        {{summary}}
-        
-        {% endautoescape %}
-        </div>
-
+        {%endif %}
       </div>
     </div>
   </div>
-</div>
 {% endblock %}

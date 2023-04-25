@@ -2,33 +2,34 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.shortcuts import render
+from django.db import IntegrityError
+from django.contrib.auth.decorators import login_required
 
 from qmratool.helper_functions import plot_comparison
+from .forms import RAForm, SourceWaterForm,  TreatmentForm, ExposureForm
+from .forms import LogRemovalForm, InflowForm, ComparisonForm
 
-from .forms import RAForm, SourceWaterForm,  TreatmentForm, ExposureForm, LogRemovalForm, InflowForm, ComparisonForm
 from .models import *
+from django_pandas.io import read_frame
+from plotly.offline import plot
 
 import numpy as np
 import pandas as  pd
 import plotly.express as px
-from plotly.offline import plot
 import plotly.graph_objs as go
-from django_pandas.io import read_frame
-
 import markdown2 as md
-from django.db import IntegrityError
-
-from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-def about(request):
 
+def about(request):
     content = Text.objects.get(title = "About") 
     return render(request, "qmratool/about.html", {"content":md.markdown(content.content)})
+
 
 def qa(request):
     content = QA.objects.all() 
     return render(request, "qmratool/QA.html", {'content': content})
+
 
 # Overview index page
 def index(request):
@@ -39,9 +40,6 @@ def index(request):
         assessment=[]
         return HttpResponseRedirect(reverse('login'))
     return render(request, "qmratool/index.html", {"assessments": assessment})
-
-def bayes(request):
-    return render(request,  "bayes/bayes2.html")
 
 
 @login_required(login_url="/login")
@@ -81,7 +79,6 @@ def comparison(request):
 
 
 
-
 # Exposure Scenario managememt
 @login_required(login_url="/login")
 def create_scenario(request):
@@ -104,11 +101,13 @@ def create_scenario(request):
         form=ExposureForm
     return render(request, "qmratool/scenario_create.html",{"form":form})
 
+
 @login_required(login_url="/login")
 def edit_scenario(request):
     user = request.user
     scenarios = user.scenarios.all()
     return render(request, "qmratool/scenario_edit.html", {"scenarios":scenarios})
+
 
 @login_required(login_url="/login")
 def delete_scenario(request, scenario_id):
@@ -143,6 +142,7 @@ def new_assessment(request):
        
     return render(request, 'qmratool/new_ra.html', {"form":form, "content":content})
 
+
 @login_required(login_url="/login")
 def edit_assessment(request, ra_id):
     user = request.user
@@ -172,10 +172,12 @@ def edit_assessment(request, ra_id):
         
     return render(request, 'qmratool/edit_ra.html', {"form":form, "ra_id":ra.id})
 
+
 @login_required(login_url="/login")
 def delete_assessment(request, ra_id):
     RiskAssessment.objects.get(id=ra_id).delete()
     return HttpResponseRedirect(reverse('index'))    
+
 
 # Source water management
 @login_required(login_url="/login")
@@ -189,6 +191,7 @@ def source_create(request):
         SWform=SourceWaterForm()
         Inflowform = InflowForm()
         return render(request, "qmratool/source.html", { "SWform":SWform, "InflowForm": Inflowform})
+
 
 # Treatment management
 @login_required(login_url="/login")
@@ -212,16 +215,19 @@ def treatment_create(request):
         #pathogen_groups = PathogenGroup.objects.all()
     return render(request, "qmratool/treatment.html", {"TreatForm": TreatForm })
 
+
 @login_required(login_url="/login")
 def treatment_edit(request):
     user = request.user
     treatments = user.treatments.all()
     return render(request, "qmratool/treatment_edit.html", {"treatments": treatments})
 
+
 @login_required(login_url="/login")
 def treatment_delete(request, treatment_id):
     Treatment.objects.get(id=treatment_id).delete()
     return HttpResponseRedirect(reverse('treatment_edit'))
+
 
 @login_required(login_url="/login")
 def LRV_edit(request, treatment_id, pathogen_group_id):
@@ -261,7 +267,6 @@ def LRV_edit(request, treatment_id, pathogen_group_id):
 
 
 # Exporting risk assessment results
-
 @login_required(login_url="/login")
 def export_summary(request, ra_id):
     
@@ -307,6 +312,8 @@ def calculate_risk(request, ra_id):
     results_long = pd.merge(results_long, health, on = "pathogen")
     results_long["DALYs pppy"] = results_long.value*results_long.infection_to_illness.astype(float)*results_long.dalys_per_case.astype(float)
 
+    risk_colors = ["#78BEF9", "#8081F1",  "#5F60B3"]
+    risk_colors_extended = ["#78BEF9", "#8081F1",  "#5F60B3","#3D3E73", "#F29C99", "#7375D9", "#CBCCF4"]
 
     fig = px.box(results_long, 
              x="stat", 
@@ -314,7 +321,7 @@ def calculate_risk(request, ra_id):
                             points="all",  
                             log_y =True, 
                             title="Risk as probability of infection per year",
-                            color_discrete_sequence=["#75c3ff", "#007c9f", "#212c52"])
+                            color_discrete_sequence=risk_colors)
 
   
     fig.update_layout(
@@ -327,7 +334,7 @@ def calculate_risk(request, ra_id):
         )
     fig.add_hline(y=0.0001, 
                     line_dash="dashdot",
-                    line=dict(color="#007c9f", width = 3))
+                    line=dict(color="#0003e2", width = 3))
     fig.update_layout(legend=dict(
                  orientation="h",
                  yanchor="top",
@@ -337,7 +344,7 @@ def calculate_risk(request, ra_id):
                 x=0),
                 annotations=[go.Annotation(y = -4, x =1.2,
                         text = "Tolerable risk level of 1/10000 infections pppy",
-                        bgcolor = "#007c9f",
+                        bgcolor = "#0003e2",
                         bordercolor= "white",
                         borderpad = 5,
                         font = dict(color = "white"))])
@@ -357,7 +364,7 @@ def calculate_risk(request, ra_id):
                             points="all",  
                             log_y =True, 
                             
-                            color_discrete_sequence=["#75c3ff", "#007c9f", "#212c52"])
+                            color_discrete_sequence=risk_colors)
 
   
     fig.update_layout(
@@ -368,7 +375,7 @@ def calculate_risk(request, ra_id):
         yaxis_title = "DALYs pppy",
         annotations=[go.Annotation(y = -6, x = 1.2,
                         text = "Tolerable risk level of 1µDALY pppy",
-                        bgcolor = "#007c9f",
+                        bgcolor = "#0003e2",
                         bordercolor= "white",
                         borderpad = 5,
                         font = dict(color = "white"))]
@@ -384,7 +391,7 @@ def calculate_risk(request, ra_id):
                 x=0))
     fig.add_hline(y=0.000001, 
                         line_dash="dashdot",
-                        line=dict(color="#007c9f", width = 3))
+                        line=dict(color="#0003e2", width = 3))
                         #annotation_text="tolerable risk level")
                         #annotation_position = "top left",
                         #annotation=dict(font_size=20, font_family="Times New Roman"))
@@ -393,8 +400,6 @@ def calculate_risk(request, ra_id):
 
     
     daly_plot = plot(fig, output_type = "div")
-
-
      # reshaping dataframe for plotting
     df_inflow2 =pd.melt(df_inflow, ("pathogen__pathogen", "water_source__water_source_name"))
     df_inflow2 = df_inflow2[df_inflow2.pathogen__pathogen.isin(["Rotavirus", "Cryptosporidium parvum", "Campylobacter jejuni"])]
@@ -405,16 +410,11 @@ def calculate_risk(request, ra_id):
             facet_col="Pathogen", 
             barmode="group", 
             category_orders={"Pathogen": ["Rotavirus", "Campylobacter jejuni", "Cryptosporidium parvum"]},
-            color_discrete_sequence=["#005269", "#007c9e", "#a3d1ec","#3494ae","#00B8eb"])
+            color_discrete_sequence=risk_colors_extended)
 
     fig2.for_each_annotation(lambda a: a.update(text=a.text.split("=")[-1], 
                             font = dict(size = 13, color = "black")))
     
-    
-
-
-
-
     fig2.update_layout(
         font_family="Helvetica Neue, Helvetica, Arial, sans-serif",
         font_color="black",
@@ -430,7 +430,7 @@ def calculate_risk(request, ra_id):
     fig = px.bar(df, x="", y = "value", 
     color="Treatment", facet_col="Pathogen Group",
     category_orders={"Pathogen Group": ["Viruses", "Bacteria", "Protozoa"]},
-    color_discrete_sequence=["#005269", "#007c9e", "#a3d1ec","#3494ae","#00B8eb"])
+    color_discrete_sequence=risk_colors_extended)
 
     fig.for_each_annotation(lambda a: a.update(text=a.text.split("=")[-1], font = dict(size = 13)))
     #title="Log-removal of selected treatment train")
@@ -450,16 +450,13 @@ def calculate_risk(request, ra_id):
         yaxis_title = "Logremoval of individual treatment step",
         )
 
-
     plot_div = plot(fig, output_type = "div")
     
-   
-
-    return render(request,"qmratool/results.html", {"plot_div":plot_div, 
-    "plot_div2":plot_div2, 
-    "daly_plot":daly_plot ,
+    return render(request,"qmratool/results.html", {"plot_div": plot_div, 
+    "plot_div2": plot_div2, 
+    "daly_plot": daly_plot ,
     "risk_plot": risk_plot,
-    "ra":ra
+    "ra": ra
     })
 
 
@@ -654,3 +651,6 @@ def simulate_risk(ra):
     results_long = pd.melt(results)
     results_long["log probability"] = np.log10(results_long["value"])
     return results_long
+
+def dsgvo(request):
+    return render(request, "qmratool/DSGVO.html")

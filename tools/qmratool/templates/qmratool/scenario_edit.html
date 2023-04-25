@@ -1,50 +1,48 @@
-{% extends "qmratool/layout.html" %}
+{% extends "qmratool/layout2.html" %}
 {% load crispy_forms_tags %}
 {% block body %}
 
-
-
 <div class="container" style="padding: 5%">
-
+  <div class="row action-panel">
+    <div class="col">
+      <a class = "btn btn-primary" href="{%url 'scenario_create'%}"> Create exposure scenario</a>
+    </div>
+  </div>
   <div class="row">
-    <div class="col-sm-8">
-       
-   <h4 class= "mb-5">Exposure Scenarios of {{user.username|capfirst}}</h4>
-  
+    <div class="col-sm-8">      
+      <h4 class= "mb-5">Exposure Scenarios of {{user.username|capfirst}}</h4>
         {%for scenario in scenarios%}
               <div class="media px-3 mt-3">
               <div class="media-left pr-3">
                 <a href="#">
-                  <img class= "img-fluid" src="/static/qmratool/placeholder2.png" alt="...">
+                  <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="50" height="50" rx="4" fill="#9A9BF4"/>
+                  </svg>
                 </a>
               </div>
                  <div class="media-body">
-                  <h5 class="media-heading">{{scenario.name|capfirst}} <span class ="ml-4"><a href= "{%url 'scenario_delete' scenario.id%}", class = "btn-sm btn-danger ml-4"> Delete scenario </a></span></h5> 
+                  <h5 class="media-heading d-flex justify-content-between">{{scenario.name|capfirst}} 
+                    <span class ="ml-4">
+                      <svg width="93" height="21" viewBox="0 0 93 21" fill="none" xmlns:xlink=“http://www.w3.org/1999/xlink">
+                        <a xlink:href="{%url 'scenario_delete' scenario.id%}" target="__blank">
+                        <circle cx="36.0439" cy="10.4404" r="10" fill="#AFAFAF"/>
+                        <rect x="39.9143" y="4.34375" width="3.1485" height="14.0952" transform="rotate(45 39.9143 4.34375)" fill="white"/>
+                        <rect x="42.1406" y="14.3105" width="3.1485" height="14.0952" transform="rotate(135 42.1406 14.3105)" fill="white"/>
+                        </a>
+                      </svg>
+                    </span>
+                  </h5>
+                  
                    {{scenario.description|capfirst }} <a class = "text_link_kwb font-italic" href="">Edit scenario</a><br>
                     Volume ingested [L/event]  : {{scenario.volume_per_event}} <br>
                    Number of exposures per year: {{scenario.events_per_year}}<br>
-                    
-                   
                 </div>
             </div>
         {%empty%}
         There are currently no custom scenarios. Click on <strong>Create exposure scenario  </strong> to create your first exposure scenario!
-
         {%endfor%}
-
+    </div>
   </div>
-
-
-
-  
-    <div class="col-sm-3 offset-sm-1"> <!--style= "background-color: #007c9f; color: white">-->
-     <h4 class= "mb-2">Customize</h4>
-   <p> Make it your own! </p>
- <!-- <a class = "btn btn-primary mt-3 btn-block" href="{%url 'source_create'%}"> Create source water </a>-->
-  <a class = "btn btn-primary mt-3 btn-block" href="{%url 'treatment_create'%}"> Create treatment </a>
-  <a class = "btn btn-primary mt-3 btn-block" href="{%url 'scenario_create'%}"> Create exposure scenario </a>
- 
-
 </div>
 
 {% endblock %}

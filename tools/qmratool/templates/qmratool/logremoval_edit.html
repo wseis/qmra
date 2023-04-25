@@ -1,34 +1,19 @@
-{% extends "qmratool/layout.html" %}
+{% extends "qmratool/layout2.html" %}
 {% load crispy_forms_tags %}
 {% block body %}
 
-
-
 <div class="container" style="padding: 5%">
-
   <div class="row">
     <div class="col-sm-8">
         {% if user.is_authenticated %}
-            <h4>Create Log-Removal for {{pathogen}}</h4>
-            <p> Please add minimum and maximum treatment performence for {{pathogen|lower}}<p>
+        <h4>Create Log-Removal for {{pathogen}}</h4>
+        <p> Please add minimum and maximum treatment performence for {{pathogen|lower}}<p>
         <form action = "{% url "LRV_edit" treatment_id=treatment_id pathogen_group_id=pathogen_group_id%}", method = "post">
             {% csrf_token %}
             {{LRVForm|crispy}}
           <button class = "btn btn-primary" type = "submit">Submit</button>
         </form>
-{%endif%}
-
+      {%endif%}
    </div>
-
-  <div class="col-sm-3 offset-sm-1"> <!--style= "background-color: #007c9f; color: white">-->
-   <h4 class= "mb-2">Customize</h4>
-   <p> Make it your own! </p>
- <!-- <a class = "btn btn-primary mt-3 btn-block" href="{%url 'source_create'%}"> Create source water </a>-->
-  <a class = "btn btn-primary mt-3 btn-block" href="{%url 'treatment_create'%}"> Create treatment </a>
-  <a class = "btn btn-primary mt-3 btn-block" href="{%url 'scenario_create'%}"> Create exposure scenario </a>
- 
-
   </div>
-
-
 {% endblock %}

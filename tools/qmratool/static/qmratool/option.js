@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log("page loaded")
+
+    fontcolor = "white"
+    bgcolor = "#8081F1"
+    border = "#8081F1"
+
     el = document.querySelectorAll("[id*='id_treatment_']")
 //    label =document.querySelectorAll("[for*='id_treatment_']")
     el.forEach(element => {
@@ -21,10 +26,10 @@ document.addEventListener('DOMContentLoaded', function() {
       l.addEventListener('mouseover', function(){
     
         explain.style.display="block"
-        explain.style.color="#007c9f"
+        explain.style.color=fontcolor;
         //explain.style.backgroundColor = "#eff1f4";
-        explain.style.backgroundColor = "white";
-        explain.style.border = "thin solid #007c9f";
+        explain.style.backgroundColor = bgcolor;
+        //explain.style.border = "thin solid #0003e2";
         explain.style.borderRadius = "5px";
         explain.style.padding = "20px";
       })
@@ -56,10 +61,10 @@ document.addEventListener('DOMContentLoaded', function() {
       l.addEventListener('mouseover', function(){
     
         explain.style.display="block"
-        explain.style.color="#007c9f"
+        explain.style.color=fontcolor;
         //explain.style.backgroundColor = "#eff1f4";
-        explain.style.backgroundColor = "white";
-        explain.style.border = "thin solid #007c9f";
+        explain.style.backgroundColor = bgcolor;
+        //explain.style.border = "thin solid #0003e2";
         explain.style.borderRadius = "5px";
         explain.style.padding = "20px";
       })
@@ -94,9 +99,9 @@ document.addEventListener('DOMContentLoaded', function() {
        l.addEventListener('mouseover', function(){
      
          explain.style.display="block"
-         explain.style.color="#007c9f"
-         explain.style.backgroundColor = "white";
-         explain.style.border = "thin solid #007c9f";
+         explain.style.color=fontcolor
+         explain.style.backgroundColor = bgcolor;
+         //explain.style.border = "thin solid #0003e2";
          explain.style.borderRadius = "5px";
          explain.style.padding = "20px";
        })

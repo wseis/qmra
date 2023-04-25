@@ -1,6 +1,6 @@
 django-import-export
 numpy
-pandas
+pandas==1.5.3
 plotly
 django-crispy-forms
 django-formtools

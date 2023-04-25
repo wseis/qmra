@@ -40,7 +40,6 @@ urlpatterns = [
     path("results/<int:ra_id>", views.calculate_risk, name="results"),
     path("export/<int:ra_id>", views.export_summary, name="export"),
     
-    path("bayes", views.bayes, name="bayes"),
     path("comparisons", views.comparison, name = "comparison"),
 
      # API Routes
@@ -51,5 +50,8 @@ urlpatterns = [
     
     #path("emails/<int:email_id>", views.email, name="email"),
     #path("emails/<str:mailbox>", views.mailbox, name="mailbox"),
+
+    # administration routes
+    path("dsgvo", views.dsgvo, name = "dsgvo"),
 ]
 

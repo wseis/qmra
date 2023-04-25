@@ -1,25 +1,37 @@
-{% extends "qmratool/layout.html" %}
+{% extends "qmratool/layout2.html" %}
 {% load crispy_forms_tags %}
 {% block body %}
 
-
-
 <div class="container" style="padding: 5%">
-
+  <div class="row action-panel">
+    <div class="col">
+      <a class = "btn btn-primary" href="{%url 'treatment_create'%}"> Create new treatment</a>
+    </div>
+  </div>
   <div class="row">
     <div class="col-sm-8">
-       
-   <h4 class= "mb-5">Treatments of {{user.username|capfirst}}</h4>
-  
+      <h4 class= "mb-5">Treatments of {{user.username|capfirst}}</h4>
         {%for treatment in treatments%}
               <div class="media px-3 mt-3">
               <div class="media-left pr-3">
                 <a href="#">
-                  <img class= "img-fluid" src="/static/qmratool/placeholder2.png" alt="...">
+                  <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="50" height="50" rx="4" fill="#9A9BF4"/>
+                  </svg>
                 </a>
               </div>
-                 <div class="media-body">
-                  <h5 class="media-heading">{{treatment.name|title}} <span class ="ml-4"><a href= "{%url 'treatment_delete' treatment.id%}", class = "btn-sm btn-danger ml-2"> Delete </a></span></h5> 
+                 <div class="media-body ">
+                  <h5 class="media-heading d-flex justify-content-between">{{treatment.name|title}} 
+                    <span class ="ml-4">
+                    <svg width="93" height="21" viewBox="0 0 93 21" fill="none" xmlns:xlink=“http://www.w3.org/1999/xlink">
+                      <a xlink:href="{%url 'treatment_delete' treatment.id%}" target="__blank">
+                      <circle cx="36.0439" cy="10.4404" r="10" fill="#AFAFAF"/>
+                      <rect x="39.9143" y="4.34375" width="3.1485" height="14.0952" transform="rotate(45 39.9143 4.34375)" fill="white"/>
+                      <rect x="42.1406" y="14.3105" width="3.1485" height="14.0952" transform="rotate(135 42.1406 14.3105)" fill="white"/>
+                      </a>
+                    </svg>
+                  </span>
+                </h5> 
                    {{treatment.description|capfirst }} <br>
                    <p class = "mt-2">
                    <span class = "px-2"><a class = "text_link_kwb font-italic" href="{% url 'LRV_edit' treatment_id=treatment.id pathogen_group_id=2 %}"> Edit virus removal </a></span>
@@ -31,23 +43,10 @@
             </div>
             <hr>
         {%empty%}
-        There are currently no custom treatment. Click on <strong>Create Treatment  </strong> to create your first treatment!
-
+        There are currently no custom treatment. Click on <strong>Create new Treatment  </strong> to create your first treatment!
         {%endfor%}
-
+    </div>
   </div>
-
-
-
-  
-    <div class="col-sm-3 offset-sm-1"> <!--style= "background-color: #007c9f; color: white">-->
-   <h4 class= "mb-2">Customize</h4>
-   <p> Make it your own! </p>
- <!-- <a class = "btn btn-primary mt-3 btn-block" href="{%url 'source_create'%}"> Create source water </a>-->
-  <a class = "btn btn-primary mt-3 btn-block" href="{%url 'treatment_create'%}"> Create treatment </a>
-  <a class = "btn btn-primary mt-3 btn-block" href="{%url 'scenario_create'%}"> Create exposure scenario </a>
- 
-
-
+</div>
 
 {% endblock %}
