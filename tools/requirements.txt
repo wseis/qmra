@@ -9,3 +9,4 @@ django-pandas
 markdown2
 python-decouple
 django-anymail[mailgun]
+crispy-bootstrap4

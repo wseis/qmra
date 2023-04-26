@@ -33,23 +33,32 @@ class LogRemovalAdmin(admin.ModelAdmin):
     list_display=("id", "treatment", "pathogen_group", "min", "max", "reference")
     pass
 
+
 @admin.register(Exposure)
 class ExposureAdmin(admin.ModelAdmin):
     pass
+
 
 @admin.register(Inflow)
 class InflowAdmin(admin.ModelAdmin):
     list_display=("id", "pathogen", "water_source", "min", "max")
     pass
+
+
 @admin.register(Guideline)
 class GuidelineAdmin(admin.ModelAdmin):
     pass
+
+
 @admin.register(Health)
 class HealthAdmin(admin.ModelAdmin):
     pass
+
+
 @admin.register(DoseResponse)
 class DoseResponseAdmin(admin.ModelAdmin):
-    list_display=("pathogen")
+    list_display=("id", "pathogen")
+
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
