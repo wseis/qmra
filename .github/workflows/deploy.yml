@@ -27,7 +27,7 @@ jobs:
     - name: Deploy to remote server
       env:
         REMOTE_HOST: qmra.org
-        REMOTE_USER: wseis
+        REMOTE_USER: root
         REMOTE_DIR: /opt/qmra
       run: |
         rsync -avz --delete --exclude '.git' --exclude 'private_key.pem' -e "ssh -i private_key.pem -o StrictHostKeyChecking=no" ./ ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }}:${{ env.REMOTE_DIR }}
