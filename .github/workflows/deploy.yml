@@ -27,10 +27,10 @@ jobs:
     - name: Deploy to remote server
       env:
         REMOTE_HOST: qmra.org
-        REMOTE_USER: wseis
+        REMOTE_USER: root
         REMOTE_DIR: /opt/qmra
       run: |
-        sudo rsync -avz --delete --exclude '.git' --exclude 'private_key.pem' -e "ssh -i private_key.pem -o StrictHostKeyChecking=no" ./ ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }}:${{ env.REMOTE_DIR }}
+        rsync -avz --delete --exclude '.git' --exclude 'private_key.pem' -e "ssh -i private_key.pem -o StrictHostKeyChecking=no" ./ ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }}:${{ env.REMOTE_DIR }}
         ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }} "\
         
         cd ${REMOTE_DIR} && sudo pkill gunicorn && source /var/opt/qmra/miniconda3/bin/activate qmra && \ 
