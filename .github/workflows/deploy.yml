@@ -4,8 +4,7 @@ name: Deploy Django Application
 on:
   push:
     branches:
-      - production
-      
+      - production 
 jobs:
   deploy:
     runs-on: ubuntu-latest
