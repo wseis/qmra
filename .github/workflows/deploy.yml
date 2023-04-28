@@ -33,6 +33,6 @@ jobs:
         rsync -avz --delete --exclude '.git' --exclude 'private_key.pem' -e "ssh -i private_key.pem -o StrictHostKeyChecking=no" ./ ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }}:${{ env.REMOTE_DIR }}
         ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }} "\
         
-        cd ${REMOTE_DIR} && sudo pkill gunicorn && source /var/opt/qmra/miniconda3/bin/activate qmra && \ 
+        cd ${REMOTE_DIR} && sudo pkill gunicorn && sudo -u qmra bash -c 'source /var/opt/qmra/miniconda3/bin/activate qmra && \ 
         cd tools && export PYTHONPATH=/etc/opt/qmra:/opt/qmra/tools && export DJANGO_SETTINGS_MODULE=settings && \
-        gunicon tools.wsgi:application 
+        gunicon tools.wsgi:application'
