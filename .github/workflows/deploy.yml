@@ -34,4 +34,4 @@ jobs:
         
         cd ${REMOTE_DIR} && sudo pkill gunicorn && sudo -u qmra bash -c 'source /var/opt/qmra/miniconda3/bin/activate qmra && \ 
         cd tools && export PYTHONPATH=/etc/opt/qmra:/opt/qmra/tools && export DJANGO_SETTINGS_MODULE=settings && \
-        gunicon tools.wsgi:application'
+        gunicon tools.wsgi:application'"
