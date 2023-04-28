@@ -32,4 +32,4 @@ jobs:
         rsync -avz --itemize-changes --omit-dir-times --no-perms --delete --exclude '.git' --exclude 'private_key.pem' --exclude '**/__pycache__' -e "ssh -i private_key.pem -o StrictHostKeyChecking=no" ./ ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }}:${{ env.REMOTE_DIR }}
         ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }} "\
         
-        cd ${REMOTE_DIR} && cd tools && sudo systemctl restart
+        cd ${REMOTE_DIR} && cd tools && sudo systemctl restart qmra
