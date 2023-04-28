@@ -1,0 +1,35 @@
+---
+name: Deploy Django Application
+
+on:
+  push:
+    branches:
+      - production 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+     
+    - name: Install rsync and configure SSH
+      run: |
+        sudo apt-get install -y rsync
+        echo "${{ secrets.DEPLOY_SERVER_SSH_KEY }}" > private_key.pem
+        chmod 600 private_key.pem
+
+    - name: Deploy to remote server
+      env:
+        REMOTE_HOST: qmra.org
+        REMOTE_USER: wseis
+        REMOTE_DIR: /opt/qmra
+      run: |
+        rsync -avz --itemize-changes --omit-dir-times --no-perms --delete --exclude '.git' --exclude 'private_key.pem' --exclude '**/__pycache__' -e "ssh -i private_key.pem -o StrictHostKeyChecking=no" ./ ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }}:${{ env.REMOTE_DIR }}
+        ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }} "\
+        
+        cd ${REMOTE_DIR} && cd tools && sudo systemctl restart qmra"
