@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>QMRATool</title>
+    <title>QMRA</title>
     <!-- <link rel = "stylesheet" href = "{%static 'logremoval/css/styles.css' %}"> -->
     <link rel="apple-touch-icon" sizes="180x180" href="/static/qmratool/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/qmratool/favicon/favicon-32x32.png">
@@ -27,10 +27,10 @@
   <body>
     <div class="grid-container">
       <div class="menu-icon">
-        <img src = "/static/qmratool/img/Menu.svg" class = "logo" alt="KWB Logo">
+        <img src = "{%static 'qmratool/img/Menu.svg'%}" class = "logo" alt="KWB Logo">
       </div>
       <header class="header">
-        <a class="" href="""><strong></strong></a>
+        <a class="" href=""><strong></strong></a>
         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <strong>{{ user.username }}</strong>
             </button>
