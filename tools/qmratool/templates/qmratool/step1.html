@@ -1,0 +1,20 @@
+{% extends "qmratool/layout2.html" %}
+{% load crispy_forms_tags %}
+
+{% block body %}
+<div class="container" style="padding: 5%">
+
+  <div class="row">
+    <div class="col-sm-8">
+        {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            {{ wizard.management_form }}
+            {{ form|crispy }}
+            <input class = "btn btn-primary" type="submit" name="wizard_goto_step" value="Next" />
+          </form>
+      {%endif%}
+    </div>
+  </div>
+</div>
+{% endblock %}
