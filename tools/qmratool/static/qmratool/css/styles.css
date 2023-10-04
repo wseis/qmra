@@ -257,32 +257,84 @@ body {
     }
   }
 
-  h1, h2, h3, h4{
-    color:#0003e2;
-    font-weight: bold;
-   
-   
-  }
-  .custom-media {
-    border: 2px solid #ccc; /* Grey border */
-    border-radius: 4px; /*
-    padding: 10px; /* Add some padding for spacing */
-    transition: border-color 0.3s ease-in-out; /* Smooth transition for hover effect */
-  }
   
-  .custom-media:hover {
-    background-color: #8081F1; /* Change border color on hover (e.g., blue) */
-  }
+/*Icon progressbar*/
+#progressbar {
+  margin-bottom: 30px;
+  overflow: hidden;
+  color: lightgrey;
+}
 
-  /* Add this to your CSS file or within a <style> tag in your HTML */
-.progress-container {
+#progressbar .active {
+  color: #8081F1;
+}
+
+#progressbar li {
+  list-style-type: none;
+  font-size: 15px;
+  width: 25%;
+  float: left;
+  position: relative;
+  font-weight: 400;
+}
+
+/*Icons in the ProgressBar*/
+#progressbar #step_1:before {
+  font-family: FontAwesome;
+  content: " ";
+ 
+}
+
+
+#progressbar #step_2:before {
+  font-family: FontAwesome;
+  content: " ";
+}
+
+#progressbar #step_3:before {
+  font-family: FontAwesome;
+  content: " ";
+}
+
+#progressbar #step_4:before {
+  font-family: FontAwesome;
+  content: " ";
+}
+
+/*Icon ProgressBar before any progress*/
+#progressbar li:before {
+  width: 50px;
+  height: 50px;
+  line-height: 45px;
+  display: block;
+  font-size: 20px;
+  color: #ffffff;
+  background: lightgray;
+  border-radius: 50%;
+  margin: 0 auto 10px auto;
+  padding: 2px;
+}
+
+/*ProgressBar connectors*/
+#progressbar li:after {
+  content: '';
   width: 100%;
-  background-color: #f1f1f1;
+  height: 2px;
+  color: #8081F1 !important;
+  position: absolute;
+  left: 0;
+  top: 25px;
+  z-index: -1;
 }
 
-.progress-bar {
-  width: 0;
-  height: 25px;
-  background-color: #4caf50;
-  transition: width 0.3s ease-in-out;
+/*Color number of the step and the connector before it*/
+#progressbar li.active:before, #progressbar li.active:after {
+  background: #8081F1;
 }
+
+/*Animated Progress Bar*/
+.progress {
+height: 20px;
+}
+
+

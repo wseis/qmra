@@ -1,6 +1,6 @@
 {% extends "qmratool/layout2.html" %}
 {% load crispy_forms_tags %}
-
+{% load static %}
 {% block body %}
 
 <!-- Add this section at the top or bottom of your form templates -->
@@ -12,6 +12,16 @@
 
   <div class="row">
     <div class="col-sm-8">
+      <ul id="progressbar">
+        <li class="active" id=step_1><strong> </strong></li>
+        <li id="step_2"><strong> </strong></li>
+        <li id="step_3"><strong> </strong></li>
+        <li id="step_4"><strong> </strong></li>
+    </ul>
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" style = 'background-color: #8081F1 !important;' role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+  </div>
+    <br>
         {% if user.is_authenticated %}
         <form method="post">
             {% csrf_token %}
@@ -23,20 +33,7 @@
     </div>
   </div>
 </div>
-<script>
- 
-  var currentStep = document.getElementById("1");  
-  console.log(currentStep.id)
-  var totalSteps = 4;   
-
-  var progress = (currentStep.id ) / (totalSteps) * 100;
-  console.log(progress)
-
-  var progressBar = document.getElementById(currentStep.id);
-  console.log(progressBar)
-  progressBar.style.width = progress + "%";
-
-</script>
-
-
+{% endblock %}
+{% block script %}
+  <script src="{% static 'qmratool/progress.js' %}"></script> 
 {% endblock %}

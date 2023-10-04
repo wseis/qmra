@@ -11,6 +11,15 @@
 
   <div class="row">
     <div class="col-sm-8">
+      <ul id="progressbar">
+        <li class="active" id="account"><strong></strong></li>
+        <li class="active" id="personal"><strong>Personal</strong></li>
+        <li class="active" id="payment"><strong>Image</strong></li>
+        <li id="confirm"><strong>Finish</strong></li>
+    </ul>
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+  </div>
         {% if user.is_authenticated %}
         <form method="post">
             {% csrf_token %}
