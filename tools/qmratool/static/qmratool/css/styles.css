@@ -1,6 +1,6 @@
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
   color: white !important;
-  background-color: #0003e2 !important;
+  background-color: #8081F1 !important;
   border-color:#8081F1 !important;
   }
 
@@ -256,3 +256,33 @@ body {
       display: none;
     }
   }
+
+  h1, h2, h3, h4{
+    color:#0003e2;
+    font-weight: bold;
+   
+   
+  }
+  .custom-media {
+    border: 2px solid #ccc; /* Grey border */
+    border-radius: 4px; /*
+    padding: 10px; /* Add some padding for spacing */
+    transition: border-color 0.3s ease-in-out; /* Smooth transition for hover effect */
+  }
+  
+  .custom-media:hover {
+    background-color: #8081F1; /* Change border color on hover (e.g., blue) */
+  }
+
+  /* Add this to your CSS file or within a <style> tag in your HTML */
+.progress-container {
+  width: 100%;
+  background-color: #f1f1f1;
+}
+
+.progress-bar {
+  width: 0;
+  height: 25px;
+  background-color: #4caf50;
+  transition: width 0.3s ease-in-out;
+}

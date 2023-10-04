@@ -2,6 +2,11 @@
 {% load crispy_forms_tags %}
 
 {% block body %}
+<!-- Add this section at the top or bottom of your form templates -->
+<div class="progress-container">
+  <div class="progress-bar" id="progress-bar"></div>
+</div>
+
 <div class="container" style="padding: 5%">
 
   <div class="row">
@@ -17,4 +22,14 @@
     </div>
   </div>
 </div>
+<script>
+  
+  var currentStep = 2;  
+  var totalSteps = 4;  
+
+  var progress = (currentStep - 1) / (totalSteps) * 100;
+
+  var progressBar = document.getElementById("progress-bar");
+  progressBar.style.width = progress + "%";
+</script>
 {% endblock %}

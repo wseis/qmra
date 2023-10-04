@@ -2,6 +2,12 @@
 {% load crispy_forms_tags %}
 
 {% block body %}
+
+<!-- Add this section at the top or bottom of your form templates -->
+<div class="progress-container">
+  <div class="progress-bar" id={{ wizard.steps.step1 }}> </div>
+</div>
+
 <div class="container" style="padding: 5%">
 
   <div class="row">
@@ -17,4 +23,20 @@
     </div>
   </div>
 </div>
+<script>
+ 
+  var currentStep = document.getElementById("1");  
+  console.log(currentStep.id)
+  var totalSteps = 4;   
+
+  var progress = (currentStep.id ) / (totalSteps) * 100;
+  console.log(progress)
+
+  var progressBar = document.getElementById(currentStep.id);
+  console.log(progressBar)
+  progressBar.style.width = progress + "%";
+
+</script>
+
+
 {% endblock %}

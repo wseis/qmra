@@ -19,19 +19,29 @@
     {% if user.is_authenticated %}
     <h4 class= "mb-5">Risk assessments of {{user.username|capfirst}}</h4>
         {%for assessment in assessments%}
-              <div class="media px-3 mt-3">
-              <div class="media-left pr-3">
+            <div class="media px-3 mt-3 custom-media">
+              <div class="media-left mt-2 pr-3">
                 <a href="#">
                   <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="50" height="50" rx="4" fill="#9A9BF4"/>
+                    <rect x="0.906006" y="0.361328" width="50" height="50" rx="4" fill="#9A9BF4"/>
+                  
+                  <svg width="51" height="51" viewBox="-5 -2 40 40" fill="#9A9BF4" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="1.90601" y="1.64844" width="26" height="32" rx="3" stroke="white" stroke-width="2"/>
+                    <path d="M7.15601 8.89844L21.906 8.89844" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M7.15601 14.7319L21.906 14.7319" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M7.15601 20.5649L21.906 20.5649" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M7.15601 26.3984L21.906 26.3984" stroke="white" stroke-width="2" stroke-linecap="round"/>
                   </svg>
+                </svg>
                 </a>
+      
+  
               </div>
                  <div class="media-body">
                   <h4 class="media-heading d-flex justify-content-between">{{assessment.name|title}}
                     <span>
-                    <svg width="93" height="21" viewBox="0 0 93 21" fill="none" xmlns:xlink=“http://www.w3.org/1999/xlink">
-                      <a xlink:href="{% url 'edit_assessment' assessment.id%}" target="__blank">
+                    <svg width="93" height="21" viewBox="0 0 93 21" fill="none" xmlns:xlink="http://www.w3.org/1999/xlink">
+                       <a xlink:href="{% url 'edit_assessment' assessment.id%}" target="__blank">
                         <circle cx="10.0881" cy="10.4404" r="10" fill="#AFAFAF"/>
                         <path d="M4.76792 16.3104L5.98981 11.7283L13.7284 3.98966L17.0886 7.34985L9.35 15.0885L4.76792 16.3104Z" fill="white"/>
                         </a>
