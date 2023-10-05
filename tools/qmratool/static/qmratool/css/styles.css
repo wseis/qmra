@@ -4,25 +4,7 @@
   border-color:#8081F1 !important;
   }
 
-body {
-    margin: 0;
-    padding: 0;
-    color: white;
-    box-sizing: border-box;
-    font-family: sans-serif;
-    font-size: 15px;
-  }
-  .grid-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 50px 1fr 50px;
-  
-    grid-template-areas:
-      'header'
-      'main'
-      'footer';
-    height: 100vh;
-  }
+
   
   .header {
     grid-area: header;
@@ -109,13 +91,7 @@ body {
     color: white;
   
   }
-  /*a:link { text-decoration: none;
-    color: #0003e2;
-   }
   
-   a:visited {
-    color: #0003e2;
-  }*/
   .footer-item{
     color: white;
   }
@@ -129,28 +105,7 @@ body {
    .action-panel{
     margin: 30px;
    }
-  /* Layout for main content overview  and its cards*/
-  .main_overview {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    border-bottom: 1px solid #0003e2;
-  }
-  .overview_card {
-    flex-basis: 250px;
-    flex-grow: 1;
-    margin: 10px 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    /* background-color: seagreen; */
-    height: 100px;
-    background-color: #0003e2;;
-    border: 1px solid #0003e2;
-    border-radius: 4px;
-    color: white;
-  }
+
   .tab_link {
     flex-basis: 250px;
     flex-grow: 1;
@@ -162,39 +117,9 @@ body {
     /* background-color: seagreen; */
   
   }
-  /* Layout for main-cards section // below main_overview */
-  .main_cards {
-    margin: 10px;
-    display: grid;
-    grid-template-columns: 1fr;
-    border: 1px solid
-    grid-template-rows: 500px 200px 300px;
-    grid-template-areas:
-      'card1'
-      'card2'
-      'card3';
-    grid-gap: 10px;
-  }
 
-  .card {
-    padding: 20px;
-    border: 1px solid #0003e2;
-    border-radius: 4px;
-    color: #0003e2;
-  }
-  
-  .card:first-child {
-    grid-area: card1;
-  }
-  .card:nth-child(2) {
-    grid-area: card2;
-  }
-  .card:nth-child(3) {
-    grid-area: card3;
-  }
-  .metric {
-  text-align: center;
-  }
+
+
   /* responsive layout */
   @media only screen and (min-width: 750px) {
     .grid-container {
@@ -215,16 +140,7 @@ body {
       transform: translateX(0);
     }
   
-    .main_cards {
-      margin: 10px;
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      grid-template-rows: 200px 300px;
-      grid-template-areas:
-        'card1 card2'
-        'card1 card3';
-      grid-gap: 10px;
-    }
+
   }
   
   .menu-icon {
