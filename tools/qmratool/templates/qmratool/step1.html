@@ -3,27 +3,26 @@
 {% load static %}
 {% block body %}
 
-<!-- Add this section at the top or bottom of your form templates -->
-<div class="progress-container">
-  <div class="progress-bar" id={{ wizard.steps.step1 }}> </div>
-</div>
+
 
 <div class="container" style="padding: 5%">
 
   <div class="row">
     <div class="col-sm-8">
       <ul id="progressbar">
-        <li class="active" id=step_1><strong> </strong></li>
-        <li id="step_2"><strong> </strong></li>
-        <li id="step_3"><strong> </strong></li>
-        <li id="step_4"><strong> </strong></li>
+        <li class="active" id="Description"><strong> </strong></li>
+        <li id="Source"><strong> </strong></li>
+        <li id="Treatment"><strong> </strong></li>
+        <li id="Exposure"><strong> </strong></li>
     </ul>
     <div class="progress">
-      <div class="progress-bar progress-bar-striped progress-bar-animated" style = 'background-color: #8081F1 !important;' role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+      <div class="progress-bar progress-bar-striped progress-bar-animated" 
+      style = 'background-color: #8081F1 !important;' role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
   </div>
     <br>
         {% if user.is_authenticated %}
-        <form method="post">
+        
+        <form method="post" id = "form" data-step="{{ wizard.steps.step1}}">
             {% csrf_token %}
             {{ wizard.management_form }}
             {{ form|crispy }}

@@ -1,28 +1,25 @@
 {% extends "qmratool/layout2.html" %}
 {% load crispy_forms_tags %}
-
+{% load static %}
 {% block body %}
-<!-- Add this section at the top or bottom of your form templates -->
-<div class="progress-container">
-  <div class="progress-bar" id="progress-bar"></div>
-</div>
 
 <div class="container" style="padding: 5%">
 
   <div class="row">
     <div class="col-sm-8">
       <ul id="progressbar">
-        <li class="active" id="account"><strong></strong></li>
-        <li class="active" id="personal"><strong>Personal</strong></li>
-        <li class="active" id="payment"><strong>Image</strong></li>
-        <li id="confirm"><strong>Finish</strong></li>
+        <li class="active" id="Description"><strong> </strong></li>
+        <li class="active" id="Source"><strong> </strong></li>
+        <li class="active" id="Treatment"><strong> </strong></li>
+        <li id="Exposure"><strong> </strong></li>
     </ul>
     <div class="progress">
-      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+      <div class="progress-bar progress-bar-striped progress-bar-animated" 
+      style = 'background-color: #8081F1 !important;' role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
   </div>
         {% if user.is_authenticated %}
-        <form method="post">
-            {% csrf_token %}
+        <form method="post" id = "form" data-step="{{ wizard.steps.step1}}">
+          {% csrf_token %}
             {{ wizard.management_form }}
             {{ form|crispy }}
             <input type="submit" class = "btn btn-primary" name="wizard_goto_step" value="Next" />
@@ -32,3 +29,6 @@
   </div>
 </div>
 {% endblock %}
+{% block script%}
+<script src="{% static 'qmratool/progress.js' %}"></script> 
+{% endblock%}

@@ -195,24 +195,24 @@
 }
 
 /*Icons in the ProgressBar*/
-#progressbar #step_1:before {
+#progressbar #Description:before {
   font-family: FontAwesome;
   content: " ";
  
 }
 
 
-#progressbar #step_2:before {
+#progressbar #Source:before {
   font-family: FontAwesome;
   content: " ";
 }
 
-#progressbar #step_3:before {
+#progressbar #Treatment:before {
   font-family: FontAwesome;
   content: " ";
 }
 
-#progressbar #step_4:before {
+#progressbar #Exposure:before {
   font-family: FontAwesome;
   content: " ";
 }

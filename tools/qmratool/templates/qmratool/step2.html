@@ -1,27 +1,26 @@
 {% extends "qmratool/layout2.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block body %}
 <!-- Add this section at the top or bottom of your form templates -->
-<div class="progress-container">
-  <div class="progress-bar" id="progress-bar"></div>
-</div>
 
 <div class="container" style="padding: 5%">
 
   <div class="row">
     <div class="col-sm-8">
       <ul id="progressbar">
-        <li class="active" id="account"><strong></strong></li>
-        <li class="active" id="personal"><strong>Personal</strong></li>
-        <li id="payment"><strong>Image</strong></li>
-        <li id="confirm"><strong>Finish</strong></li>
+        <li class="active" id="Description"><strong> </strong></li>
+        <li class="active" id="Source"><strong> </strong></li>
+        <li id="Treatment"><strong> </strong></li>
+        <li id="Exposure"><strong> </strong></li>
     </ul>
     <div class="progress">
-      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+      <div class="progress-bar progress-bar-striped progress-bar-animated" style = 'background-color: #8081F1 !important;' role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
   </div>
+  
         {% if user.is_authenticated %}
-        <form method="post">
+        <form method="post" id = "form" data-step="{{ wizard.steps.step1 }}">
             {% csrf_token %}
             {{ wizard.management_form }}
             {{ form|crispy}}
@@ -31,14 +30,8 @@
     </div>
   </div>
 </div>
-<script>
-  
-  var currentStep = 2;  
-  var totalSteps = 4;  
 
-  var progress = (currentStep - 1) / (totalSteps) * 100;
-
-  var progressBar = document.getElementById("progress-bar");
-  progressBar.style.width = progress + "%";
-</script>
+{% endblock %}
+{% block script %}
+  <script src="{% static 'qmratool/progress.js' %}"></script> 
 {% endblock %}
