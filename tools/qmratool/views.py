@@ -187,6 +187,7 @@ class RAFormWizard(SessionWizardView):
 
     def get_template_names(self):
         return [TEMPLATES[self.steps.current]]
+    
 
     def done(self, form_list, **kwargs):
         all_cleaned_data = {}
@@ -458,7 +459,7 @@ def calculate_risk(request, ra_id):
         x="stat",
         y="value",
         color="pathogen",
-        points="all",
+        points = False,
         log_y=True,
         title="Risk as probability of infection per year",
         color_discrete_sequence=risk_colors,
@@ -508,7 +509,7 @@ def calculate_risk(request, ra_id):
         x="stat",
         y="DALYs pppy",
         color="pathogen",
-        points="all",
+        points=False,
         log_y=True,
         color_discrete_sequence=risk_colors,
     )

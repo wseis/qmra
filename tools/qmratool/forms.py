@@ -131,6 +131,11 @@ class RAFormStep1(forms.ModelForm):
 
 # Step 2
 class RAFormStep2(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(RAFormStep2, self).__init__(*args, **kwargs)
+        self.fields["source"].help_text = "Please select your source water"
+        self.fields["source"].empty_label = None
+        self.helper = FormHelper()
     class Meta:
         model = RiskAssessment
         fields = ["source"]
@@ -140,6 +145,18 @@ class RAFormStep2(forms.ModelForm):
 
 # Step 3
 class RAFormStep3(forms.ModelForm):
+    def __init__(self,  *args, **kwargs):
+        super(RAFormStep3, self).__init__(*args, **kwargs)
+        self.fields[
+            "treatment"
+        ].help_text = "Please select your treatment configuration"
+        
+        self.fields["treatment"].queryset = (
+            Treatment.objects.filter(user__in=[1])
+            .order_by("id")
+            .order_by("category")
+        )
+        self.helper = FormHelper()
     class Meta:
         model = RiskAssessment
         fields = ["treatment"]
@@ -149,6 +166,16 @@ class RAFormStep3(forms.ModelForm):
 
 # Step 4
 class RAFormStep4(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(RAFormStep4, self).__init__(*args, **kwargs)
+   
+        self.fields["exposure"].empty_label = None
+        self.fields["exposure"].help_text = "Please define your exposure scenario"
+        self.fields["exposure"].queryset = Exposure.objects.filter(
+            user__in=[ 1]
+        ).order_by("id")
+     
+        self.helper = FormHelper()
     class Meta:
         model = RiskAssessment
         fields = ["exposure"]
