@@ -1,4 +1,4 @@
-{% extends "qmratool/layout2.html" %}
+{% extends "qmratool/layout.html" %}
 {% load crispy_forms_tags %}
 {% block body %}
 
@@ -10,7 +10,7 @@
   </div>
   <div class="row">
     <div class="col-sm-8">      
-      <h4 class= "mb-5">Exposure Scenarios of {{user.username|capfirst}}</h4>
+      <h4 class= "mb-5 mt-5">My Exposure scenarios</h4>
         {%for scenario in scenarios%}
               <div class="media px-3 mt-3">
               <div class="media-left pr-3">
