@@ -20,7 +20,7 @@
     <h4 class= "mb-5 mt-5 .kwb_headline"> My Risk Assessment</h4>
         {%for assessment in assessments%}
         <a href="{% url 'results' assessment.id%}">
-            <div class="media px-3 mt-3 custom-media" style="border: 2px solid; border-radius: 5px; border-color: #8081F1 ">
+            <div class="media p-3 mt-3 custom-media" style="border: 2px solid; border-radius: 5px; border-color: #d3d3d3 ">
               <div class="media-left mt-2 pr-3">
                 <a href="{% url 'results' assessment.id%}">
                   <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">

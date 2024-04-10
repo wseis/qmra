@@ -10,13 +10,19 @@
   <div class="row">
     <div class="col-sm-8">
       <ul id="progressbar">
-        <li class="active" id="Description"><strong> </strong></li>
+        <li class="active" id="Description"><strong></strong></li>
         <li class="active" id="Source"><strong> </strong></li>
         <li id="Treatment"><strong> </strong></li>
         <li id="Exposure"><strong> </strong></li>
     </ul>
     <div class="progress">
       <div class="progress-bar progress-bar-striped progress-bar-animated" style = 'background-color: #8081F1 !important;' role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+  </div>
+  <div class = "mt-3 info">
+    <p> The first step of configuring a QMRA model is the definition of the source water concentration of pathogens. 
+      The QMRA tool provides default values for the reference pathogens Rotavirus, Cryptosporidium spp. and Campylobacter jejuni.
+      The tool also allows users to specify their own source water concentrations.
+    </p>
   </div>
   
         {% if user.is_authenticated %}
@@ -34,4 +40,5 @@
 {% endblock %}
 {% block script %}
   <script src="{% static 'qmratool/progress.js' %}"></script> 
+  <script src="{% static 'qmratool/wizard.js' %}"></script> 
 {% endblock %}

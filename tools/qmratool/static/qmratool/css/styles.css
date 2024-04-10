@@ -38,7 +38,11 @@
   .header_item{
     color:#0003e2;
   }
-  
+  .info{
+    color:grey;
+    font-style: italic;
+    font-size: small;
+  }
   
 
 
