@@ -1,4 +1,19 @@
-{% extends "qmratool/layout2.html" %}
+{% extends "qmratool/layout.html" %}
+
+{% block script %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      var mediaElements = document.querySelectorAll('.custom-media');
+
+      mediaElements.forEach(function(elem) {
+          elem.addEventListener('click', function() {
+              var url = this.getAttribute('data-url');
+              window.location.href = url;
+          });
+      });
+  });
+</script>
+{% endblock %}
 {% block body %}
 <div class="container" style="padding: 5%">
   <div class="row action-panel">
@@ -9,37 +24,42 @@
       <a class = "btn btn-primary mt-3" href="{%url 'comparison'%}"> 
         Compare Assessment
       </a>
+      <a class = "btn btn-primary mt-3" href="{%url 'raform_wizard'%}"> 
+        Step by step
+      </a>
     </div>
   </div>
   <div class="row">
     <div class="col-10">
     {% if user.is_authenticated %}
-    <h4 class= "mb-5">Risk assessments of {{user.username|capfirst}}</h4>
+    <h4 class= "mb-5 mt-5 .kwb_headline"> My Risk Assessment</h4>
         {%for assessment in assessments%}
-              <div class="media px-3 mt-3">
-              <div class="media-left pr-3">
-                <a href="#">
+        
+            <div class="media p-3 mt-3 custom-media" data-url="{% url 'results' assessment.id %}" style="border: 2px solid; border-radius: 5px; border-color: #d3d3d3 ">
+              <div class="media-left mt-2 pr-3">
+                <a href="{% url 'results' assessment.id%}">
                   <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="50" height="50" rx="4" fill="#9A9BF4"/>
+                    <rect x="0.906006" y="0.361328" width="50" height="50" rx="4" fill="#0003e2"/>
+                  
+                  <svg width="51" height="51" viewBox="-5 -2 40 40" fill="#0003e2" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="1.90601" y="1.64844" width="26" height="32" rx="3" stroke="white" stroke-width="2"/>
+                    <path d="M7.15601 8.89844L21.906 8.89844" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M7.15601 14.7319L21.906 14.7319" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M7.15601 20.5649L21.906 20.5649" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M7.15601 26.3984L21.906 26.3984" stroke="white" stroke-width="2" stroke-linecap="round"/>
                   </svg>
+                </svg>
                 </a>
-              </div>
-                 <div class="media-body">
-                  <h4 class="media-heading d-flex justify-content-between">{{assessment.name|title}}
+      
+  
+              </div >
+                 <div class="media-body" >
+                  <h4 class="media-heading d-flex justify-content-between .kwb_headline">{{assessment.name|title}}
                     <span>
-                    <svg width="93" height="21" viewBox="0 0 93 21" fill="none" xmlns:xlink=“http://www.w3.org/1999/xlink">
-                      <a xlink:href="{% url 'edit_assessment' assessment.id%}" target="__blank">
+                    <svg width="93" height="21" viewBox="0 0 93 21" fill="none" xmlns:xlink="http://www.w3.org/1999/xlink">
+                       <a xlink:href="{% url 'edit_assessment' assessment.id%}" target="__blank">
                         <circle cx="10.0881" cy="10.4404" r="10" fill="#AFAFAF"/>
                         <path d="M4.76792 16.3104L5.98981 11.7283L13.7284 3.98966L17.0886 7.34985L9.35 15.0885L4.76792 16.3104Z" fill="white"/>
-                        </a>
-                        <a xlink:href="{% url 'results' assessment.id%}" target="__blank">
-                          <circle cx="83" cy="10.4404" r="10" fill="#AFAFAF"/>
-                          <rect x="86.7112" y="8.67017" width="2.89722" height="4.68829" rx="0.2" fill="white"/>
-                          <rect x="76.3914" y="8.67017" width="2.89722" height="4.68829" rx="0.2" fill="white"/>
-                          <rect x="79.8399" y="5.56421" width="6.32002" height="4.18985" fill="white"/>
-                          <path d="M76.3914 10.2712H89.6084V11.6038H76.3914V10.2712Z" fill="white"/>
-                          <rect x="79.2886" y="11.6038" width="7.4226" height="3.71238" fill="#AFAFAF"/>
-                          <rect x="79.8399" y="12.0989" width="6.32002" height="2.72249" fill="white"/>
                         </a>
                         <a xlink:href="{% url 'delete' assessment.id%}" target="__blank">
                           <circle cx="36.0439" cy="10.4404" r="10" fill="#AFAFAF"/>
@@ -55,7 +75,7 @@
             
         {%empty%}
         There are currently no risk assessments. Click on <strong>Start new risk assessment </strong> to create your first risk assessment!
-
+          </a>
         {%endfor%}
 
     </div>

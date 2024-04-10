@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import UserDeleteView
+from .views import UserDeleteView, RAFormWizard
 
 # from django.conf.urls import url
 # from myproject.accounts import views
@@ -66,4 +66,6 @@ urlpatterns = [
     # path("emails/<str:mailbox>", views.mailbox, name="mailbox"),
     # administration routes
     path("dsgvo", views.dsgvo, name="dsgvo"),
+    path('raform/', RAFormWizard.as_view(), name='raform_wizard'),
 ]
+

@@ -167,6 +167,54 @@ def new_assessment(request):
     return render(request, "qmratool/new_ra.html", {"form": form, "content": content})
 
 
+from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
+from .forms import *
+
+from formtools.wizard.views import SessionWizardView
+
+TEMPLATES = {
+    "0": "qmratool/step1.html",
+    "1": "qmratool/step2.html",
+    "2": "qmratool/step3.html",
+    "3": "qmratool/step4.html",
+}
+
+
+class RAFormWizard(SessionWizardView):
+    form_list = [RAFormStep1, RAFormStep2, RAFormStep3, RAFormStep4]
+    template_name = "qmratool/step1.html"  # Default, can be overridden
+
+    def get_template_names(self):
+        return [TEMPLATES[self.steps.current]]
+    
+
+    def done(self, form_list, **kwargs):
+        all_cleaned_data = {}
+        for form in form_list:
+            all_cleaned_data.update(form.cleaned_data)
+
+        # Extract treatments for later (before we pop them)
+        treatments = all_cleaned_data.pop('treatment', [])
+
+        # Get the current user from the request
+        current_user = self.request.user
+
+        # Now you can use `all_cleaned_data` to save the RiskAssessment instance or perform other operations.
+        risk_assessment = RiskAssessment(**all_cleaned_data)
+
+        # Set the user field to the current user
+        risk_assessment.user = current_user
+
+        risk_assessment.save()
+
+        # Set the many-to-many field treatments using set()
+        risk_assessment.treatment.set(treatments)
+    
+        return HttpResponseRedirect(reverse("index"))
+        # Save your model instance or perform other operations
+        # This method is called after completing all the steps
+        
 @login_required(login_url="/login")
 def edit_assessment(request, ra_id):
     user = request.user
@@ -411,7 +459,7 @@ def calculate_risk(request, ra_id):
         x="stat",
         y="value",
         color="pathogen",
-        points="all",
+        points = False,
         log_y=True,
         title="Risk as probability of infection per year",
         color_discrete_sequence=risk_colors,
@@ -461,7 +509,7 @@ def calculate_risk(request, ra_id):
         x="stat",
         y="DALYs pppy",
         color="pathogen",
-        points="all",
+        points=False,
         log_y=True,
         color_discrete_sequence=risk_colors,
     )

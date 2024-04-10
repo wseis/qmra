@@ -1,258 +1,95 @@
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
   color: white !important;
-  background-color: #0003e2 !important;
+  background-color: #8081F1 !important;
   border-color:#8081F1 !important;
   }
 
-body {
-    margin: 0;
-    padding: 0;
-    color: white;
-    box-sizing: border-box;
-    font-family: sans-serif;
-    font-size: 15px;
-  }
-  .grid-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 50px 1fr 50px;
-  
-    grid-template-areas:
-      'header'
-      'main'
-      'footer';
-    height: 100vh;
-  }
-  
-  .header {
-    grid-area: header;
-    background-color: #EAEAFD;
-  }
-  
-  .aside {
-    grid-area: aside;
-    background-color: #EAEAFD;
-  }
-  
-  .main {
-    grid-area: main;
-    background-color: white;
-  }
-  .footer {
-    grid-area: footer;
-    background-color: #0003e2;
-  }
-  
-  /* flexing header and footer*/
-  .header,
-  .footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: white;
-    padding: 0 15px;
-  }
 
-  .header_item{
-    color:#0003e2;
+ 
+  .info{
+    color:grey;
+    font-style: italic;
+    font-size: small;
   }
-  
   
 
 
-  /* flexing aside */
-  .aside {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 240px;
-    position: fixed;
-    overflow-y: auto;
-    
-    z-index: 2;
-    transform: translateX(-245px);
-  }
-  .logo{
-    display: flex;
-    justify-content: center;
-  }
-  
-  .aside.active {
-    transform: translateX(0);
-  }
-  
-  .aside_list {
-    padding: 0;
-    margin-top: 85px;
-    list-style-type: none;
-  }
-  
-  .aside_list-item {
-    padding: 20px 20px 20px 40px;
-    color: #0003e2;
-  }
-  .aside_list-item:hover {
-    background-color: #8081F1;
-    cursor: pointer;
-    color: white;
-  
-  }
-  .aside_list-item-text {
-    color: #0003e2;
-  }
-  
-  
-  .aside_list-item-text:hover {
-    text-decoration: none;
-    background-color: #8081F1;
-    cursor: pointer;
-    color: white;
-  
-  }
-  /*a:link { text-decoration: none;
-    color: #0003e2;
-   }
-  
-   a:visited {
-    color: #0003e2;
-  }*/
-  .footer-item{
-    color: white;
-  }
-  .footer-item:hover{
+/*Icon progressbar*/
+#progressbar {
+  margin-bottom: 30px;
+  overflow: hidden;
+  color: lightgrey;
+}
 
-    color: #8081F1;
-    text-decoration: none;
-  }
+#progressbar .active {
+  color: #8081F1;
+}
+
+#progressbar li {
+  list-style-type: none;
+  font-size: 15px;
+  width: 25%;
+  float: left;
+  position: relative;
+  font-weight: 400;
+}
+
+/*Icons in the ProgressBar*/
+#progressbar #Description:before {
+  font-family: FontAwesome;
+  content: " ";
+ 
+}
+#progressbar #Source:before {
+  font-family: FontAwesome;
+  content: " ";
+}
+
+#progressbar #Treatment:before {
+  font-family: FontAwesome;
+  content: " ";
+}
+
+#progressbar #Exposure:before {
+  font-family: FontAwesome;
+  content: " ";
+}
+
+/*Icon ProgressBar before any progress*/
+#progressbar li:before {
+  width: 50px;
+  height: 50px;
+  line-height: 45px;
+  display: block;
+  font-size: 20px;
+  color: lightgrey;
+  background: lightgrey;
+  border-radius: 50%;
+  margin: 0 auto 10px auto;
+  padding: 2px;
+  content:'';
+}
+
+/*ProgressBar connectors*/
+#progressbar li:after {
+  content: '';
+  width: 100%;
+  height: 2px;
+  color: #8081F1 !important;
+  position: absolute;
+  left: 0;
+  top: 25px;
+  z-index: -1;
+}
+
+/*Color number of the step and the connector before it*/
+#progressbar li.active:before, #progressbar li.active:after {
+  background: #8081F1;
+}
+
+/*Animated Progress Bar*/
+.progress {
+height: 20px;
+}
 
 
-   .action-panel{
-    margin: 30px;
-   }
-  /* Layout for main content overview  and its cards*/
-  .main_overview {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    border-bottom: 1px solid #0003e2;
-  }
-  .overview_card {
-    flex-basis: 250px;
-    flex-grow: 1;
-    margin: 10px 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    /* background-color: seagreen; */
-    height: 100px;
-    background-color: #0003e2;;
-    border: 1px solid #0003e2;
-    border-radius: 4px;
-    color: white;
-  }
-  .tab_link {
-    flex-basis: 250px;
-    flex-grow: 1;
-    margin: 10px 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    /* background-color: seagreen; */
-  
-  }
-  /* Layout for main-cards section // below main_overview */
-  .main_cards {
-    margin: 10px;
-    display: grid;
-    grid-template-columns: 1fr;
-    border: 1px solid
-    grid-template-rows: 500px 200px 300px;
-    grid-template-areas:
-      'card1'
-      'card2'
-      'card3';
-    grid-gap: 10px;
-  }
-
-  .card {
-    padding: 20px;
-    border: 1px solid #0003e2;
-    border-radius: 4px;
-    color: #0003e2;
-  }
-  
-  .card:first-child {
-    grid-area: card1;
-  }
-  .card:nth-child(2) {
-    grid-area: card2;
-  }
-  .card:nth-child(3) {
-    grid-area: card3;
-  }
-  .metric {
-  text-align: center;
-  }
-  /* responsive layout */
-  @media only screen and (min-width: 750px) {
-    .grid-container {
-      display: grid;
-      grid-template-columns: 240px 1fr;
-      grid-template-rows: 50px 1fr 50px;
-      grid-template-areas:
-        'aside header'
-        'aside main'
-        'footer footer';
-      height: 100vh;
-    }
-  
-    .aside {
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      transform: translateX(0);
-    }
-  
-    .main_cards {
-      margin: 10px;
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      grid-template-rows: 200px 300px;
-      grid-template-areas:
-        'card1 card2'
-        'card1 card3';
-      grid-gap: 10px;
-    }
-  }
-  
-  .menu-icon {
-    position: fixed;
-    display: flex;
-    top: 2px;
-    left: 8px;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-    cursor: pointer;
-    padding: 12px;
-    color: white;
-  }
-  
-  .header_search {
-    margin-left: 24px;
-  }
-  
-  .aside_close-icon {
-    position: absolute;
-    visibility: visible;
-    top: 20px;
-    right: 20px;
-    cursor: pointer;
-  }
-  @media only screen and (min-width: 750px) {
-    .aside_close-icon {
-      display: none;
-    }
-  }

@@ -17,26 +17,32 @@
           <meta name="msapplication-config" content="/static/qmratool/favicon/browserconfig.xml">
           <meta name="theme-color" content="#ffffff">
         <link rel="stylesheet" href= "/static/qmratool/style.css" >
+        <link rel="stylesheet" href= "/static/qmratool/css/styles.css" >
+  
 
  
     {% block script%}
      {%endblock%}
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg border-bottom" style="background-color: white;">
+        <nav class="navbar navbar-expand-lg border-bottom" style="background-color: #EAEAFD;">
           <button class="navbar-toggler navbar-light" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation"> 
                 <span class="navbar-toggler-icon" style="border-color: black;"></span>
             </button>
               <a class="navbar-brand" href="{%url 'index'%}">
-                <img src="/static/qmratool/img/QMRA-1.png" width="66" height="66" class="d-inline-block align-top" alt="">
+                <h1 class = "kwb_headline"> QMRA </h1>
+                <!-- <img src="/static/qmratool/img/QMRA-1.png" width="66" height="66" class="d-inline-block align-top" alt=""> -->
             </a>
             <div class="collapse navbar-collapse" id = "navbarTogglerDemo01">
               <ul class="navbar-nav mr-auto">
                 {% if user.is_authenticated %}
                   
                         <li class="nav-item active">
-                        <a class="nav-link text_link_kwb" href="{%url 'index'%}"> Risk Assessments</a>
+                        <a class="nav-link text_link_kwb" href="{%url 'index'%}"> My Risk Assessments</a>
                         </li>
+                        <li class="nav-item active">
+                          <a class="nav-link text_link_kwb" href=""> My Source Waters</a>
+                          </li>
                          <li class="nav-item active">
                         <a class="nav-link text_link_kwb" href="{%url 'treatment_edit'%}"> My Treatments</a>
                         </li>
@@ -53,8 +59,9 @@
                       </button>
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         
-                        <a class="dropdown-item" href="{% url 'change_password' %}" tabindex="0">Change password</a>
-                        <a class="dropdown-item" href="{% url 'delete_user' user.id %}" tabindex="0">Delete account</a>
+                        <a class="dropdown-item nav-link text_link_kwb" href="{% url 'change_password' %}" tabindex="0">Change password</a>
+                        <a class="dropdown-item nav-link text_link_kwb" href="{% url 'delete_user' user.id %}" tabindex="0">Delete account</a>
+                        <a class="dropdown-item nav-link text_link_kwb" href="{% url 'logout' %}">Log Out</a>
                       </div>
                         
                     </li>
@@ -64,9 +71,7 @@
                     <li class="nav-item active">
                         <a class=" nav-link text_link_kwb " href="https://qmra.readthedocs.io/en/latest/">About</a>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link text_link_kwb" href="{% url 'logout' %}">Log Out</a>
-                    </li>
+                  
                     
                 </ul>
                 {% else %}
@@ -85,11 +90,31 @@
             
             </div>
           </nav>
-        <div class="body">
-            {% block body %}
-            {% endblock %}
-        </div>
-  </body>
+        <main class="main">
+          {% block body %}
+          {% endblock %}
+        </main>
+      
+        <footer class="text-white pt-2 pb-2">
+          <div class="container">
+              <div class="row">
+              
+                  <div class="col-md-4">
+              
+                      <ul class="list-unstyled">
+                        <li><a class="footer-item" href= "{% url 'dsgvo' %}">GDPR</a></li>
+                       
+                      </ul>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="footer_byline"><strong>Kompetenzzentrum Wasser Berlin</strong></div>
+           
+                  </div>
+              </div>
+          </div>
+      </footer>
+      
+ 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

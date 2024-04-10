@@ -12,7 +12,8 @@ from .models import (
     Comparison,
 )
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field, ButtonHolder, Submit
+from crispy_forms.layout import Layout, Field, ButtonHolder, Submit, Div
+from formtools.wizard.views import SessionWizardView
 
 
 class RAForm(forms.ModelForm):
@@ -33,16 +34,26 @@ class RAForm(forms.ModelForm):
             .order_by("id")
             .order_by("category")
         )
+        self.fields["name"].widget.attrs.update({'class': 'text-field-bg'})
+        self.fields["description"].widget.attrs.update({'class': 'text-field-bg'})
+        
         self.helper = FormHelper()
+        
+        self.helper.layout = Layout(
+            Div('source', css_class='radio-div-bg'),
+            Div('exposure', css_class='radio-div-bg'),
+            # Add other fields or layout objects as nee
+        )
 
     class Meta:
         model = RiskAssessment
         fields = ["name", "description", "source", "treatment", "exposure"]
         widgets = {
-            "source": forms.RadioSelect(attrs={"empty_label": None}),
-            "treatment": forms.CheckboxSelectMultiple(),
-            "exposure": forms.RadioSelect(attrs={"empty_label": None}),
+            "source": forms.RadioSelect(attrs={"class": "radio-bg", "empty_label": None}),
+            "treatment": forms.CheckboxSelectMultiple(attrs={"class": "checkbox-bg"}),
+            "exposure": forms.RadioSelect(attrs={"class": "radio-bg", "empty_label": None}),
         }
+     
 
 
 class SourceWaterForm(forms.ModelForm):
@@ -120,3 +131,98 @@ class ComparisonForm(forms.ModelForm):
             "risk_assessment"
         ].help_text = "Select risk assessments for comparison"
         self.helper = FormHelper()
+
+
+# Step 1
+class RAFormStep1(forms.ModelForm):
+
+    
+    class Meta:
+        model = RiskAssessment
+        fields = ["name", "description"]
+
+# Step 2
+class RAFormStep2(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(RAFormStep2, self).__init__(*args, **kwargs)
+        self.fields["source"].help_text = "Please select your source water"
+        self.fields["source"].empty_label = None
+        self.helper = FormHelper()
+    class Meta:
+        model = RiskAssessment
+        fields = ["source"]
+        widgets = {
+            "source": forms.RadioSelect(attrs={"empty_label": None}),
+        }
+
+# Step 3
+class RAFormStep3(forms.ModelForm):
+    def __init__(self,  *args, **kwargs):
+        super(RAFormStep3, self).__init__(*args, **kwargs)
+        self.fields[
+            "treatment"
+        ].help_text = "Please select your treatment configuration"
+        
+        self.fields["treatment"].queryset = (
+            Treatment.objects.filter(user__in=[1])
+            .order_by("id")
+            .order_by("category")
+        )
+        self.helper = FormHelper()
+    class Meta:
+        model = RiskAssessment
+        fields = ["treatment"]
+        widgets = {
+            "treatment": forms.CheckboxSelectMultiple(),
+        }
+
+# Step 4
+class RAFormStep4(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(RAFormStep4, self).__init__(*args, **kwargs)
+   
+        self.fields["exposure"].empty_label = None
+        self.fields["exposure"].help_text = "Please define your exposure scenario"
+        self.fields["exposure"].queryset = Exposure.objects.filter(
+            user__in=[ 1]
+        ).order_by("id")
+     
+        self.helper = FormHelper()
+    class Meta:
+        model = RiskAssessment
+        fields = ["exposure"]
+        widgets = {
+            "exposure": forms.RadioSelect(attrs={"empty_label": None}),
+        }
+
+
+
+
+#     def __init__(self, user, *args, **kwargs):
+#         super(RAForm, self).__init__(*args, **kwargs)
+#         self.fields[
+#             "treatment"
+#         ].help_text = "Please select your treatment configuration"
+#         self.fields["source"].help_text = "Please select your source water"
+#         self.fields["source"].empty_label = None
+#         self.fields["exposure"].empty_label = None
+#         self.fields["exposure"].help_text = "Please define your exposure scenario"
+#         self.fields["exposure"].queryset = Exposure.objects.filter(
+#             user__in=[user, 1]
+#         ).order_by("id")
+#         self.fields["treatment"].queryset = (
+#             Treatment.objects.filter(user__in=[user, 1])
+#             .order_by("id")
+#             .order_by("category")
+#         )
+#         self.helper = FormHelper()
+
+#     class Meta:
+#         model = RiskAssessment
+#         fields = ["name", "description", "source", "treatment", "exposure"]
+#         widgets = {
+#             "source": forms.RadioSelect(attrs={"empty_label": None}),
+#             "treatment": forms.CheckboxSelectMultiple(),
+#             "exposure": forms.RadioSelect(attrs={"empty_label": None}),
+#         }
+# '

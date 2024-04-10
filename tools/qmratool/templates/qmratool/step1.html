@@ -1,0 +1,44 @@
+{% extends "qmratool/layout.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block body %}
+<div class="container" style="padding: 5%">
+  <div class="row">
+    <div class="col-sm-8">
+      <div>
+      <ul id="progressbar">
+        <li class="active" id="Description"><strong> </strong></li>
+        <li id="Source"><strong> </strong></li>
+        <li id="Treatment"><strong> </strong></li>
+        <li id="Exposure"><strong> </strong></li>
+    </ul>
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" 
+      style = 'background-color: #8081F1 !important;' role="progressbar" aria-valuemin="0" aria-valuemax="100">
+    </div>
+  </div>
+    <div class = "mt-3 info">
+      <p> Before configuring your first QMRA model, please give the risk assessment an informative name.
+        It is also helpful to add some information on the scope and purpose of the risk assessment, for which you can use the 
+        provided text field. The text will be part of the final report, so you may adapt the level of detail to the target group of people, 
+        you want to share the report with. Don't worry, both can be adapted even after the model is configured.  
+      </p>
+    </div>
+    <br>
+        {% if user.is_authenticated %}
+         <form method="post" id = "form" data-step="{{ wizard.steps.step1}}">
+            {% csrf_token %}
+            {{ wizard.management_form }}
+            {{ form|crispy }}
+            <input class = "btn btn-primary" type="submit" name="wizard_goto_step" value="Next" />
+          </form>
+        {%endif%}
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block script %}
+  <script src="{% static 'qmratool/progress.js' %}"></script> 
+  <script src="{% static 'qmratool/option.js' %}"></script> 
+{% endblock %}
