@@ -12,7 +12,7 @@ from .models import (
     Comparison,
 )
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field, ButtonHolder, Submit
+from crispy_forms.layout import Layout, Field, ButtonHolder, Submit, Div
 from formtools.wizard.views import SessionWizardView
 
 
@@ -34,16 +34,26 @@ class RAForm(forms.ModelForm):
             .order_by("id")
             .order_by("category")
         )
+        self.fields["name"].widget.attrs.update({'class': 'text-field-bg'})
+        self.fields["description"].widget.attrs.update({'class': 'text-field-bg'})
+        
         self.helper = FormHelper()
+        
+        self.helper.layout = Layout(
+            Div('source', css_class='radio-div-bg'),
+            Div('exposure', css_class='radio-div-bg'),
+            # Add other fields or layout objects as nee
+        )
 
     class Meta:
         model = RiskAssessment
         fields = ["name", "description", "source", "treatment", "exposure"]
         widgets = {
-            "source": forms.RadioSelect(attrs={"empty_label": None}),
-            "treatment": forms.CheckboxSelectMultiple(),
-            "exposure": forms.RadioSelect(attrs={"empty_label": None}),
+            "source": forms.RadioSelect(attrs={"class": "radio-bg", "empty_label": None}),
+            "treatment": forms.CheckboxSelectMultiple(attrs={"class": "checkbox-bg"}),
+            "exposure": forms.RadioSelect(attrs={"class": "radio-bg", "empty_label": None}),
         }
+     
 
 
 class SourceWaterForm(forms.ModelForm):

@@ -5,39 +5,7 @@
   }
 
 
-  
-  .header {
-    grid-area: header;
-    background-color: #EAEAFD;
-  }
-  
-  .aside {
-    grid-area: aside;
-    background-color: #EAEAFD;
-  }
-  
-  .main {
-    grid-area: main;
-    background-color: white;
-  }
-  .footer {
-    grid-area: footer;
-    background-color: #0003e2;
-  }
-  
-  /* flexing header and footer*/
-  .header,
-  .footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: white;
-    padding: 0 15px;
-  }
-
-  .header_item{
-    color:#0003e2;
-  }
+ 
   .info{
     color:grey;
     font-style: italic;
@@ -46,138 +14,6 @@
   
 
 
-  /* flexing aside */
-  .aside {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 240px;
-    position: fixed;
-    overflow-y: auto;
-    
-    z-index: 2;
-    transform: translateX(-245px);
-  }
-  .logo{
-    display: flex;
-    justify-content: center;
-  }
-  
-  .aside.active {
-    transform: translateX(0);
-  }
-  
-  .aside_list {
-    padding: 0;
-    margin-top: 85px;
-    list-style-type: none;
-  }
-  
-  .aside_list-item {
-    padding: 20px 20px 20px 40px;
-    color: #0003e2;
-  }
-  .aside_list-item:hover {
-    background-color: #8081F1;
-    cursor: pointer;
-    color: white;
-  
-  }
-  .aside_list-item-text {
-    color: #0003e2;
-  }
-  
-  
-  .aside_list-item-text:hover {
-    text-decoration: none;
-    background-color: #8081F1;
-    cursor: pointer;
-    color: white;
-  
-  }
-  
-  .footer-item{
-    color: white;
-  }
-  .footer-item:hover{
-
-    color: #8081F1;
-    text-decoration: none;
-  }
-
-
-   .action-panel{
-    margin: 30px;
-   }
-
-  .tab_link {
-    flex-basis: 250px;
-    flex-grow: 1;
-    margin: 10px 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    /* background-color: seagreen; */
-  
-  }
-
-
-
-  /* responsive layout */
-  @media only screen and (min-width: 750px) {
-    .grid-container {
-      display: grid;
-      grid-template-columns: 240px 1fr;
-      grid-template-rows: 50px 1fr 50px;
-      grid-template-areas:
-        'aside header'
-        'aside main'
-        'footer footer';
-      height: 100vh;
-    }
-  
-    .aside {
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      transform: translateX(0);
-    }
-  
-
-  }
-  
-  .menu-icon {
-    position: fixed;
-    display: flex;
-    top: 2px;
-    left: 8px;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-    cursor: pointer;
-    padding: 12px;
-    color: white;
-  }
-  
-  .header_search {
-    margin-left: 24px;
-  }
-  
-  .aside_close-icon {
-    position: absolute;
-    visibility: visible;
-    top: 20px;
-    right: 20px;
-    cursor: pointer;
-  }
-  @media only screen and (min-width: 750px) {
-    .aside_close-icon {
-      display: none;
-    }
-  }
-
-  
 /*Icon progressbar*/
 #progressbar {
   margin-bottom: 30px;
@@ -226,11 +62,12 @@
   line-height: 45px;
   display: block;
   font-size: 20px;
-  color: #8081F1;
-  background: #8081F1;
+  color: lightgrey;
+  background: lightgrey;
   border-radius: 50%;
   margin: 0 auto 10px auto;
   padding: 2px;
+  content:'';
 }
 
 /*ProgressBar connectors*/
