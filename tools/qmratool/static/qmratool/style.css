@@ -7,6 +7,7 @@
 
 .kwb_headline {
     color: #0003e2 !important;
+    font-weight: bold;
  
 }
 h4{
@@ -17,3 +18,7 @@ h4{
 .info{
     color: #0003e2;
 }
+.headline{
+    color: #0003e2;
+    font-weight: bold;
+  }
