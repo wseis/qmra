@@ -135,6 +135,8 @@ class ComparisonForm(forms.ModelForm):
 
 # Step 1
 class RAFormStep1(forms.ModelForm):
+
+    
     class Meta:
         model = RiskAssessment
         fields = ["name", "description"]
