@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     bgcolor = "#8081F1"
     border = "#8081F1"
 
-    el = document.querySelectorAll("[id*='id_treatment_']")
+    el = document.querySelectorAll("[id*='id_2-treatment_']")
 //    label =document.querySelectorAll("[for*='id_treatment_']")
     el.forEach(element => {
     sel = parseInt(element.value)
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       
     //l.innerHTML = treatments[0].description
-    source = document.querySelectorAll("[id*='id_source_']")
+    source = document.querySelectorAll("[id*='id_1-source_']")
     console.log(source)
 //    label =document.querySelectorAll("[for*='id_treatment_']")
     source.forEach(element => {
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
  //l.innerHTML = treatments[0].description
- exposure = document.querySelectorAll("[id*='id_exposure_']")
+ exposure = document.querySelectorAll("[id*='id_3-exposure_']")
  //    label =document.querySelectorAll("[for*='id_treatment_']")
  console.log(exposure)
     exposure.forEach(element => {

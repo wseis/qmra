@@ -6,15 +6,19 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('qmratool', '0001_initial'),
+        ("qmratool", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='exposure',
-            name='user',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='scenarios', to=settings.AUTH_USER_MODEL),
+            model_name="exposure",
+            name="user",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="scenarios",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]
