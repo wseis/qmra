@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+import datetime
 # Create your models here.
 
 
@@ -170,6 +170,7 @@ class Exposure(models.Model):
 
 class RiskAssessment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="assessments")
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     name = models.CharField(max_length=64, default="")
     description = models.TextField(max_length=500, blank=True)
     source = models.ForeignKey(
