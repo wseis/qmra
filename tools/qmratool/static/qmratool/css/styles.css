@@ -93,3 +93,81 @@ height: 20px;
 }
 
 
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+  background-color: #8081F1 !important;
+  border-color: #8081F1 !important;
+  }
+
+.text_link_kwb         { color: #0003e2;  } 
+
+.kwb_headline {
+  color: #0003e2 !important;
+  font-weight: bold;
+
+}
+h4{
+  color: #0003e2 !important;
+  font-weight: bold !important;
+} 
+
+.info{
+  color: #0003e2;
+}
+.headline{
+  color: #0003e2;
+  font-weight: bold;
+}
+html, body {
+  height: 100%; /* Ensure that the html and body elements take up the full height of the viewport */
+  margin: 0; /* Remove default margin */
+}
+
+body {
+  display: flex; /* Use flexbox to lay out children */
+  flex-direction: column; /* Stack children vertically */
+}
+
+main {
+  flex: 1; /* Allows the main content to grow and fill available space, pushing the footer down */
+  /* Adjust padding or margins as needed */
+}
+
+footer {
+  /* Your existing styles should be fine, but ensure it doesn't grow with flex settings */
+  background-color: #0003e2 !important;;
+}
+.footer-item{
+  color: white;
+}
+  /* Add this inside your {% block body %} to scope the style to this template, 
+  or move it to your external CSS file for global scope */
+
+
+.custom-media:hover {
+  background-color: #EAEAFD; /* Light grey background on hover */
+  cursor: pointer; /* Change cursor to indicate clickable */
+}
+  /* Adjust the border color on hover */
+.custom-media:hover {
+  border-color: #0003e2; /* Bootstrap primary color for example */
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+.text-field-bg {
+  background-color:  #EAEAFD;
+  ; /* Light grey */
+}
+
+.radio-div-bg {
+  background-color: #EAEAFD; /* Slightly darker grey */
+}
+
+/* Optional: Directly style the radio buttons if needed */
+.radio-bg input[type="radio"] {
+  background-color: #0003e2 ;
+}
+#div_id_source, #div_id_treatment, #div_id_exposure{
+  background-color:  #F9F9FE;
+  padding: 5px;
+  border-color: #8081F1;
+ 
+}

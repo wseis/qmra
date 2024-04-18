@@ -44,6 +44,7 @@ class RAForm(forms.ModelForm):
             Div('exposure', css_class='radio-div-bg'),
             # Add other fields or layout objects as nee
         )
+        
 
     class Meta:
         model = RiskAssessment

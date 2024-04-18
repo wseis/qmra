@@ -1,11 +1,14 @@
-DOMAIN=ibathwater-berlin.org
+DOMAIN=qmra.org
 
 # You should probably leave these as is
-DJANGO_PROJECT=swimai
-DJANGO_PROJECT_REPOSITORY=http://github.com/wseis/flussbad_ai.git
-REPOSITORY_NAME=flussbad_ai
-DJANGO_USER=swimai
-DJANGO_GROUP=swimai
+DJANGO_PROJECT=qmra
+DJANGO_APP_LOCATION=qmra/tools
+DJANGO_APP_DIR=tools
+
+DJANGO_PROJECT_REPOSITORY=http://github.com/wseis/qmra.git
+REPOSITORY_NAME=qmra
+DJANGO_USER=qmra
+DJANGO_GROUP=qmra
 
 # Test with both Python 2 and 3
 PYTHON=3
