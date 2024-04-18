@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
       padding: "20px"
   };
 
-  setupTooltips('treatment', '/api_treatments/');
-  setupTooltips('source', '/api_sources/');
-  setupTooltips('exposure', '/api_exposures/');
+  setupTooltips('2-treatment', '/api_treatments/');
+  setupTooltips('1-source', '/api_sources/');
+  setupTooltips('3-exposure', '/api_exposures/');
 
   function setupTooltips(fieldName, apiUrl) {
       const elements = document.querySelectorAll(`[id*='id_${fieldName}_']`);

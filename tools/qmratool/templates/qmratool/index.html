@@ -67,8 +67,12 @@
                           <rect x="42.1406" y="14.3105" width="3.1485" height="14.0952" transform="rotate(135 42.1406 14.3105)" fill="white"/>
                         </a>
                     </svg>
-                  </span>
                   </h4>
+                    <div class = "d-flex justify-content-between">
+                      {{assessment.created_at.date}}
+                    </div>
+                  </span>
+                  
                    <p> {{assessment.description|capfirst}} </p>
                 </div>
             </div>
