@@ -32,4 +32,4 @@ jobs:
         rsync -avz --itemize-changes --omit-dir-times --no-perms --delete --exclude '.git' --exclude 'private_key.pem' --exclude '**/__pycache__' -e "ssh -i private_key.pem -o StrictHostKeyChecking=no" ./ ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }}:${{ env.REMOTE_DIR }}
         ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }} "\
         
-        sudo /usr/bin/pkill gunicorn || true && cd ${{ secrets.DEPLOY_PATH }}/scripts && /bin/bash 07_run.sh"
+        sudo /usr/bin/pkill gunicorn || true && cd ${{ secrets.DEPLOY_PATH }}/tools/scripts && /bin/bash 07_run.sh"
