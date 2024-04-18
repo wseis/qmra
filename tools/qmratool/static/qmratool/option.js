@@ -1,123 +1,83 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("page loaded")
+  const tooltipConfig = {
+      fontColor: "black",
+      bgColor: "#DCDCFB",
+      borderRadius: "5px",
+      padding: "20px"
+  };
 
-    fontcolor = "white"
-    bgcolor = "#8081F1"
-    border = "#8081F1"
+  setupTooltips('treatment', '/api_treatments/');
+  setupTooltips('source', '/api_sources/');
+  setupTooltips('exposure', '/api_exposures/');
 
-    el = document.querySelectorAll("[id*='id_treatment_']")
-//    label =document.querySelectorAll("[for*='id_treatment_']")
-    el.forEach(element => {
-    sel = parseInt(element.value)
-    l = document.querySelector(`[for*=${element.id}`)
-    const explain = document.createElement('span')
-    fetch(`/api_treatments/${sel}`)
-      .then(response => response.json())
-      .then(treatments => {
-        // Print emails
-        
-        element.title = treatments[0].description
-        explain.innerHTML=treatments[0].description
-        
+  function setupTooltips(fieldName, apiUrl) {
+      const elements = document.querySelectorAll(`[id*='id_${fieldName}_']`);
+      elements.forEach(element => {
+          const label = document.querySelector(`[for='${element.id}']`);
+          const tooltip = document.createElement('span');
+          tooltip.style.display = "none";
+          applyStyles(tooltip, tooltipConfig);
+          label.append(tooltip);
+
+          let tooltipTimeout;  // Define a variable to hold the timeout
+
+          label.addEventListener('mouseover', () => {
+              // Set timeout to delay tooltip display
+              tooltipTimeout = setTimeout(() => {
+                  fetchAndDisplayTooltip(element, apiUrl, tooltip, fieldName);
+              }, 150); // 700 milliseconds delay
+          });
+
+          label.addEventListener('mouseout', () => {
+              // Clear the timeout if mouse leaves before the tooltip is displayed
+              clearTimeout(tooltipTimeout);
+              hideTooltip(tooltip);
+          });
       });
-      
-      l.append(explain)
-      explain.style.display="None"
-      l.addEventListener('mouseover', function(){
-    
-        explain.style.display="block"
-        explain.style.color=fontcolor;
-        //explain.style.backgroundColor = "#eff1f4";
-        explain.style.backgroundColor = bgcolor;
-        //explain.style.border = "thin solid #0003e2";
-        explain.style.borderRadius = "5px";
-        explain.style.padding = "20px";
-      })
-      l.addEventListener('mouseout', function(){
-        explain.style.display="None"
-      })
-    })
+  }
 
-      
-    //l.innerHTML = treatments[0].description
-    source = document.querySelectorAll("[id*='id_source_']")
-    console.log(source)
-//    label =document.querySelectorAll("[for*='id_treatment_']")
-    source.forEach(element => {
-    sel = parseInt(element.value)
-    l = document.querySelector(`[for*=${element.id}`)
-    const explain = document.createElement('span')
-    fetch(`/api_sources/${sel}`)
-      .then(response => response.json())
-      .then(sources => {
-        // Print emails
-        
-        element.title = sources[0].description
-        explain.innerHTML=sources[0].description
-        
-      });
-      
-      l.append(explain)
-      explain.style.display="None"
-      l.addEventListener('mouseover', function(){
-    
-        explain.style.display="block"
-        explain.style.color=fontcolor;
-        //explain.style.backgroundColor = "#eff1f4";
-        explain.style.backgroundColor = bgcolor;
-        //explain.style.border = "thin solid #0003e2";
-        explain.style.borderRadius = "5px";
-        explain.style.padding = "20px";
-      })
-      l.addEventListener('mouseout', function(){
-        explain.style.display="None"
-      })
-    })
+  function fetchAndDisplayTooltip(element, apiUrl, tooltip, fieldName) {
+      if (!tooltip.innerHTML) { // Fetch only if tooltip is empty
+          fetch(`${apiUrl}${element.value}`)
+              .then(response => response.json())
+              .then(data => {
+                  tooltip.innerHTML = formatTooltipContent(data[0], fieldName);
+                  tooltip.style.display = "block";  // Display the tooltip only after fetching
+              });
+      } else {
+          tooltip.style.display = "block";  // Display the tooltip if already fetched
+      }
+  }
 
- //l.innerHTML = treatments[0].description
- exposure = document.querySelectorAll("[id*='id_exposure_']")
- //    label =document.querySelectorAll("[for*='id_treatment_']")
- console.log(exposure)
-    exposure.forEach(element => {
-     sel = parseInt(element.value)
-     l = document.querySelector(`[for*=${element.id}`)
-     const explain = document.createElement('span')
-     fetch(`/api_exposures/${sel}`)
-       .then(response => response.json())
-       .then(exposure => {
-         // Print emails
-         
-         element.title = exposure[0].description
-         text= [exposure[0].description, '<br>' ,
-         'Events per year [N]):', "<strong>",exposure[0].events_per_year,"</strong>", '<br>' ,
-         'Volume per exposure event [L]:', "<strong>", exposure[0].volume_per_event],"</strong>";
-         
-         explain.innerHTML= text.join(' ') 
-       });
-       
-       l.append(explain)
-       explain.style.display="None"
-       l.addEventListener('mouseover', function(){
-     
-         explain.style.display="block"
-         explain.style.color=fontcolor
-         explain.style.backgroundColor = bgcolor;
-         //explain.style.border = "thin solid #0003e2";
-         explain.style.borderRadius = "5px";
-         explain.style.padding = "20px";
-       })
-       l.addEventListener('mouseout', function(){
-         explain.style.display="None"
-       })
-     })
+  function hideTooltip(tooltip) {
+      tooltip.style.display = "none";
+  }
 
+  function applyStyles(tooltip, config) {
+      tooltip.style.position = 'absolute';
+      tooltip.style.top = '0';
+      tooltip.style.left = "50px";  // Adjusted to place the tooltip to the right of the element
+      tooltip.style.color = config.fontColor;
+      tooltip.style.backgroundColor = config.bgColor;
+      tooltip.style.borderRadius = config.borderRadius;
+      tooltip.style.padding = config.padding;
+      tooltip.style.zIndex = '1000';  // Ensure tooltip is above other elements
+  }
 
+  function toTitleCase(str) {
+    return str.toLowerCase().split(' ').map(function(word) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+    }).join(' ');
+}
 
+  function formatTooltipContent(data, fieldName) {
 
- 
-    
-
-})
-
-//[title~=flower]
-//[id*='someId']
+      let titleCaseDataName = toTitleCase(data.name);
+      // Customize content based on the field
+      if (fieldName === 'exposure') {
+          return `<strong>${titleCaseDataName}</strong><br>${data.description}<br>Events per year [N]: <strong>${data.events_per_year}</strong><br>Volume per event [L]: <strong>${data.volume_per_event}</strong>`;
+      } else {
+          return `<strong>${titleCaseDataName}</strong><br>${data.description}`;
+      }
+  }
+});
