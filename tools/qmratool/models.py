@@ -9,6 +9,9 @@ class User(AbstractUser):
 
 
 class SourceWater(models.Model):
+    user = models.ForeignKey(
+        User, related_name="sourcewaters", default=1, on_delete=models.CASCADE
+    )
     water_source_name = models.CharField(max_length=64)
     water_source_description = models.CharField(max_length=2000)
 

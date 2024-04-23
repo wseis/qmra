@@ -28,10 +28,24 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
 
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.list import  ListView
 
 
+class SourceWaterListView(ListView):
+    model = SourceWater
+    def get_queryset(self):
+        return SourceWater.objects.filter(user=self.request.user)
+
+
+
+@login_required
 def create_water_source_and_inflows(request):
+
+    try:
+        default_reference = Reference.objects.get(id=51)  # Try by ID first
+    except Reference.DoesNotExist:
+        default_reference = Reference.objects.get(name="local")  # Fallback to name if ID doesn't exist
+
     # Define your specific pathogens
     pathogen_defaults = [
         "Rotavirus", "Campylobacter jejuni", "Cryptosporidium parvum"
@@ -43,24 +57,30 @@ def create_water_source_and_inflows(request):
             initial_data.append({'pathogen': pathogen.id})
 
     if request.method == 'POST':
+        
         source_form = SourceWaterForm(request.POST)
-        inflow_formset = InflowFormSet(request.POST, queryset=Inflow.objects.none(), initial=initial_data)
+        inflow_formset = InflowFormSet(request.POST,  initial=initial_data)
         if source_form.is_valid() and inflow_formset.is_valid():
-            created_water_source = source_form.save()
+        # Save SourceWater and associate it with the current user
+            created_water_source = source_form.save(commit=False)
+            created_water_source.user = request.user
+            created_water_source.save()
+
             inflow_instances = inflow_formset.save(commit=False)
             for inflow in inflow_instances:
                 inflow.water_source = created_water_source
+                inflow.reference = default_reference
                 inflow.save()
-            # Redirect or further processing
+            return HttpResponseRedirect(reverse("source-water-list"))
     else:
         source_form = SourceWaterForm()
-        #source_form = SourceWaterForm()
+        
         inflow_formset = InflowFormSet(queryset=Inflow.objects.none(), initial=initial_data)
-        print(initial_data)
-    return render(request, 'qmratool/inflow_form.html', {
-        'source_form': source_form,
-        'inflow_formset': inflow_formset
-    })
+        
+        return render(request, 'qmratool/inflow_form.html', {
+            'source_form': source_form,
+            'inflow_formset': inflow_formset
+            })
 
 
 def about(request):
