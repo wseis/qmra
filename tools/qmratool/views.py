@@ -10,8 +10,9 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from .forms import *
 from formtools.wizard.views import SessionWizardView
+from django.forms import inlineformset_factory
 from .forms import RAForm, SourceWaterForm, TreatmentForm, ExposureForm
-from .forms import LogRemovalForm, InflowForm, ComparisonForm
+from .forms import LogRemovalForm, InflowForm, ComparisonForm, InflowFormSet
 from .models import *
 #from django.utils.encoding import force_str
 #django.utils.encoding.force_text = force_str
@@ -27,10 +28,39 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
 
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 
+def create_water_source_and_inflows(request):
+    # Define your specific pathogens
+    pathogen_defaults = [
+        "Rotavirus", "Campylobacter jejuni", "Cryptosporidium parvum"
+    ]
+    initial_data = []
+    for pathogen_name in pathogen_defaults:
+        pathogen = Pathogen.objects.filter(pathogen=pathogen_name).first()
+        if pathogen:
+            initial_data.append({'pathogen': pathogen.id})
 
-# Create your views here.
+    if request.method == 'POST':
+        source_form = SourceWaterForm(request.POST)
+        inflow_formset = InflowFormSet(request.POST, queryset=Inflow.objects.none(), initial=initial_data)
+        if source_form.is_valid() and inflow_formset.is_valid():
+            created_water_source = source_form.save()
+            inflow_instances = inflow_formset.save(commit=False)
+            for inflow in inflow_instances:
+                inflow.water_source = created_water_source
+                inflow.save()
+            # Redirect or further processing
+    else:
+        source_form = SourceWaterForm()
+        #source_form = SourceWaterForm()
+        inflow_formset = InflowFormSet(queryset=Inflow.objects.none(), initial=initial_data)
+        print(initial_data)
+    return render(request, 'qmratool/inflow_form.html', {
+        'source_form': source_form,
+        'inflow_formset': inflow_formset
+    })
 
 
 def about(request):

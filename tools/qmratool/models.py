@@ -103,7 +103,7 @@ class LogRemoval(models.Model):
 class Inflow(models.Model):
     pathogen = models.ForeignKey(Pathogen, on_delete=models.CASCADE)
     reference = models.ForeignKey(Reference, on_delete=models.CASCADE)
-    water_source = models.ForeignKey(SourceWater, on_delete=models.CASCADE)
+    water_source = models.ForeignKey(SourceWater, on_delete=models.CASCADE, related_name="inflow")
     min = models.DecimalField(decimal_places=8, default=-100, max_digits=20)
     max = models.DecimalField(decimal_places=8, default=-100, max_digits=20)
     mean = models.DecimalField(decimal_places=8, max_digits=20, default=-100, null=True)
@@ -114,6 +114,9 @@ class Inflow(models.Model):
     distribution = models.CharField(default="lognormal", max_length=64)
     pathogen_in_ref = models.CharField(max_length=200, default="unknown")
     notes = models.CharField(max_length=200, default="unknown")
+
+    def get_absolute_url(self):
+        return reverse("inflow-detail", kwargs={"pk": self.pk})
 
 
 class Health(models.Model):

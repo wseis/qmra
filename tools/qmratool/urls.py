@@ -67,5 +67,6 @@ urlpatterns = [
     # administration routes
     path("dsgvo", views.dsgvo, name="dsgvo"),
     path('raform/', RAFormWizard.as_view(), name='raform_wizard'),
+    path('create-inflow/', views.create_water_source_and_inflows, name='create_water_source_inflows'),
 ]
 

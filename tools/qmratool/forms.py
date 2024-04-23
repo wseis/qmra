@@ -14,7 +14,7 @@ from .models import (
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, ButtonHolder, Submit, Div
 from formtools.wizard.views import SessionWizardView
-
+from django.forms import modelformset_factory
 
 class RAForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
@@ -66,8 +66,19 @@ class SourceWaterForm(forms.ModelForm):
 class InflowForm(forms.ModelForm):
     class Meta:
         model = Inflow
-        fields = ["pathogen", "min", "max", "reference"]
-
+        fields = ['pathogen', 'min', 'max']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.fields['pathogen'].disabled = True
+        self.helper.layout = Layout(
+            'pathogen',
+            'min',
+            'max',
+            # Add more fields as needed
+        )
+InflowFormSet = modelformset_factory(Inflow, form=InflowForm, extra=3)
 
 class ExposureForm(forms.ModelForm):
     class Meta:
