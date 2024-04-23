@@ -13,8 +13,8 @@ from formtools.wizard.views import SessionWizardView
 from .forms import RAForm, SourceWaterForm, TreatmentForm, ExposureForm
 from .forms import LogRemovalForm, InflowForm, ComparisonForm
 from .models import *
-from django.utils.encoding import force_str
-django.utils.encoding.force_text = force_str
+#from django.utils.encoding import force_str
+#django.utils.encoding.force_text = force_str
 from django_pandas.io import read_frame
 from plotly.offline import plot
 import numpy as np
