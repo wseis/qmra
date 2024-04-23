@@ -5,24 +5,30 @@ from django.urls import reverse
 from django.shortcuts import render
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
-
 from qmratool.helper_functions import plot_comparison
+from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
+from .forms import *
+from formtools.wizard.views import SessionWizardView
 from .forms import RAForm, SourceWaterForm, TreatmentForm, ExposureForm
 from .forms import LogRemovalForm, InflowForm, ComparisonForm
-
 from .models import *
 from django.utils.encoding import force_str
-
 django.utils.encoding.force_text = force_str
-
 from django_pandas.io import read_frame
 from plotly.offline import plot
-
 import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objs as go
 import markdown2 as md
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.shortcuts import render, redirect
+
+
+
 
 # Create your views here.
 
@@ -167,11 +173,6 @@ def new_assessment(request):
     return render(request, "qmratool/new_ra.html", {"form": form, "content": content})
 
 
-from django.urls import reverse_lazy
-from django.shortcuts import render, redirect
-from .forms import *
-
-from formtools.wizard.views import SessionWizardView
 
 TEMPLATES = {
     "0": "qmratool/step1.html",
@@ -431,9 +432,14 @@ def calculate_risk(request, ra_id):
     )
 
     results_long = simulate_risk(ra)
+    #results_long["value"] = round(results_long["value"],1)
 
     results_long["pathogen"] = results_long["variable"].str.split("_", expand=True)[0]
     results_long["stat"] = results_long["variable"].str.split("_", expand=True)[1]
+
+    
+ 
+      
 
     health = read_frame(Health.objects.all())
     results_long = pd.merge(results_long, health, on="pathogen")
@@ -442,6 +448,24 @@ def calculate_risk(request, ra_id):
         * results_long.infection_to_illness.astype(float)
         * results_long.dalys_per_case.astype(float)
     )
+    summary = results_long.groupby(["pathogen", "stat"]).mean() 
+    risk = sum(summary["value"]>10**-4) > 0
+    dalyrisk= sum(summary["DALYs pppy"]>10**-6) > 0
+
+    if risk:
+        bgcolor = "rgba(245, 0, 0, 0.15)"
+        lcolor = "firebrick"
+    else:
+        bgcolor = None
+        lcolor = "#0003e2"
+
+    if dalyrisk:
+        dalybgcolor = "rgba(245, 0, 0, 0.15)"
+        dlcolor = "firebrick"
+    else:
+        dalybgcolor = None
+        dlcolor = "#0003e2"
+      
 
     risk_colors = ["#78BEF9", "#8081F1", "#5F60B3"]
     risk_colors_extended = [
@@ -463,37 +487,40 @@ def calculate_risk(request, ra_id):
         log_y=True,
         title="Risk as probability of infection per year",
         color_discrete_sequence=risk_colors,
+        hover_data={'value': ':.2e'}
     )
 
     fig.update_layout(
         font_family="Helvetica Neue, Helvetica, Arial, sans-serif",
         font_color="black",
+        plot_bgcolor= bgcolor,
         title={"text": "Risk assessment as probability of infection per year"},
         xaxis_title="",
         yaxis_title="Probability of infection per year",
         # markersize= 12,
     )
-    fig.add_hline(y=0.0001, line_dash="dashdot", line=dict(color="#0003e2", width=3))
+    fig.add_hline(y=0.0001, line_dash="dashdot", line=dict(color=lcolor, width=3))
     fig.update_layout(
+       # margin=dict(l=50, r=50, t=100, b=100),  # Adjust the margins
         legend=dict(
             orientation="h",
             yanchor="top",
             # text= "Reference pathogen",
-            y=-0.1,
+            y=-0.3,
             xanchor="left",
             x=0,
         ),
-        annotations=[
-            go.Annotation(
-                y=-4,
-                x=1.2,
-                text="Tolerable risk level of 1/10000 infections pppy",
-                bgcolor="#0003e2",
-                bordercolor="white",
-                borderpad=5,
-                font=dict(color="white"),
-            )
-        ],
+      #  annotations=[
+      #      go.Annotation(
+      #          y=-4,
+      #          x=1.2,
+      #          text="Tolerable risk level of 1/10000 infections pppy",
+      #          bgcolor="#0003e2",
+      #          bordercolor="white",
+      #          borderpad=5,
+      #          font=dict(color="white"),
+      #      )
+      #  ],
     )
 
     # fig.update_annotations(y = 0.0001, x = 1,  text = "Tolerable risk level")
@@ -522,17 +549,18 @@ def calculate_risk(request, ra_id):
         },
         xaxis_title="",
         yaxis_title="DALYs pppy",
-        annotations=[
-            go.Annotation(
-                y=-6,
-                x=1.2,
-                text="Tolerable risk level of 1µDALY pppy",
-                bgcolor="#0003e2",
-                bordercolor="white",
-                borderpad=5,
-                font=dict(color="white"),
-            )
-        ]
+        plot_bgcolor= dalybgcolor,
+       # annotations=[
+       #     go.Annotation(
+       #         y=-6,
+       #         x=1.2,
+       #         text="Tolerable risk level of 1µDALY pppy",
+       #         bgcolor="#0003e2",
+       #         bordercolor="white",
+       #         borderpad=5,
+       #         font=dict(color="white"),
+       #     )
+       # ]
         # markersize= 12,
     )
 
@@ -541,12 +569,12 @@ def calculate_risk(request, ra_id):
             orientation="h",
             yanchor="top",
             # text= "Reference pathogen",
-            y=-0.1,
+            y=-0.3,
             xanchor="left",
             x=0,
         )
     )
-    fig.add_hline(y=0.000001, line_dash="dashdot", line=dict(color="#0003e2", width=3))
+    fig.add_hline(y=0.000001, line_dash="dashdot", line=dict(color=dlcolor, width=3))
     # annotation_text="tolerable risk level")
     # annotation_position = "top left",
     # annotation=dict(font_size=20, font_family="Times New Roman"))
@@ -641,6 +669,8 @@ def calculate_risk(request, ra_id):
             "daly_plot": daly_plot,
             "risk_plot": risk_plot,
             "ra": ra,
+            "risk": risk,
+            "dalyrisk": risk
         },
     )
 
@@ -701,10 +731,6 @@ def register(request):
         return render(request, "qmratool/register.html")
 
 
-from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
-from django.shortcuts import render, redirect
 
 
 @login_required(login_url="/login")
