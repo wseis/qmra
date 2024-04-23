@@ -9,6 +9,15 @@
           <a class = "btn btn-primary mt-3" href="{%url 'export' ra.id%}">Export summary as csv</a>
         </div>
         {%endif %}
+        {% if risk%}
+        <div class="alert alert-danger m-4" role="alert">
+          At least one pathogen exeeds tolerable infection risk value of 1/10000 pppy (red line)
+        </div>
+        {%else %}
+        <div class="alert alert-primary m-4" role="alert">
+         All risk simulations stay well below tolerable limits of 1/10000 pppy (blue line)
+        </div>
+        {% endif %}
         <div id="hero-graph">
           {% autoescape off %}
           {{ risk_plot }}
@@ -22,7 +31,16 @@
            </p> 
         </div>
         {%endif%}
-        {%if ra.id %}   
+        {%if ra.id %}
+        {% if dalyrisk%}
+        <div class="alert alert-danger m-4" role="alert">
+          At least one pathogen exeeds tolerable DALY risk value of 1µDALY pppy (red line)
+        </div>
+        {%else %}
+        <div class="alert alert-primary m-4" role="alert">
+         All risk simulations stay well below tolerable limits of 1µDALY pppy (blue line)
+        </div>
+        {% endif %}   
         <div id="hero-graph">
           {% autoescape off %}
           {{ daly_plot }}
