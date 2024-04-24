@@ -13,7 +13,7 @@ class SourceWater(models.Model):
         User, related_name="sourcewaters", default=1, on_delete=models.CASCADE
     )
     water_source_name = models.CharField(max_length=64)
-    water_source_description = models.CharField(max_length=2000)
+    water_source_description = models.TextField(max_length=2000)
 
     def __str__(self):
         return self.water_source_name
@@ -107,8 +107,8 @@ class Inflow(models.Model):
     pathogen = models.ForeignKey(Pathogen, on_delete=models.CASCADE)
     reference = models.ForeignKey(Reference, on_delete=models.CASCADE)
     water_source = models.ForeignKey(SourceWater, on_delete=models.CASCADE, related_name="inflow")
-    min = models.DecimalField(decimal_places=8, default=-100, max_digits=20)
-    max = models.DecimalField(decimal_places=8, default=-100, max_digits=20)
+    min = models.DecimalField(decimal_places=8, default=100, max_digits=20)
+    max = models.DecimalField(decimal_places=8, default=100, max_digits=20)
     mean = models.DecimalField(decimal_places=8, max_digits=20, default=-100, null=True)
     alpha = models.DecimalField(
         decimal_places=8, max_digits=20, default=-100, null=True

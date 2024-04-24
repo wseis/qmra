@@ -120,12 +120,16 @@ class TreatmentForm(forms.ModelForm):
 class LogRemovalForm(forms.ModelForm):
     class Meta:
         model = LogRemoval
-        fields = ["min", "max", "pathogen_group", "reference"]
+        fields = ["pathogen_group", "reference","min", "max"]
 
     def __init__(self, *args, **kwargs):
         super(LogRemovalForm, self).__init__(*args, **kwargs)
         self.fields["reference"].queryset = Reference.objects.filter(id=51)
-        self.fields["pathogen_group"].widget = forms.HiddenInput()
+        self.fields['reference'].disabled = True
+        self.fields['pathogen_group'].disabled = True
+        #self.fields["pathogen_group"].widget = forms.HiddenInput()
+
+LogRemovalFormSet = modelformset_factory(LogRemoval, form=LogRemovalForm, extra=3)
 
 
 class ComparisonForm(forms.ModelForm):

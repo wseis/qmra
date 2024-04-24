@@ -12,7 +12,7 @@ from .forms import *
 from formtools.wizard.views import SessionWizardView
 from django.forms import inlineformset_factory
 from .forms import RAForm, SourceWaterForm, TreatmentForm, ExposureForm
-from .forms import LogRemovalForm, InflowForm, ComparisonForm, InflowFormSet
+from .forms import LogRemovalForm, InflowForm, ComparisonForm, InflowFormSet, LogRemovalFormSet
 from .models import *
 #from django.utils.encoding import force_str
 #django.utils.encoding.force_text = force_str
@@ -36,6 +36,10 @@ class SourceWaterListView(ListView):
     def get_queryset(self):
         return SourceWater.objects.filter(user=self.request.user)
 
+class TreatmentListView(ListView):
+    model = Treatment
+    def get_queryset(self):
+        return Treatment.objects.filter(user=self.request.user)
 
 
 @login_required
@@ -81,6 +85,61 @@ def create_water_source_and_inflows(request):
             'source_form': source_form,
             'inflow_formset': inflow_formset
             })
+
+
+@login_required
+def create_treatment_and_logremoval(request):
+
+    try:
+        default_reference = Reference.objects.get(id=51)  # Try by ID first
+    except Reference.DoesNotExist:
+        default_reference = Reference.objects.get(name="local")  # Fallback to name if ID doesn't exist
+
+    # Define your specific pathogens
+    pathogen_group_defaults = [
+        "Viruses", "Bacteria", "Protozoa"
+    ]
+    initial_data = []
+    for pathogen_group in pathogen_group_defaults:
+        pathogen = PathogenGroup.objects.filter(pathogen_group=pathogen_group).first()
+        print(pathogen)
+        if pathogen:
+            initial_data.append({'pathogen_group': pathogen.id})
+            print(pathogen.id)
+    print(initial_data)
+    if request.method == 'POST':
+        
+        treatment_form = TreatmentForm(request.POST)
+        logremoval_formset = LogRemovalFormSet(request.POST,  initial=initial_data)
+        if treatment_form.is_valid() and logremoval_formset.is_valid():
+        # Save SourceWater and associate it with the current user
+            created_treatment = treatment_form.save(commit=False)
+            created_treatment.user = request.user
+            created_treatment.save()
+
+            logremoval_instances = logremoval_formset.save(commit=False)
+            for logremoval in logremoval_instances:
+                logremoval.treatment = created_treatment
+                logremoval.reference = default_reference
+                logremoval.save()
+            return HttpResponseRedirect(reverse("treatment-list"))
+    else:
+        treatment_form = TreatmentForm()
+        
+        logremoval_formset = LogRemovalFormSet(queryset=LogRemoval.objects.none(), 
+        initial=initial_data)
+        
+        return render(request, 'qmratool/logremoval_form.html', {
+            'treatment_form': treatment_form,
+            'logremoval_formset': logremoval_formset
+            })
+
+
+
+
+
+
+
 
 
 def about(request):
