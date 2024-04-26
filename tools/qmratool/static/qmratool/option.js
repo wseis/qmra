@@ -76,7 +76,14 @@ document.addEventListener('DOMContentLoaded', function() {
       // Customize content based on the field
       if (fieldName === 'exposure') {
           return `<strong>${titleCaseDataName}</strong><br>${data.description}<br>Events per year [N]: <strong>${data.events_per_year}</strong><br>Volume per event [L]: <strong>${data.volume_per_event}</strong>`;
-      } else {
+      } else if (fieldName === 'treatment') { 
+        return `<strong>${titleCaseDataName}</strong><br>${data.description}<br>
+        Virus removal: <strong>${data.virus_min}-${data.virus_max}</strong><br>
+        Bacteria removal:: <strong>${data.bacteria_min}-${data.bacteria_max}</strong> <br>
+        Protozoa removal:: <strong>${data.protozoa_min}-${data.protozoa_max}</strong>`;
+      
+        }
+      else {
           return `<strong>${titleCaseDataName}</strong><br>${data.description}`;
       }
   }

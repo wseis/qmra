@@ -46,6 +46,9 @@ class Treatment(models.Model):
     # category = models.CharField(max_length=64, default = "wastewater")
     def __str__(self):
         return self.name
+    
+    def get_lrv(self, pathogen_group):
+        return self.logremoval.get(pathogen_group__pathogen_group=pathogen_group)
 
     def serialize(self):
         return {
@@ -53,6 +56,12 @@ class Treatment(models.Model):
             "name": self.name,
             "description": self.description,
             "group": self.group,
+            "virus_min":  float(self.get_lrv(pathogen_group="Viruses").min),
+            "virus_max":  float(self.get_lrv(pathogen_group="Viruses").max),
+            "bacteria_min": float(self.get_lrv(pathogen_group="Bacteria").min),
+            "bacteria_max": float(self.get_lrv(pathogen_group="Bacteria").max),
+            "protozoa_min": float(self.get_lrv(pathogen_group="Protozoa").min),
+            "protozoa_max": float(self.get_lrv(pathogen_group="Protozoa").max),
         }
 
 
@@ -118,8 +127,8 @@ class Inflow(models.Model):
     pathogen_in_ref = models.CharField(max_length=200, default="unknown")
     notes = models.CharField(max_length=200, default="unknown")
 
-    def get_absolute_url(self):
-        return reverse("inflow-detail", kwargs={"pk": self.pk})
+    #def get_absolute_url(self):
+     #   return reverse("inflow-detail", kwargs={"pk": self.pk})
 
 
 class Health(models.Model):
