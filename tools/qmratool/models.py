@@ -43,25 +43,38 @@ class Treatment(models.Model):
     )
     description = models.TextField(max_length=1000)
 
-    # category = models.CharField(max_length=64, default = "wastewater")
     def __str__(self):
         return self.name
-    
+
     def get_lrv(self, pathogen_group):
-        return self.logremoval.get(pathogen_group__pathogen_group=pathogen_group)
+        try:
+            return self.logremoval.get(pathogen_group__pathogen_group=pathogen_group)
+        except self.logremoval.model.DoesNotExist:
+            return None
 
     def serialize(self):
+        def get_min_max(pathogen_group):
+            lrv = self.get_lrv(pathogen_group)
+            if lrv is not None:
+                return float(lrv.min), float(lrv.max)
+            else:
+                return 'n.a.', 'n. a.'
+
+        virus_min, virus_max = get_min_max("Viruses")
+        bacteria_min, bacteria_max = get_min_max("Bacteria")
+        protozoa_min, protozoa_max = get_min_max("Protozoa")
+
         return {
             "id": self.id,
             "name": self.name,
             "description": self.description,
             "group": self.group,
-            "virus_min":  float(self.get_lrv(pathogen_group="Viruses").min),
-            "virus_max":  float(self.get_lrv(pathogen_group="Viruses").max),
-            "bacteria_min": float(self.get_lrv(pathogen_group="Bacteria").min),
-            "bacteria_max": float(self.get_lrv(pathogen_group="Bacteria").max),
-            "protozoa_min": float(self.get_lrv(pathogen_group="Protozoa").min),
-            "protozoa_max": float(self.get_lrv(pathogen_group="Protozoa").max),
+            "virus_min": virus_min,
+            "virus_max": virus_max,
+            "bacteria_min": bacteria_min,
+            "bacteria_max": bacteria_max,
+            "protozoa_min": protozoa_min,
+            "protozoa_max": protozoa_max,
         }
 
 
