@@ -14,7 +14,7 @@ from .models import (
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, ButtonHolder, Submit, Div
 from formtools.wizard.views import SessionWizardView
-
+from django.forms import modelformset_factory
 
 class RAForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):
@@ -64,10 +64,26 @@ class SourceWaterForm(forms.ModelForm):
 
 
 class InflowForm(forms.ModelForm):
+    #min = forms.DecimalField(label="Minimum Logremoval")
+    #max = forms.DecimalField(label="Maximum Logremoval")
     class Meta:
         model = Inflow
-        fields = ["pathogen", "min", "max", "reference"]
-
+        fields = ['pathogen', 'min', 'max']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.fields['pathogen'].disabled = True
+        self.fields['min'].label = "Minimum concentration"
+        self.fields['max'].label = "Maximum concentration"
+        
+        self.helper.layout = Layout(
+            'pathogen',
+            'min',
+            'max',
+            # Add more fields as needed
+        )
+InflowFormSet = modelformset_factory(Inflow, form=InflowForm, extra=3)
 
 class ExposureForm(forms.ModelForm):
     class Meta:
@@ -109,12 +125,18 @@ class TreatmentForm(forms.ModelForm):
 class LogRemovalForm(forms.ModelForm):
     class Meta:
         model = LogRemoval
-        fields = ["min", "max", "pathogen_group", "reference"]
+        fields = ["pathogen_group", "reference","min", "max"]
 
     def __init__(self, *args, **kwargs):
         super(LogRemovalForm, self).__init__(*args, **kwargs)
         self.fields["reference"].queryset = Reference.objects.filter(id=51)
-        self.fields["pathogen_group"].widget = forms.HiddenInput()
+        self.fields['reference'].disabled = True
+        self.fields['pathogen_group'].disabled = True
+        self.fields['min'].label = "Minimum Logremoval"
+        self.fields['max'].label = "Maximum Logremoval"
+        #self.fields["pathogen_group"].widget = forms.HiddenInput()
+
+LogRemovalFormSet = modelformset_factory(LogRemoval, form=LogRemovalForm, extra=3)
 
 
 class ComparisonForm(forms.ModelForm):

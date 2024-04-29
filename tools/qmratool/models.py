@@ -9,8 +9,11 @@ class User(AbstractUser):
 
 
 class SourceWater(models.Model):
+    user = models.ForeignKey(
+        User, related_name="sourcewaters", default=1, on_delete=models.CASCADE
+    )
     water_source_name = models.CharField(max_length=64)
-    water_source_description = models.CharField(max_length=2000)
+    water_source_description = models.TextField(max_length=2000)
 
     def __str__(self):
         return self.water_source_name
@@ -40,16 +43,38 @@ class Treatment(models.Model):
     )
     description = models.TextField(max_length=1000)
 
-    # category = models.CharField(max_length=64, default = "wastewater")
     def __str__(self):
         return self.name
 
+    def get_lrv(self, pathogen_group):
+        try:
+            return self.logremoval.get(pathogen_group__pathogen_group=pathogen_group)
+        except self.logremoval.model.DoesNotExist:
+            return None
+
     def serialize(self):
+        def get_min_max(pathogen_group):
+            lrv = self.get_lrv(pathogen_group)
+            if lrv is not None:
+                return float(lrv.min), float(lrv.max)
+            else:
+                return 'n.a.', 'n. a.'
+
+        virus_min, virus_max = get_min_max("Viruses")
+        bacteria_min, bacteria_max = get_min_max("Bacteria")
+        protozoa_min, protozoa_max = get_min_max("Protozoa")
+
         return {
             "id": self.id,
             "name": self.name,
             "description": self.description,
             "group": self.group,
+            "virus_min": virus_min,
+            "virus_max": virus_max,
+            "bacteria_min": bacteria_min,
+            "bacteria_max": bacteria_max,
+            "protozoa_min": protozoa_min,
+            "protozoa_max": protozoa_max,
         }
 
 
@@ -103,9 +128,9 @@ class LogRemoval(models.Model):
 class Inflow(models.Model):
     pathogen = models.ForeignKey(Pathogen, on_delete=models.CASCADE)
     reference = models.ForeignKey(Reference, on_delete=models.CASCADE)
-    water_source = models.ForeignKey(SourceWater, on_delete=models.CASCADE)
-    min = models.DecimalField(decimal_places=8, default=-100, max_digits=20)
-    max = models.DecimalField(decimal_places=8, default=-100, max_digits=20)
+    water_source = models.ForeignKey(SourceWater, on_delete=models.CASCADE, related_name="inflow")
+    min = models.DecimalField(decimal_places=8, default=100, max_digits=20)
+    max = models.DecimalField(decimal_places=8, default=100, max_digits=20)
     mean = models.DecimalField(decimal_places=8, max_digits=20, default=-100, null=True)
     alpha = models.DecimalField(
         decimal_places=8, max_digits=20, default=-100, null=True
@@ -114,6 +139,9 @@ class Inflow(models.Model):
     distribution = models.CharField(default="lognormal", max_length=64)
     pathogen_in_ref = models.CharField(max_length=200, default="unknown")
     notes = models.CharField(max_length=200, default="unknown")
+
+    #def get_absolute_url(self):
+     #   return reverse("inflow-detail", kwargs={"pk": self.pk})
 
 
 class Health(models.Model):
