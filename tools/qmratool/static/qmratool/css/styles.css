@@ -171,3 +171,14 @@ footer {
   border-color: #8081F1;
  
 }
+
+      /* Custom CSS for table cell content centering */
+.table th, .table td {
+        text-align: center; /* Center align table cell content */
+        vertical-align: middle; /* Center vertically */
+    }
+    /* Custom background color for the table header */
+ .custom-header {
+        background-color: transparent !important; /* Green background, change as needed */
+        color: black; /* White text color */
+    }
