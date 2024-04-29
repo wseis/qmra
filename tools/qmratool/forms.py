@@ -64,6 +64,8 @@ class SourceWaterForm(forms.ModelForm):
 
 
 class InflowForm(forms.ModelForm):
+    #min = forms.DecimalField(label="Minimum Logremoval")
+    #max = forms.DecimalField(label="Maximum Logremoval")
     class Meta:
         model = Inflow
         fields = ['pathogen', 'min', 'max']
@@ -72,6 +74,9 @@ class InflowForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.fields['pathogen'].disabled = True
+        self.fields['min'].label = "Minimum concentration"
+        self.fields['max'].label = "Maximum concentration"
+        
         self.helper.layout = Layout(
             'pathogen',
             'min',
@@ -127,6 +132,8 @@ class LogRemovalForm(forms.ModelForm):
         self.fields["reference"].queryset = Reference.objects.filter(id=51)
         self.fields['reference'].disabled = True
         self.fields['pathogen_group'].disabled = True
+        self.fields['min'].label = "Minimum Logremoval"
+        self.fields['max'].label = "Maximum Logremoval"
         #self.fields["pathogen_group"].widget = forms.HiddenInput()
 
 LogRemovalFormSet = modelformset_factory(LogRemoval, form=LogRemovalForm, extra=3)

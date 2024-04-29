@@ -106,7 +106,7 @@ def create_treatment_and_logremoval(request):
         if pathogen:
             initial_data.append({'pathogen_group': pathogen.id})
             print(pathogen.id)
-    print(initial_data)
+    
     if request.method == 'POST':
         
         treatment_form = TreatmentForm(request.POST)
