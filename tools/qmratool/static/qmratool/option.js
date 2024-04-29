@@ -78,10 +78,34 @@ document.addEventListener('DOMContentLoaded', function() {
           return `<strong>${titleCaseDataName}</strong><br>${data.description}<br>Events per year [N]: <strong>${data.events_per_year}</strong><br>Volume per event [L]: <strong>${data.volume_per_event}</strong>`;
       } else if (fieldName === 'treatment') { 
         return `<strong>${titleCaseDataName}</strong><br>${data.description}<br>
-        Virus removal: <strong>${data.virus_min}-${data.virus_max}</strong><br>
-        Bacteria removal:: <strong>${data.bacteria_min}-${data.bacteria_max}</strong> <br>
-        Protozoa removal:: <strong>${data.protozoa_min}-${data.protozoa_max}</strong>`;
-      
+        <table class="table table-bordered mt-3">
+        <thead class="custom-header">
+            <tr>
+                <th>Pathogen Group</th>
+                <th>Minimum LRV</th>
+                <th>Maximum LRV</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Viruses</td>
+                <td>${data.virus_min}</td>
+                <td>${data.virus_max}</td>
+            </tr>
+            <tr>
+                <td>Bacteria</td>
+                <td>${data.bacteria_min}</td>
+                <td>${data.bacteria_max}</td>
+            </tr>
+            <tr>
+                <td>Protozoa</td>
+                <td>${data.protozoa_min}</td>
+                <td>${data.protozoa_min}</td>
+            </tr>
+         
+        </tbody>
+    </table>`
+        
         }
       else {
           return `<strong>${titleCaseDataName}</strong><br>${data.description}`;
