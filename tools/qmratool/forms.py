@@ -24,7 +24,7 @@ class RAForm(forms.ModelForm):
         ].help_text = "Please select your treatment configuration"
         self.fields["source"].help_text = "Please select your source water"
         self.fields["source"].empty_label = None
-        self.fields["source"].queryset = Source.objects.filter(user__in=[user,1]).order_by("id")
+        self.fields["source"].queryset = SourceWater.objects.filter(user__in=[user,1]).order_by("id")
         self.fields["exposure"].empty_label = None
         self.fields["exposure"].help_text = "Please define your exposure scenario"
         self.fields["exposure"].queryset = Exposure.objects.filter(
