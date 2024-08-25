@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% load crispy_forms_tags %}
+{% block body %}
+<div class="container" style="padding: 5%">
+    <div class="row" id="source-form">
+        <div class="col-sm-8">
+            <h1 class="headline">Water Source Definition</h1>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{source_form.instance.id}}" id="id_id">
+                {{ source_form | crispy }}
+                {{ inflow_formset.management_form }}
+                {% for form in inflow_formset %}
+                <div class="inflow-form">
+                    {{ form|crispy }}
+                </div>
+                {% endfor %}
+                <button class="btn btn-primary" type="submit">Submit</button>
+                <a class="btn btn-primary" href="{% url 'source' %}">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

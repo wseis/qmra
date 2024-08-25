@@ -2,8 +2,8 @@ DOMAIN=qmra.org
 
 # You should probably leave these as is
 DJANGO_PROJECT=qmra
-DJANGO_APP_LOCATION=qmra/tools
-DJANGO_APP_DIR=tools
+DJANGO_APP_LOCATION=qmra
+DJANGO_APP_DIR=qmra
 
 DJANGO_PROJECT_REPOSITORY=http://github.com/wseis/qmra.git
 REPOSITORY_NAME=qmra

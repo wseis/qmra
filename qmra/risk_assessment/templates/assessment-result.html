@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            {%if ra.id %}
+            <div class="m-4"> <!--style= "background-color: #007c9f; color: white">-->
+                <h2>{{ ra.name }}</h2>
+                <a class="btn btn-primary mt-3" href="{%url 'assessment-export' ra.id%}">Export summary as csv</a>
+            </div>
+            {%endif %}
+            <h4 style="text-align: center">Risk assessment as probability of infection per year</h4>
+            {% if risk%}
+            <div class="alert alert-danger m-4" role="alert">
+                At least one pathogen exceeds tolerable infection risk value of 1/10000 pppy (red line)
+            </div>
+            {%else %}
+            <div class="alert alert-primary m-4" role="alert">
+                All risk simulations stay well below tolerable limits of 1/10000 pppy (blue line)
+            </div>
+            {% endif %}
+            <div id="hero-graph" class="m-4">
+                {% autoescape off %}
+                {{ risk_plot }}
+                {% endautoescape %}
+            </div>
+            {% if comparison %}
+            <div>
+                <p class="text_link_kwb mt-3 info"> For each pathogen, the outer boundaries of each barplot refer to the
+                    range between the maximum of the maximum LRV scenario and the minimum of the minimum risk scenario
+                    (maximal range).
+                    The inner range refers to the range between the mean of the maximum and the mean of the minimum risk
+                    scenario (difference in means).
+                    The mean of the distribution is often considered as the preferred point estimator, for deciding
+                    whether health targets are achieved.
+                </p>
+            </div>
+            {%endif%}
+            {%if ra.id %}
+            <h4 style="text-align: center">Risk in disability adjusted life years (DALYs) per person per year
+                (pppy)</h4>
+            {% if dalyrisk%}
+            <div class="alert alert-danger m-4" role="alert">
+                At least one pathogen exceeds tolerable DALY risk value of 1µDALY pppy (red line)
+            </div>
+            {%else %}
+            <div class="alert alert-primary m-4" role="alert">
+                All risk simulations stay well below tolerable limits of 1µDALY pppy (blue line)
+            </div>
+            {% endif %}
+            <div id="hero-graph" class="m-4">
+                {% autoescape off %}
+                {{ daly_plot }}
+                {% endautoescape %}
+            </div>
+            <h4 style="text-align: center">Treatment performance of selected treatments</h4>
+            <div id="hero-graph" class="m-4">
+                {% autoescape off %}
+                {{ plot_div }}
+                {% endautoescape %}
+            </div>
+            <h4 style="text-align: center">Inflow concentrations of reference pathogens</h4>
+            <div id="hero-graph" class="m-4">
+                {% autoescape off %}
+                {{ plot_div2 }}
+                {% endautoescape %}
+            </div>
+            {%endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
