@@ -1,11 +1,11 @@
-DOMAIN=qmra.org
+DOMAIN=dev.qmra.org
 
 # You should probably leave these as is
 DJANGO_PROJECT=qmra
 DJANGO_APP_LOCATION=qmra
 DJANGO_APP_DIR=qmra
 
-DJANGO_PROJECT_REPOSITORY=http://github.com/wseis/qmra.git
+DJANGO_PROJECT_REPOSITORY=http://github.com/kwb-r/qmra-webapp.git
 REPOSITORY_NAME=qmra
 DJANGO_USER=qmra
 DJANGO_GROUP=qmra
@@ -15,12 +15,3 @@ PYTHON=3
 
 # apache or nginx
 WEB_SERVER=nginx
-
-# Django email setting
-#ADMIN_NAME=Admin
-#ADMIN_EMAIL_ADDRESS=admin@example.com
-#EMAIL_HOST=smtp.emailprovider.com
-#EMAIL_HOST_USER=username
-#EMAIL_HOST_PASSWORD=topsecret
-
-# These settings are for Backblaze b2. NICK and SERVER_NAME are just used to

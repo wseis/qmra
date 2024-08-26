@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from django.utils.crypto import get_random_string
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,13 +21,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'vg53pe$sr@2ueuk#be2it$!-74u3%+)j-!_42qx3yw@pbz+j_r'
+SECRET_KEY = get_random_string(50)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("ENVIRONMENT", "") != "prod"
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    "188.245.69.0",
+     '127.0.0.1',
+      "dev.qmra.org"
+      ]
+CSRF_TRUSTED_ORIGINS = ["https://dev.qmra.org"]
+CSRF_ALLOWED_ORIGINS = ["https://dev.qmra.org"]
 # Application definition
 
 INSTALLED_APPS = [
@@ -104,6 +110,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+SESSION_COOKIE_SECURE=True
+CSRF_COOKIE_SECURE=True
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -122,3 +130,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = "/var/cache/qmra/static"
+STATICFILES_DIRS = [
+    BASE_DIR / "qmra/static"
+]
