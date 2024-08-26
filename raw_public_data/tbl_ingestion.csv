@@ -1,0 +1,11 @@
+ID,Name,Description,events_per_year,volume_per_event,"ReferenceID"
+1,"irrigation, unrestricted","100 g of lettuce leaves hold 10.8 mL water and cucumbers 0.4 mL at worst case (immediately post watering). A serve of lettuce (40 g) might hold 5 mL of recycled water and other produce might hold up to 1 mL per serve. Calculated frequencies are based on Autralian Bureau of Statistics (ABS) data",70,0.005,48
+2,"domestic use, car washing","Assumed similar to garden watering estimated to typically occur every second day during dry months (half year). Exposure to aerosols occurs during watering.",25,1e-04,NA
+3,"irrigation, restricted","Based on unrestricted  irrigation, but far less frequent due to restricted access",1,0.005,NA
+4,"domestic use, toilet flushing","Frequency based on three uses of home toilet per day. Aerosol volumes are less than those produced by garden irrigation.",1100,1e-05,48
+5,"drinking water","Assumption for ingestion of drinking water",365,1,NA
+7,"irrigation, public","Frequencies moderate as most people use municipal areas sparingly (estimate 1/2 - 3 weeks). People are unlikely to be directly exposed to large amounts of spray and therefore exposure is from indirect ingestion via contact with lawns, etc. Likely to be higher when used to irrigate facilities such as sports grounds or golf courses (estimate 1/week)
+
+grounds and golf courses (estimate 1/week)",50,0.001,48
+8,"irrigation, garden","Garden watering estimated to typically occur every second day during dry months (half year). Routine exposure results from indirect ingestion via contact with plants, lawns, etc.",90,0.001,48
+9,"domestic use, washing machine","Assumes one member of household exposed. Calculated frequency based on Australian Bureau of Statistics (ABS) data. Aerosol volumes are less than those produced by garden irrigation (machines usually closed during operation).",100,1e-05,48

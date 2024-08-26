@@ -2,8 +2,7 @@
 __pycache__/
 venv/
 .idea
-*qmra*.db
+qmra.db
 qmra-prod.db
 dump*
-original.qmra.db/
 prod-migrations/

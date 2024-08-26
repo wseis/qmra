@@ -43,7 +43,7 @@ class Command(BaseCommand):
             dict(m=ExposureScenario, f="tbl_ingestion.csv"),
         ]:
             model = data["m"]
-            df = pd.read_csv(f"original.qmra.db/raw/{data['f']}", encoding="windows-1251")
+            df = pd.read_csv(f"raw_public_data/{data['f']}", encoding="windows-1251")
             model_fields = {
                 f"{f.name}_{f.field_name}" if f.is_relation and not isinstance(f, ForeignKey)
                 else f.name if not isinstance(f, ForeignKey) else f.name + "_id"
