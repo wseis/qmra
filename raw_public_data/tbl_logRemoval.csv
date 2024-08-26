@@ -1,0 +1,75 @@
+"treatment","min","max","reference","pathogen_group","mean","alpha","beta","distribution","Notes"
+1,0.2,2,40,1,NA,NA,NA,"uniform",NA
+1,0.1,3.4,40,2,NA,NA,NA,"uniform",NA
+1,1,2,40,3,NA,NA,NA,"uniform",NA
+2,0.6,2.6,40,3,NA,NA,NA,"uniform",NA
+3,2,2.8,40,3,NA,NA,NA,"uniform",NA
+4,1,4,40,1,NA,NA,NA,"uniform",NA
+4,2,4,40,2,NA,NA,NA,"uniform",NA
+4,0,2,40,3,NA,NA,NA,"uniform",NA
+5,0.2,4.4,40,1,NA,NA,NA,"uniform",NA
+5,0,3.5,40,2,NA,NA,NA,"uniform",NA
+5,0.4,3.3,40,3,NA,NA,NA,"uniform",NA
+7,0.2,2.3,40,1,NA,NA,NA,"uniform",NA
+7,1,1.7,40,2,NA,NA,NA,"uniform",NA
+7,3,6.7,40,3,NA,NA,NA,"uniform",NA
+8,2,6,40,1,NA,NA,NA,"uniform",NA
+8,0.25,4,40,2,NA,NA,NA,"uniform",NA
+8,0.3,5,40,3,NA,NA,NA,"uniform",NA
+9,2,6,40,1,NA,NA,NA,"uniform",NA
+9,2.1,8.3,40,2,NA,NA,NA,"uniform",NA
+9,1,2,40,3,NA,NA,NA,"uniform",NA
+10,0.2,2.3,40,1,NA,NA,NA,"uniform",NA
+11,0.7,2.2,40,1,NA,NA,NA,"uniform",NA
+11,1.4,2.3,40,3,NA,NA,NA,"uniform",NA
+12,2,2,40,1,NA,NA,NA,"uniform",NA
+12,2,2,40,2,NA,NA,NA,"uniform",NA
+12,2,2,40,3,NA,NA,NA,"uniform",NA
+13,2,2,40,1,NA,NA,NA,"uniform",NA
+13,2,2,40,2,NA,NA,NA,"uniform",NA
+13,2,2,40,3,NA,NA,NA,"uniform",NA
+14,2,2,40,1,NA,NA,NA,"uniform",NA
+14,2,2,40,2,NA,NA,NA,"uniform",NA
+14,2,2,40,3,NA,NA,NA,"uniform",NA
+15,4.6,6,50,1,NA,NA,NA,"uniform","based on Streptococcus faecalis: kmin = 0.312, kmax = 0.88, MICmax_min = 4.6, MICmax_max = 6,  dose = 20"
+15,2,3.1,50,2,NA,NA,NA,"uniform","based on Rotavirus (MC vs PC): kmin = 0.102, kmax = 0.1514, MICmax_min = 4.1, MICmax_max = 5.9,  dose = 20"
+15,2.4,3,50,3,NA,NA,NA,"uniform","based on Giardia lambia: kmin = 0.122, kmax = 0.243, MICmax_min = 2.5, MICmax_max = 3,  dose = 20"
+16,0,0.5,8,1,NA,NA,NA,"uniform",NA
+16,0,0.1,8,2,NA,NA,NA,"uniform",NA
+16,0,1,8,3,NA,NA,NA,"uniform",NA
+17,1,3,8,1,NA,NA,NA,"uniform",NA
+17,0.5,2,8,2,NA,NA,NA,"uniform",NA
+17,0.5,1.5,8,3,NA,NA,NA,"uniform",NA
+18,0,1,8,1,NA,NA,NA,"uniform",NA
+18,0.5,3,8,2,NA,NA,NA,"uniform",NA
+18,1.5,2.5,8,3,NA,NA,NA,"uniform",NA
+19,3.5,6,8,1,NA,NA,NA,"uniform",NA
+19,2.5,6,8,2,NA,NA,NA,"uniform",NA
+19,6,6,8,3,NA,NA,NA,"uniform",NA
+20,2,6,8,1,NA,NA,NA,"uniform",NA
+20,1,3,8,2,NA,NA,NA,"uniform",NA
+20,0,1.5,8,3,NA,NA,NA,"uniform",NA
+22,2,6,8,1,NA,NA,NA,"uniform",NA
+22,3,6,8,2,NA,NA,NA,"uniform",NA
+23,1.5,2.5,8,1,NA,NA,NA,"uniform",NA
+23,0.5,1.5,8,3,NA,NA,NA,"uniform",NA
+24,0.5,3,8,1,NA,NA,NA,"uniform",NA
+24,0.5,2,8,3,NA,NA,NA,"uniform",NA
+25,2,4,8,1,NA,NA,NA,"uniform",NA
+25,1,3,8,2,NA,NA,NA,"uniform",NA
+25,3,3,8,3,NA,NA,NA,"uniform",NA
+26,0,4.3,46,1,NA,NA,NA,"uniform",NA
+26,0,3.7,46,2,NA,NA,NA,"uniform",NA
+26,2.3,6,46,3,NA,NA,NA,"uniform","Upper boundary based on WHO 2017 and limitation of Title22 not do award more than 6 log to one process"
+27,5.5,6,47,1,NA,NA,NA,"uniform","Upper boundary based on WHO 2017"
+27,2.69,5.14,47,2,NA,NA,NA,"uniform",NA
+27,5.3,6.5,47,3,NA,NA,NA,"uniform",NA
+28,5.44,6,47,1,NA,NA,NA,"uniform","At least as effective for bacteria as for viruses"
+28,5.44,6,47,2,NA,NA,NA,"uniform","Upper boundary based on WHO 2017"
+28,5.75,6.32,47,3,NA,NA,NA,"uniform",NA
+21,5.44,6,47,1,NA,NA,NA,"uniform","identical to Nanofiltration"
+21,5.44,6,47,2,NA,NA,NA,"uniform","identical to Nanofiltration"
+21,5.75,6.32,47,3,NA,NA,NA,"uniform","identical to Nanofiltration"
+29,4.6,6,50,1,NA,NA,NA,"uniform","based on Streptococcus faecalis: kmin = 0.312, kmax = 0.88, MICmax_min = 4.6, MICmax_max = 6,  dose = 40"
+29,4.1,5.9,50,2,NA,NA,NA,"uniform","based on Rotavirus (MC vs PC): kmin = 0.102, kmax = 0.1514, MICmax_min = 4.1, MICmax_max = 5.9,  dose = 40"
+29,2.5,3,50,3,NA,NA,NA,"uniform","based on Giardia lambia: kmin = 0.122, kmax = 0.243, MICmax_min = 2.5, MICmax_max = 3,  dose = 40"

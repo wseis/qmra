@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% load crispy_forms_tags %}
+{% block body %}
+<div class="container" style="padding: 5%">
+    <div class="row" id="treatment-form">
+        <div class="col-sm-8">
+            <h1 class="headline">Treatment Definition</h1>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{treatment_form.instance.id}}" id="id_id">
+                {{ treatment_form | crispy }}
+                {{ logremoval_formset.management_form }}
+                {% for form in logremoval_formset %}
+                <div class="logremoval-form">
+                    {{ form|crispy }}
+                </div>
+                {% endfor %}
+                <button class="btn btn-primary" type="submit">Submit</button>
+                <a class="btn btn-primary" href="{% url 'treatment' %}">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

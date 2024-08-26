@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block body %}
+
+
+<div class="container" style="padding: 5%">
+    <div class="row">
+        <div class="col-sm-8">
+            {% if user.is_authenticated %}
+            <h4>New risk assessment</h4>
+            <p> Please add a name and a brief description of the risk assessment
+            <p>
+                {% for source in sources %}
+                {% with source.id|stringformat:"i" as t_id %}
+                {% with "source-"|add:t_id as data_id %}
+                {{ source.serialize | json_script:data_id }}
+                {% endwith %}
+                {% endwith %}
+                {% endfor %}
+                {% for treatment in treatments %}
+                {% with treatment.id|stringformat:"i" as t_id %}
+                {% with "treatment-"|add:t_id as data_id %}
+                {{ treatment.serialize | json_script:data_id }}
+                {% endwith %}
+                {% endwith %}
+                {% endfor %}
+                {% for exposure in exposures %}
+                {% with exposure.id|stringformat:"i" as t_id %}
+                {% with "exposure-"|add:t_id as data_id %}
+                {{ exposure.serialize | json_script:data_id }}
+                {% endwith %}
+                {% endwith %}
+                {% endfor %}
+            <form method="post">
+                {% csrf_token %}
+                {{ra_form|crispy}}
+                <button class="btn btn-primary" type="submit">Submit</button>
+                <a class="btn btn-primary" href="{% url 'assessment' %}">Cancel</a>
+            </form>
+            {%endif%}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script type="text/javascript" src="{% static 'option.js' %}"></script>
+{% endblock %}

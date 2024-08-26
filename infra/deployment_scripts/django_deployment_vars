@@ -1,0 +1,17 @@
+DOMAIN=dev.qmra.org
+
+# You should probably leave these as is
+DJANGO_PROJECT=qmra
+DJANGO_APP_LOCATION=qmra
+DJANGO_APP_DIR=qmra
+
+DJANGO_PROJECT_REPOSITORY=http://github.com/kwb-r/qmra-webapp.git
+REPOSITORY_NAME=qmra
+DJANGO_USER=qmra
+DJANGO_GROUP=qmra
+
+# Test with both Python 2 and 3
+PYTHON=3
+
+# apache or nginx
+WEB_SERVER=nginx

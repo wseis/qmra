@@ -1,0 +1,12 @@
+django-import-export
+numpy
+pandas
+plotly
+django-crispy-forms
+django-formtools
+django-extensions
+django-pandas
+markdown2
+python-decouple
+django-anymail[mailgun]
+crispy-bootstrap4

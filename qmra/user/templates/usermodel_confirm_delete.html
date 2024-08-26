@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+
+
+  <div class="container" style="padding: 5%">
+
+  <div class="row">
+  <div class="col-sm-6">
+    <form method="post">{% csrf_token %}
+      
+ 
+        <p>Are you sure you want to delete "{{ object }}"? This will delete all configured risk assessments and treatments, 
+          and all user related information </p>
+     
+            <input type="submit" class="btn btn-primary" value="Confirm">
+        </form>
+  </div>
+
+  <div class="col-sm-5 offset-sm-1" >
+  <img class= "img-fluid" src="/static/qmratool/img/QMRA-1.png" alt="...">
+ 
+  </div>
+{% endblock %}
