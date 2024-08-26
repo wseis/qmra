@@ -30,4 +30,5 @@ jobs:
         REMOTE_DIR: ${{ secrets.DEPLOY_PATH }}
       run: |
         ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }} "\
-        sudo docker compose down || true && bash ${{ env.REMOTE_DIR }}/infra/deployment_scripts/04_deploy_latest.sh"
+        sudo docker compose down || true
+        cd ${{ env.REMOTE_DIR }} && bash infra/deployment_scripts/04_deploy_latest.sh"
