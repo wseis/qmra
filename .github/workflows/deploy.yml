@@ -4,10 +4,11 @@ name: Deploy Django Application
 on:
   push:
     branches:
-      - production 
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: dev
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -17,9 +18,8 @@ jobs:
       with:
         python-version: 3.x
      
-    - name: Install rsync and configure SSH
+    - name: Install and configure SSH
       run: |
-        sudo apt-get install -y rsync
         echo "${{ secrets.DEPLOY_SERVER_SSH_KEY }}" > private_key.pem
         chmod 600 private_key.pem
 
@@ -29,7 +29,5 @@ jobs:
         REMOTE_USER: ${{ secrets.DEPLOY_USER }}
         REMOTE_DIR: ${{ secrets.DEPLOY_PATH }}
       run: |
-        rsync -avz --itemize-changes --omit-dir-times --no-perms --delete --exclude '.git' --exclude 'private_key.pem' --exclude '**/__pycache__' -e "ssh -i private_key.pem -o StrictHostKeyChecking=no" ./ ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }}:${{ env.REMOTE_DIR }}
-        ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }} "\
-        
-        sudo /usr/bin/pkill gunicorn || true && cd ${{ secrets.DEPLOY_PATH }}/infra/deployment_scripts && /bin/bash 07_run.sh"
+        ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }}:${{ env.REMOTE_DIR }} "\
+        sudo docker compose down || true && bash infra/deployment_scripts/04_deploy_latest.sh"
