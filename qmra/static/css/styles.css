@@ -1,3 +1,8 @@
+:root {
+    --kwb-blue: #0003e2;
+    --primary: var(--kwb-blue);
+}
+
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
   color: white !important;
   background-color: #8081F1 !important;
@@ -9,95 +14,21 @@
     font-style: italic;
     font-size: small;
   }
-  
-/*Icon progressbar*/
-#progressbar {
-  margin-bottom: 30px;
-  overflow: hidden;
-  color: lightgrey;
-}
-
-#progressbar .active {
-  color: #8081F1;
-}
-
-#progressbar li {
-  list-style-type: none;
-  font-size: 15px;
-  width: 25%;
-  float: left;
-  position: relative;
-  font-weight: 400;
-}
-
-/*Icons in the ProgressBar*/
-#progressbar #Description:before {
-  font-family: FontAwesome;
-  content: " ";
- 
-}
-#progressbar #Source:before {
-  font-family: FontAwesome;
-  content: " ";
-}
-
-#progressbar #Treatment:before {
-  font-family: FontAwesome;
-  content: " ";
-}
-
-#progressbar #Exposure:before {
-  font-family: FontAwesome;
-  content: " ";
-}
-
-/*Icon ProgressBar before any progress*/
-#progressbar li:before {
-  width: 50px;
-  height: 50px;
-  line-height: 45px;
-  display: block;
-  font-size: 20px;
-  color: lightgrey;
-  background: lightgrey;
-  border-radius: 50%;
-  margin: 0 auto 10px auto;
-  padding: 2px;
-  content:'';
-}
-
-/*ProgressBar connectors*/
-#progressbar li:after {
-  content: '';
-  width: 100%;
-  height: 2px;
-  color: #8081F1 !important;
-  position: absolute;
-  left: 0;
-  top: 25px;
-  z-index: -1;
-}
-
-/*Color number of the step and the connector before it*/
-#progressbar li.active:before, #progressbar li.active:after {
-  background: #8081F1;
-}
-
-/*Animated Progress Bar*/
-.progress {
-height: 20px;
-}
-
 
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
   background-color: #8081F1 !important;
   border-color: #8081F1 !important;
   }
 
-.text_link_kwb { color: #0003e2;  }
+.btn-outline-primary, .btn-outline-primary:hover, .btn-outline-primary:active, .btn-outline-primary:visited {
+  color: var(--kwb-blue);
+  border-color: var(--kwb-blue);
+}
+
+.text_link_kwb { color: var(--kwb-blue);  }
 
 .kwb_headline {
-  color: #0003e2 !important;
+  color: var(--kwb-blue) !important;
   font-weight: bold;
 
 }

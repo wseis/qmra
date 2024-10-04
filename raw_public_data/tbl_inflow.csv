@@ -1,4 +1,4 @@
-"PathogenID","ReferenceID","WaterSourceID","min","max","distribution","mean","alpha","beta","PathogenInReference","Notes"
+pathogen_id,"ReferenceID",source_id,"min","max","distribution","mean","alpha","beta","PathogenInReference","Notes"
 6,39,8,1e+06,1e+10,"log10_norm",NA,NA,NA,NA,NA
 23,39,8,100,1e+06,"log10_norm",NA,NA,NA,NA,NA
 27,39,8,1,1000,"log10_norm",NA,NA,NA,NA,NA

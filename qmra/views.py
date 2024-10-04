@@ -8,7 +8,7 @@ from qmra.risk_assessment.models import RiskAssessment
 
 def index(request):
     if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("assessment"))
+        return HttpResponseRedirect(reverse("assessments"))
     else:
         return HttpResponseRedirect(reverse("login"))
 

@@ -1,0 +1,31 @@
+{% load static %}
+<script type="application/json" src="{% static 'data/default-exposures.json' %}"></script>
+<script type="text/javascript">
+    let defaultExposures = null;
+    let exposureForm = null;
+
+    function getExposureData(name) {
+        return {...defaultExposures[name]};
+    };
+    function getExposureForm() {
+        return document.querySelector("div[id='exposure-form-fieldset']");
+    };
+    function setExposureFormValues(exposureForm, values) {
+        exposureForm.querySelector("input[id*='events_per_year']").setAttribute("value", values.events_per_year);
+        exposureForm.querySelector("input[id*='volume_per_event']").setAttribute("value", values.volume_per_event);
+    }
+
+    document.addEventListener('DOMContentLoaded', async function() {
+        defaultExposures = await fetch("{% static 'data/default-exposures.json' %}").then(resp => resp.json());
+
+        exposureForm = getExposureForm();
+
+        document.querySelectorAll("select[id*='exposure_name'] option").forEach(el => {
+            el.addEventListener("click", function() {
+                const data = getExposureData(el.value);
+                setExposureFormValues(exposureForm, data);
+            });
+        });
+    })
+
+</script>

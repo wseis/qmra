@@ -1,0 +1,95 @@
+{% load static %}
+<script type="application/json" src="{% static 'data/default-treatments.json' %}"></script>
+<script type="text/javascript">
+    let defaultTreatments = null;
+    let focusedTreatment = null;
+    let treatmentsFormset = null;
+
+    function getTreatmentData(name) {
+        return {...defaultTreatments[name]};
+    };
+    function getTreatmentsFormset() {
+        return document.querySelector("fieldset[id='treatments-formset-fieldset']");
+    };
+    function getTreatmentsFormsCount() {
+        return treatmentsFormset.querySelectorAll("div[id*='treatments-n-']").length;
+    };
+    function updateTreatmentsFormsCount(count) {
+        treatmentsFormset.querySelector("input[id*='TOTAL_FORMS']").setAttribute('value', count);
+    };
+    function hideAllTreatmentsForms() {
+        treatmentsFormset.querySelectorAll("div[id*='treatments-n-']").forEach(e => e.setAttribute("hidden", ""));
+    };
+    function setTreatmentFormValues(treatmentForm, values) {
+        // treatmentForm.querySelector(`option[value='']`).removeAttribute("selected");
+        treatmentForm.querySelector(`option[value='${values.name}']`).setAttribute("selected", "");
+        treatmentForm.querySelector("input[id*='bacteria_min']").setAttribute("value", values.bacteria_min);
+        treatmentForm.querySelector("input[id*='bacteria_max']").setAttribute("value", values.bacteria_max);
+        treatmentForm.querySelector("input[id*='viruses_min']").setAttribute("value", values.viruses_min);
+        treatmentForm.querySelector("input[id*='viruses_max']").setAttribute("value", values.viruses_max);
+        treatmentForm.querySelector("input[id*='protozoa_min']").setAttribute("value", values.protozoa_min);
+        treatmentForm.querySelector("input[id*='protozoa_max']").setAttribute("value", values.protozoa_max);
+    }
+    function focusOnTreatment(formId){
+        hideAllTreatmentsForms();
+        treatmentsFormset.querySelector(`[id='${formId}']`).removeAttribute('hidden');
+    };
+    function addTreatmentSummary(treatmentName, formId){
+        const summaryDiv = treatmentsFormset.querySelector("[id=selected-treatments]");
+        const button = document.createElement("button");
+        button.setAttribute("class", "btn btn-info");
+        button.addEventListener("click", ev => {
+            ev.preventDefault();
+            focusOnTreatment(formId)
+        })
+        button.appendChild(document.createTextNode(treatmentName));
+        const deleteButton = document.createElement("button");
+        deleteButton.appendChild(document.createTextNode("X"));
+        const div = document.createElement("div");
+        div.setAttribute("style", "display: flex;")
+        div.append(button, deleteButton);
+        deleteButton.addEventListener("click", ev => {
+            ev.preventDefault();
+            const thisTreatment = treatmentsFormset.querySelector(`div[id=${formId}]`);
+            // set DELETE to checked
+            thisTreatment.querySelector(`input[name*=DELETE]`).setAttribute("checked", "");
+            // hide
+            thisTreatment.setAttribute("hidden", "");
+            // remove from summary div
+            summaryDiv.removeChild(div);
+            })
+        summaryDiv.append(div)
+    };
+    function getSelectedTreatment(){
+        return document.querySelector("select[id*=select_treatment] option:checked").value;
+    };
+    function addNewTreatmentForm(selectedTreatment, data = null){
+        if (data === null) data = getTreatmentData(selectedTreatment);
+        let newForm = treatmentsFormset.querySelector("[id='treatment-empty']").cloneNode(true);
+        setTreatmentFormValues(newForm, data);
+        let nForms = getTreatmentsFormsCount();
+        const newFormId = `treatments-n-${nForms}`
+        newForm.setAttribute("id", newFormId);
+        newForm.removeAttribute("hidden");
+        newForm.innerHTML = newForm.innerHTML.replaceAll(
+            new RegExp('__prefix__', "g"), `${nForms}`
+        );
+        addTreatmentSummary(selectedTreatment, newFormId);
+        treatmentsFormset.append(newForm);
+        updateTreatmentsFormsCount(nForms+1);
+        focusOnTreatment(newFormId);
+        return newForm;
+    };
+
+    document.addEventListener('DOMContentLoaded', async function() {
+        defaultTreatments = await fetch("{% static 'data/default-treatments.json' %}").then(resp => resp.json());
+        treatmentsFormset = getTreatmentsFormset();
+        treatmentsFormset.querySelectorAll("[id*=treatments-n-]").forEach(form => {
+            const formId = form.id;
+            const treatmentName = form.querySelector("select[id*=name] option:checked").value;
+            addTreatmentSummary(treatmentName, formId);
+            focusOnTreatment(formId);
+        })
+    })
+
+</script>

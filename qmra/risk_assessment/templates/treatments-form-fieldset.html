@@ -1,0 +1,85 @@
+{% load crispy_forms_tags %}
+{% load static %}
+<nav>
+    <div class="nav nav-tabs" id="treatments-nav-tab" role="tablist">
+        <button class="nav-link active" id="nav-treatments-params-tab" data-toggle="tab"
+                data-target="#treatments-formset-fieldset" type="button" role="tab"
+                aria-controls="treatments-formset-fieldset" aria-selected="true">params
+        </button>
+        <button class="nav-link" id="nav-treatments-plot-tab" data-toggle="tab"
+                data-target="#treatments-plot" type="button" role="tab"
+                aria-controls="treatments-plot" aria-selected="false">plots
+        </button>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+
+    <fieldset id="treatments-formset-fieldset" class="tab-pane fade show active configurator-section"
+              role="tabpanel" aria-labelledby="nav-treatments-params-tab">
+
+        <div id="treatments-management">
+            {{ treatment_form.management_form|crispy }}
+        </div>
+        <div id="treatment-empty" hidden="">
+            <input type="checkbox" name="treatments-__prefix__-DELETE" class="form-control"
+                   id="id_treatments-__prefix__-DELETE" hidden>
+            {% crispy treatment_form.empty_form %}
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-8">
+                    {{ add_treatment_form.select_treatment | as_crispy_field }}
+                </div>
+                <div class="col">
+                    <label>&nbsp</label>
+                    <button id="add-treatment-btn" type="button" class="col btn btn-outline-primary"
+                            onclick="addNewTreatmentForm(getSelectedTreatment())">Add
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="text-muted">Selected treatments:</label>
+            <div id="selected-treatments" style="display: grid; grid-template-columns: repeat(6, 1fr)">
+            </div>
+        </div>
+        {% for form in treatment_form %}
+        <div id="treatments-n-{{forloop.counter0}}">
+            <input type="checkbox" name="treatments-{{forloop.counter0}}-DELETE" class="form-control"
+                   id="id_treatments-{{forloop.counter0}}-DELETE" hidden>
+            {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+            {% endfor %}
+            {% crispy form %}
+        </div>
+        {% endfor %}
+
+    </fieldset>
+    <div id="treatments-plot" class="tab-pane fade configurator-section" role="tabpanel"
+         aria-labelledby="nav-treatments-plot-tab"></div>
+</div>
+{% include "treatments-form-js.html" %}
+<script type="text/javascript">
+    function getTreatmentsPlot() {
+        const frm = document.createElement("form");
+        frm.append(document.querySelector("[id=treatments-management]").cloneNode(true));
+        document.querySelectorAll("div[id*=treatments-n-]").forEach(n => {
+            frm.append(n.cloneNode(true));
+        });
+        const content = fetch("{% url 'treatments-plot' %}", {
+            method: "POST",
+            headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value},
+            mode: 'same-origin',
+            body: new FormData(frm)
+            }).then(r => r.text()).then(html => {
+                document.querySelector("#treatments-plot").innerHTML = html;
+                document.querySelector("#treatments-plot").querySelectorAll("script").forEach(s => eval(s.innerHTML));
+            });
+    }
+    
+    document.addEventListener('DOMContentLoaded', async function() {
+        document.querySelector("#nav-treatments-plot-tab").addEventListener("click", ev => {
+            getTreatmentsPlot();
+        });
+    })
+</script>

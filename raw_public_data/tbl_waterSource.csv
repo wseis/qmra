@@ -1,4 +1,4 @@
-"WaterSourceID","WaterSourceName","WaterSourceDescription"
+id,name,description
 1,"sewage, treated","Municipal sewage that has received secondary, so including activated sludge"
 2,"surface water, general","Rivers, lakes, ponds. Select this categogy if no indication of the level of contamination is known"
 3,"surface water, contaminated","Rivers, lakes, ponds that are prone to discharge of treated or untreated wastewater or other sources of fecal contamination are known (e.g. cattle accessing the water, runoff from agricultural land)"

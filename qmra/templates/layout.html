@@ -17,6 +17,7 @@
     <meta name="msapplication-config" content="/static/favicon/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
     {% block script%}
     {%endblock%}
 </head>
@@ -37,16 +38,6 @@
             <li class="nav-item active">
                 <a class="nav-link text_link_kwb" href="{%url 'index'%}"> My Risk Assessments</a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link text_link_kwb" href="{%url 'source'%}"> My Water Sources</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link text_link_kwb" href="{%url 'scenario' %}"> My Exposure scenarios</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link text_link_kwb" href="{%url 'treatment' %}"> My Treatments</a>
-            </li>
-
         </ul>
         <ul class="navbar-nav navbar-right">
             <li class="nav-item dropdown">

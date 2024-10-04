@@ -22,6 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = get_random_string(50)
+SECRET_KEY = "123"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("ENVIRONMENT", "") != "prod"
@@ -39,9 +40,9 @@ INSTALLED_APPS = [
     'qmra',
     'qmra.user',
     'qmra.risk_assessment',
-    'qmra.source',
-    'qmra.scenario',
-    'qmra.treatment',
+    # 'qmra.source',
+    # 'qmra.scenario',
+    # 'qmra.treatment',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

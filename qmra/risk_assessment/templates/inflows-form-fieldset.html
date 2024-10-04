@@ -1,0 +1,94 @@
+{% load crispy_forms_tags %}
+{% load static %}
+<nav>
+    <div class="nav nav-tabs" id="inflows-nav-tab" role="tablist">
+        <button class="nav-link active" id="nav-inflows-params-tab" data-toggle="tab"
+                data-target="#inflows-formset-fieldset" type="button" role="tab"
+                aria-controls="inflows-formset-fieldset" aria-selected="true">params
+        </button>
+        <button class="nav-link" id="nav-inflows-plot-tab" data-toggle="tab"
+                data-target="#inflows-plot" type="button" role="tab"
+                aria-controls="inflows-plot" aria-selected="false">plots
+        </button>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <fieldset id="inflows-formset-fieldset" class="tab-pane fade show active configurator-section"
+              role="tabpanel" aria-labelledby="nav-inflows-params-tab">
+        {{ source_name_field | as_crispy_field }}
+        <div id="inflows-management">{{ inflow_form.management_form|crispy }}</div>
+        <div id="inflow-empty" hidden="">
+            {% for field in inflow_form.empty_form.hidden_fields %}
+            {{field}}
+            {% endfor %}
+            <div class="form-row">
+                {% crispy inflow_form.empty_form %}
+                <div id="div_id_inflow-__prefix__-DELETE" class="form-group">
+                    <div class="col">
+                        <label for="id_inflow-__prefix__-DELETE" class="text-muted small requiredField">
+                            remove
+                        </label>
+                        <div class="">
+                            <div class="">
+                                <input type="checkbox" name="inflow-__prefix__-DELETE" class="form-control"
+                                       id="id_inflow-__prefix__-DELETE">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% for form in inflow_form %}
+        <div id="inflow-n-{{forloop.counter0}}">
+            {% for field in form.hidden_fields %}
+            {{field}}
+            {% endfor %}
+            <div class="form-row">
+                {% crispy form %}
+                <div id="div_id_inflow-{{forloop.counter0}}-DELETE" class="form-group">
+                    <div class="col">
+                        <label for="id_inflow-{{forloop.counter0}}-DELETE" class="text-muted small requiredField">
+                            remove
+                        </label>
+                        <div class="">
+                            <div class="">
+                                <input type="checkbox" name="inflow-{{forloop.counter0}}-DELETE" class="form-control"
+                                       id="id_inflow-{{forloop.counter0}}-DELETE">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <button id="add-inflow-btn" type="button" class="btn btn-outline-primary" onclick="addNewInflowForm()">Add
+            Inflow
+        </button>
+    </fieldset>
+    <div id="inflows-plot" class="tab-pane fade configurator-section" role="tabpanel"
+         aria-labelledby="nav-inflows-plot-tab"></div>
+</div>
+{% include "inflows-form-js.html" %}
+<script type="text/javascript">
+    function getInflowsPlot() {
+        const frm = document.createElement("form");
+        frm.append(document.querySelector("[id=inflows-management]").cloneNode(true));
+        document.querySelectorAll("div[id*=inflow-n-]").forEach(n => {
+            frm.append(n.cloneNode(true));
+        });
+        const content = fetch("{% url 'inflows-plot' %}", {
+            method: "POST",
+            headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value},
+            mode: 'same-origin',
+            body: new FormData(frm)
+            }).then(r => r.text()).then(html => {
+                document.querySelector("#inflows-plot").innerHTML = html;
+                document.querySelector("#inflows-plot").querySelectorAll("script").forEach(s => eval(s.innerHTML));
+            });
+    }
+    document.addEventListener('DOMContentLoaded', async function() {
+        document.querySelector("#nav-inflows-plot-tab").addEventListener("click", ev => {
+            getInflowsPlot();
+        });
+    })
+</script>

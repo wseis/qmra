@@ -1,21 +1,31 @@
-{% extends "layout.html" %}
-
-{% block body %}
-<div class="container">
-    <div class="row">
-        <div class="col">
-            {%if ra.id %}
-            <div class="m-4"> <!--style= "background-color: #007c9f; color: white">-->
-                <h2>{{ ra.name }}</h2>
-                <a class="btn btn-primary mt-3" href="{%url 'assessment-export' ra.id%}">Export summary as csv</a>
+<div class="modal-dialog modal-l" role="document"
+        style="max-width: 90vw !important;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Risk assessment results</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <h4 style="text-align: center">Risk per pathogen</h4>
+            <div class="w-50 m-auto">
+            <table class="table">
+                <tr><th>pathogen</th><th>risk of infection</th><th>risk in DALYs</th></tr>
+                {% for r in results %}
+                    <tr><td>{{r.pathogen}}</td>
+                        <td class={% if not r.infection_risk %} "table-success" {% else %} "table-danger" {% endif %}>{{r.infection_risk}}</td>
+                        <td class={% if not r.dalys_risk %} "table-success" {% else %} "table-danger" {% endif %}>{{r.dalys_risk}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
             </div>
-            {%endif %}
-            <h4 style="text-align: center">Risk assessment as probability of infection per year</h4>
-            {% if risk%}
+            <h4 style="text-align: center">Probability of infection per year</h4>
+            {% if infection_risk %}
             <div class="alert alert-danger m-4" role="alert">
                 At least one pathogen exceeds tolerable infection risk value of 1/10000 pppy (red line)
             </div>
-            {%else %}
+            {% else %}
             <div class="alert alert-primary m-4" role="alert">
                 All risk simulations stay well below tolerable limits of 1/10000 pppy (blue line)
             </div>
@@ -37,10 +47,9 @@
                 </p>
             </div>
             {%endif%}
-            {%if ra.id %}
             <h4 style="text-align: center">Risk in disability adjusted life years (DALYs) per person per year
                 (pppy)</h4>
-            {% if dalyrisk%}
+            {% if dalys_risk %}
             <div class="alert alert-danger m-4" role="alert">
                 At least one pathogen exceeds tolerable DALY risk value of 1µDALY pppy (red line)
             </div>
@@ -54,20 +63,9 @@
                 {{ daly_plot }}
                 {% endautoescape %}
             </div>
-            <h4 style="text-align: center">Treatment performance of selected treatments</h4>
-            <div id="hero-graph" class="m-4">
-                {% autoescape off %}
-                {{ plot_div }}
-                {% endautoescape %}
-            </div>
-            <h4 style="text-align: center">Inflow concentrations of reference pathogens</h4>
-            <div id="hero-graph" class="m-4">
-                {% autoescape off %}
-                {{ plot_div2 }}
-                {% endautoescape %}
-            </div>
-            {%endif %}
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
     </div>
 </div>
-{% endblock %}

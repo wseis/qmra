@@ -1,0 +1,65 @@
+{% load static %}
+<script type="application/json" src="{% static 'data/default-pathogens.json' %}"></script>
+<script type="application/json" src="{% static 'data/default-sources.json' %}"></script>
+<script type="application/json" src="{% static 'data/default-inflows.json' %}"></script>
+<script type="text/javascript">
+    let defaultSources = null;
+    let defaultInflows = null;
+    let inflowsFormset = null;
+
+    function getSourceData(name) {
+        return {...defaultSources[name], inflows: [...defaultInflows[name]]};
+    };
+    function getInflowsFormset() {
+        return document.querySelector("fieldset[id='inflows-formset-fieldset']");
+    };
+    function getInflowsFormsCount() {
+        return inflowsFormset.querySelectorAll("div[id*='inflow-n']").length;
+    };
+    function updateInflowsFormsCount(count) {
+        inflowsFormset.querySelector("input[id*='TOTAL_FORMS']").setAttribute('value', count);
+    };
+    function removeAllInflowsForms() {
+        inflowsFormset.querySelectorAll("div[id*='inflow-n']").forEach(e => e.remove());
+        updateInflowsFormsCount(0);
+    };
+    function addNewInflowForm(){
+        let newForm = inflowsFormset.querySelector("[id='inflow-empty']").cloneNode(true);
+        let nForms = getInflowsFormsCount();
+        newForm.setAttribute("id", `inflow-n-${nForms}`);
+        newForm.removeAttribute("hidden");
+        newForm.innerHTML = newForm.innerHTML.replaceAll(
+            new RegExp('__prefix__', "g"), `${nForms}`
+        );
+        inflowsFormset.insertBefore(
+            newForm, inflowsFormset.querySelector("[id='add-inflow-btn']")
+        );
+        updateInflowsFormsCount(nForms+1);
+        return newForm;
+    };
+    function setInflowFormValues(inflowForm, values) {
+        inflowForm.querySelector(`option[value='']`).removeAttribute("selected");
+        inflowForm.querySelector(`option[value='${values.pathogen_name}']`).setAttribute("selected", "");
+        inflowForm.querySelector("input[id*='min']").setAttribute("value", values.min);
+        inflowForm.querySelector("input[id*='max']").setAttribute("value", values.max);
+    }
+
+    document.addEventListener('DOMContentLoaded', async function() {
+        defaultSources = await fetch("{% static 'data/default-sources.json' %}").then(resp => resp.json());
+        defaultInflows = await fetch("{% static 'data/default-inflows.json' %}").then(resp => resp.json());
+
+        inflowsFormset = getInflowsFormset();
+
+        document.querySelectorAll("select[id*='source_name'] option").forEach(el => {
+            el.addEventListener("click", function() {
+                const data = getSourceData(el.value);
+                removeAllInflowsForms();
+                data.inflows.forEach((e, i) => {
+                    let newForm = addNewInflowForm();
+                    setInflowFormValues(newForm, e);
+                });
+            });
+        });
+    })
+
+</script>

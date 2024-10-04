@@ -1,4 +1,4 @@
-"PathogenID","Bestfitmodel","k","alpha","N50","Hosttype","Doseunits","Route","Response","ReferenceID"
+pathogen_id,best_fit_model,"k","alpha",n50,"Hosttype","Doseunits","Route","Response","ReferenceID"
 1,"exponential",1.65e-05,NA,NA,"guinea pig","spores","inhalation","death",9
 2,"beta-Poisson",NA,0.328,5430,"C57BL/6 mice and diabetic rat","CFU","intranasal,intraperitoneal","death",22
 3,"beta-Poisson",NA,0.144,890,"human","CFU","oral (in milk)","infection",2

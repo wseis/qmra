@@ -12,28 +12,26 @@ For local installation:
 
 ### Install django
 
-```
+```bash
 pip install django
 
 ```
 ### Install necessary requirements
 
-```python
-
+```bash
 pip install -r requirements.txt
 
 ```
 ### Create new superuser for admin page
 
-```
+```bash
 python manage.py createsuperuser
-
 ```
+
 ### run app locally
 
-```
+```bash
 python manage.py runserver
-
 ```
 
 

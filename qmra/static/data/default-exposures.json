@@ -1,0 +1,66 @@
+{
+  "irrigation, unrestricted": {
+    "id": 1,
+    "name": "irrigation, unrestricted",
+    "description": "100 g of lettuce leaves hold 10.8 mL water and cucumbers 0.4 mL at worst case (immediately post watering). A serve of lettuce (40 g) might hold 5 mL of recycled water and other produce might hold up to 1 mL per serve. Calculated frequencies are based on Autralian Bureau of Statistics (ABS) data",
+    "events_per_year": 70,
+    "volume_per_event": 0.005,
+    "ReferenceID": 48.0
+  },
+  "domestic use, car washing": {
+    "id": 2,
+    "name": "domestic use, car washing",
+    "description": "Assumed similar to garden watering estimated to typically occur every second day during dry months (half year). Exposure to aerosols occurs during watering.",
+    "events_per_year": 25,
+    "volume_per_event": 0.0001,
+    "ReferenceID": null
+  },
+  "irrigation, restricted": {
+    "id": 3,
+    "name": "irrigation, restricted",
+    "description": "Based on unrestricted  irrigation, but far less frequent due to restricted access",
+    "events_per_year": 1,
+    "volume_per_event": 0.005,
+    "ReferenceID": null
+  },
+  "domestic use, toilet flushing": {
+    "id": 4,
+    "name": "domestic use, toilet flushing",
+    "description": "Frequency based on three uses of home toilet per day. Aerosol volumes are less than those produced by garden irrigation.",
+    "events_per_year": 1100,
+    "volume_per_event": 1e-05,
+    "ReferenceID": 48.0
+  },
+  "drinking water": {
+    "id": 5,
+    "name": "drinking water",
+    "description": "Assumption for ingestion of drinking water",
+    "events_per_year": 365,
+    "volume_per_event": 1.0,
+    "ReferenceID": null
+  },
+  "irrigation, public": {
+    "id": 7,
+    "name": "irrigation, public",
+    "description": "Frequencies moderate as most people use municipal areas sparingly (estimate 1/2 - 3 weeks). People are unlikely to be directly exposed to large amounts of spray and therefore exposure is from indirect ingestion via contact with lawns, etc. Likely to be higher when used to irrigate facilities such as sports grounds or golf courses (estimate 1/week)\r\n\r\ngrounds and golf courses (estimate 1/week)",
+    "events_per_year": 50,
+    "volume_per_event": 0.001,
+    "ReferenceID": 48.0
+  },
+  "irrigation, garden": {
+    "id": 8,
+    "name": "irrigation, garden",
+    "description": "Garden watering estimated to typically occur every second day during dry months (half year). Routine exposure results from indirect ingestion via contact with plants, lawns, etc.",
+    "events_per_year": 90,
+    "volume_per_event": 0.001,
+    "ReferenceID": 48.0
+  },
+  "domestic use, washing machine": {
+    "id": 9,
+    "name": "domestic use, washing machine",
+    "description": "Assumes one member of household exposed. Calculated frequency based on Australian Bureau of Statistics (ABS) data. Aerosol volumes are less than those produced by garden irrigation (machines usually closed during operation).",
+    "events_per_year": 100,
+    "volume_per_event": 1e-05,
+    "ReferenceID": 48.0
+  }
+}

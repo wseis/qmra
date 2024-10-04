@@ -1,4 +1,4 @@
-"PathogenID","ReferenceID","infection_to_illness","dalys_per_case"
-3,38,0.3,0.0046
-32,38,0.5,0.014
-34,38,0.7,0.0015
+group,"ReferenceID","infection_to_illness","dalys_per_case"
+Bacteria,38,0.3,0.0046
+Viruses,38,0.5,0.014
+Protozoa,38,0.7,0.0015

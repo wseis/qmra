@@ -1,0 +1,117 @@
+{% extends "layout.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block body %}
+<div class="container" style="padding: 5%">
+    <div class="row">
+        {% if user.is_authenticated %}
+        <form id="configurator" action="{%if risk_assessment is None %}{% url 'assessment' %}{% else %}{% endif %}" method="post">
+            {% include "risk-assessment-form-fieldset.html" with risk_assessment_form=risk_assessment_form %}
+            {% include "inflows-form-fieldset.html" with inflow_form=inflow_form source_name_field=risk_assessment_form.source_name %}
+            {% include "treatments-form-fieldset.html" with treatment_form=treatment_form add_treatment_form=add_treatment_form %}
+            <fieldset class="configurator-section mt-2">
+                <div class="row">
+                    <div class="col">
+                        <input id="save-risk-assessment-btn" type="submit" class="btn btn-outline-primary w-100 m-2" value="Save">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button id="assess-risk-btn" class="btn btn-outline-info w-100 m-2">Show assessment results</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <button id="show-result-modal" hidden
+                data-toggle="modal" data-target="#assessment-result" data-show="true"></button>
+        <div id="assessment-result" class="modal modal-l" role="dialog"></div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<div>
+    <style type="text/css">
+        nav .nav-tabs {
+            margin: 16px 32px 0 50px;
+            border-bottom: 0;
+        }
+        nav .nav-tabs button {
+            border-bottom: 0;
+            border-radius: 12px 12px 0 0;
+        }
+        .configurator-section {
+            width: 75vw;
+            padding: 18px;
+            margin: 0 32px 0 32px;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+        }
+        textarea#id_ra-description {
+            max-height: 38px;
+        }
+        .disabled-input{
+            pointer-events: none;
+            background: #e9ecef;
+        }
+        div[id*=inflow-n] label {
+            display: none;
+        }
+        div[id=inflow-n-0] label, div[id*=inflow-n] {
+            display: initial;
+        }
+        input[type="checkbox"]{
+            -webkit-appearance: initial;
+            appearance: initial;
+            position: relative;
+            width: 44px;
+        }
+        input[type="checkbox"]:checked {
+            color: #721c24;
+            background-color: #f8d7da;
+        }
+        input[type="checkbox"]:checked:after {
+            content: "X";
+            color: #000;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-50%,-50%);
+            -moz-transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+        }
+    </style>
+    <script type="text/javascript">
+        function getResultsNoSave() {
+            const frm = document.querySelector("form[id=configurator]");
+            return fetch("{% url 'assessment-result' %}", {
+                method: "POST",
+                redirect: 'follow',
+                headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value},
+                mode: 'same-origin',
+                body: new FormData(frm)
+                }).then(r => {
+                    if (r.ok) return r.text();
+                    throw new Error("422");
+                }).then(html => {
+                    document.querySelector("#assessment-result").innerHTML = html;
+                    document.querySelector("#show-result-modal").click();
+                    document.querySelector("#assessment-result").querySelectorAll("script").forEach(s => eval(s.innerHTML));
+                    return true;
+                }).catch(err => {
+                    document.querySelector("#save-risk-assessment-btn").click();
+                    return false;
+                });
+        }
+        document.addEventListener('DOMContentLoaded', async function() {
+            document.querySelector("#assess-risk-btn").addEventListener("click", async ev => {
+                ev.preventDefault();
+                ev.stopPropagation();
+                getResultsNoSave()
+            });
+        })
+    </script>
+    {% include "risk-assessment-form-js.html" %}
+</div>
+{% endblock %}
