@@ -29,7 +29,8 @@ DEBUG = os.getenv("ENVIRONMENT", "") != "prod"
 
 ALLOWED_HOSTS = [
     "188.245.69.0",
-     '127.0.0.1',
+    "localhost",
+    '127.0.0.1',
       "dev.qmra.org"
       ]
 CSRF_TRUSTED_ORIGINS = ["https://dev.qmra.org"]
