@@ -200,7 +200,7 @@ class DefaultSources(StaticEntity):
     def choices(cls):
         grouped = {grp: list(v) for grp, v in groupby(sorted(cls.data.values(), key=lambda x: x.name), key=lambda x: x.name.split(",")[0])}
         return [
-            ("", "---------"),
+            ("", [("", "---------")]),
             *[(k, [(x.name, x.name) for x in v]) for k, v in grouped.items()],
             ("other", "other")
         ]

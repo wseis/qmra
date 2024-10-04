@@ -4,7 +4,6 @@
 <script type="text/javascript">
     const baseUrl = '/assessment'
     function deleteAssessment(assessmentId) {
-        // console.log(assessmentId)
         fetch(baseUrl + '/' + assessmentId, {
             method: "DELETE",
             headers: {'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value},

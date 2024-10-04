@@ -74,7 +74,10 @@
         const frm = document.createElement("form");
         frm.append(document.querySelector("[id=inflows-management]").cloneNode(true));
         document.querySelectorAll("div[id*=inflow-n-]").forEach(n => {
-            frm.append(n.cloneNode(true));
+            const cloned = n.cloneNode(true);
+            //ugly but necessary...
+            cloned.querySelector("select").value = n.querySelector("select").value;
+            frm.append(cloned);
         });
         const content = fetch("{% url 'inflows-plot' %}", {
             method: "POST",

@@ -151,13 +151,13 @@ def risk_assessment_result(request):
 
 @login_required(login_url="/login")
 def inflows_plots_view(request):
-    forms = InflowFormSet(request.POST, prefix="inflow")
+    forms = InflowFormSet(request.POST, queryset=Inflow.objects.none(), prefix="inflow")
     forms.is_valid()
     print(forms.errors)
     inflows = forms.save(commit=False)
     for f in forms.deleted_forms:
         f.instance.delete()
-    plot = inflows_plot([f.instance for f in forms.forms if f.instance not in forms.deleted_objects])
+    plot = inflows_plot(inflows)
     return render(request, "inflows-plot.html",
                   context=dict(plot=plot))
 
