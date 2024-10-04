@@ -5,5 +5,5 @@ plotly~=5.22.0
 django-crispy-forms~=2.1
 django-pandas
 crispy-bootstrap4
-
+django-prometheus
 Django~=5.0.6
