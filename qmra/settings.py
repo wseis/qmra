@@ -40,9 +40,6 @@ INSTALLED_APPS = [
     'qmra',
     'qmra.user',
     'qmra.risk_assessment',
-    # 'qmra.source',
-    # 'qmra.scenario',
-    # 'qmra.treatment',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -50,8 +47,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
-    "anymail",
-    'django_extensions',
     'crispy_bootstrap4',
 ]
 
