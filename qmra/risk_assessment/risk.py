@@ -1,7 +1,6 @@
 from typing import Iterable
 
 import numpy as np
-import scipy
 
 from qmra.risk_assessment.models import RiskAssessment, RiskAssessmentResult, Treatment, PathogenGroup, DefaultPathogens
 
@@ -11,7 +10,7 @@ def get_annual_risk(
         log_removal: float,
         volume_per_event: float,
         events_per_year: int,
-        distribution: scipy.stats.rv_continuous,
+        distribution,
         n_events: int = 10_000,
         n_years: int = 1000,
 ):

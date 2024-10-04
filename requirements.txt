@@ -1,15 +1,11 @@
 django-import-export
-numpy~=1.26.4
-pandas~=1.5.3
+numpy
+pandas
 plotly~=5.22.0
 django-crispy-forms~=2.1
 django-formtools
 django-extensions
 django-pandas
-markdown2
-python-decouple
-django-anymail[mailgun]
 crispy-bootstrap4
 
 Django~=5.0.6
-scipy~=1.14.1
