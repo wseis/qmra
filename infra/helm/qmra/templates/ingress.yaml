@@ -1,0 +1,36 @@
+{{- $fullName := include "app.fullname" . -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  annotations:
+    cert-manager.io/cluster-issuer: lets-encrypt
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - {{ .Values.domain }}
+      secretName: {{ .Values.ingress.tlsSecretName }}
+  rules:
+    - host: {{ .Values.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: 8080
+    - host: {{ .Values.domain }}
+      http:
+        paths:
+          - path: /static
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $fullName }}-static
+                port:
+                  number: 8080

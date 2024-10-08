@@ -5,8 +5,8 @@ FROM python:3.12.5-slim
 WORKDIR qmra
 
 # set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 RUN apt update && apt upgrade -y
 # install dependencies

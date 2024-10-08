@@ -6,8 +6,9 @@ services:
     command: >
       sh -c "python manage.py collectstatic --noinput --clear &&
              python manage.py migrate &&
-             gunicorn qmra.wsgi:application --bind 0.0.0.0:8000"
+             gunicorn qmra.wsgi:application --bind 0.0.0.0:8080"
     volumes:
       - ./qmra.db/:/qmra/qmra.db
+      - /var/cache/qmra/static:/var/cache/qmra/static
     ports:
-      - 8000:8000
+      - 8080:8080

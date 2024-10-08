@@ -17,7 +17,7 @@ cat <<-EOF1 >/etc/nginx/sites-available/$DOMAIN
         server_name $DOMAIN www.$DOMAIN;
         root /var/www/$DOMAIN;
         location / {
-            proxy_pass http://localhost:8000;
+            proxy_pass http://localhost:8080;
             proxy_set_header Host \$http_host;
             proxy_redirect off;
             proxy_set_header X-Forwarded-For \$remote_addr;

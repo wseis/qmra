@@ -21,8 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_random_string(50)
-SECRET_KEY = "123"
+SECRET_KEY = os.getenv("SECRET_KEY", "123")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("ENVIRONMENT", "") != "prod"
@@ -30,11 +29,13 @@ DEBUG = os.getenv("ENVIRONMENT", "") != "prod"
 ALLOWED_HOSTS = [
     "188.245.69.0",
     "localhost",
-    '127.0.0.1',
-      "dev.qmra.org"
-      ]
-CSRF_TRUSTED_ORIGINS = ["https://dev.qmra.org"]
-CSRF_ALLOWED_ORIGINS = ["https://dev.qmra.org"]
+    "127.0.0.1",
+    os.getenv("DOMAIN_NAME", ""),
+    os.getenv("THIS_POD_IP", "")
+    ]
+
+CSRF_TRUSTED_ORIGINS = [f"https://{os.getenv('DOMAIN_NAME', '')}"]
+CSRF_ALLOWED_ORIGINS = [f"https://{os.getenv('DOMAIN_NAME', '')}"]
 # Application definition
 
 INSTALLED_APPS = [
@@ -91,7 +92,7 @@ WSGI_APPLICATION = 'qmra.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'qmra.db',
+        'NAME': os.getenv("SQLITE_PATH", BASE_DIR / 'qmra.db'),
     }
 }
 
@@ -130,7 +131,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = "/var/cache/qmra/static"
+STATIC_ROOT = os.getenv("STATIC_ROOT", "/var/cache/qmra/static")
 STATICFILES_DIRS = [
     BASE_DIR / "qmra/static"
 ]

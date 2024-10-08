@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "app.fullname" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "app.labels" . | nindent 8 }}
+    spec:
+      initContainers:
+        - name: move-static
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          env:
+            - name: STATIC_ROOT
+              value: {{ .Values.static.mount_path }}
+          volumeMounts:
+            - name: static
+              mountPath: {{ .Values.static.mount_path }}
+          command: [ python, manage.py, collectstatic, --noinput ]
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/sh"]
+          args: ["-c", "python manage.py collectstatic --noinput --clear && python manage.py migrate && gunicorn qmra.wsgi:application --bind 0.0.0.0:8080"]
+          env:
+          - name: THIS_POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.app_secret_key.secret_name }}
+                key: key
+          - name: DOMAIN_NAME
+            value: {{ .Values.domain }}
+          - name: STATIC_ROOT
+            value: {{ .Values.static.mount_path }}
+          - name: SQLITE_PATH
+            value: {{ .Values.sqlite.mount_path }}
+          envFrom:
+          - configMapRef:
+              name: {{ .Values.configmap_name }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+              - name: sqlite
+                mountPath: {{ .Values.sqlite.mount_path }}
+              - name: static
+                mountPath: {{ .Values.static.mount_path }}
+      volumes:
+        - name: sqlite
+          persistentVolumeClaim:
+            claimName: {{ include "app.fullname" . }}-sqlite-file-pvc
+        - name: static
+          persistentVolumeClaim:
+            claimName: {{ include "app.fullname" . }}-static-files-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "app.fullname" . }}-static
+  labels:
+    app.kubernetes.io/name: qmra-static
+    app.kubernetes.io/instance: qmra-static
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: qmra-static
+      app.kubernetes.io/instance: qmra-static
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app.kubernetes.io/name: qmra-static
+        app.kubernetes.io/instance: qmra-static
+    spec:
+      containers:
+        - name: nginx-static
+          image: flashspys/nginx-static
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+          - name: static
+            mountPath: /static
+      volumes:
+        - name: static
+          persistentVolumeClaim:
+            claimName: {{ include "app.fullname" . }}-static-files-pvc

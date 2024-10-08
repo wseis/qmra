@@ -1,0 +1,52 @@
+# Default values for app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+namespace: qmra
+domain: dev2.qmra.org
+replicaCount: 1
+
+app_secret_key:
+  secret_name: qmra-secret-key-secret
+configmap_name: qmra-configmap
+
+sqlite:
+  mount_path: /var/lib/qmra/qmra.db
+  hostpath: /var/lib/qmra/qmra.db
+
+static:
+  mount_path: /var/cache/qmra/static
+  hostpath: /var/cache/qmra/static
+
+image:
+  repository: dev.qmra
+  tag: local
+  pullPolicy: Never
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+readinessProbe:
+  httpGet:
+    path: /ready
+    port: http
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+ingress:
+  tlsSecretName: tls-secret-key-ref
+
+tls:
+  acme_email: antoine.daurat@kompetenz-wasser.de
+  privateKeySecretName: 
+
+podAnnotations: {}
+
+
+
+

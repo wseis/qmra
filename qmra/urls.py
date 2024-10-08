@@ -4,6 +4,8 @@ from qmra import views
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("health", views.health, name="health"),
+    path("ready", views.ready, name="ready"),
     path("dsgvo", views.dsgvo, name="dsgvo"),
     path('admin/', admin.site.urls),
     path("accounts/", include("django.contrib.auth.urls")),
