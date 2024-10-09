@@ -32,6 +32,7 @@ cat <<EOF > .bash_aliases
 alias mk8='microk8s'
 alias k8='microk8s kubectl'
 alias helm='microk8s helm'
+alias sudo='sudo '
 EOF
 source .bash_aliases
 
@@ -39,19 +40,3 @@ source .bash_aliases
 mk8 enable ingress cert-manager hostpath-storage metrics-server
 mk8 disable ha-cluster
 #observability dashboard hostpath-storage
-
-# install opentofu
-# Download the installer script:
-curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh -o install-opentofu.sh
-# Alternatively: wget --secure-protocol=TLSv1_2 --https-only https://get.opentofu.org/install-opentofu.sh -O install-opentofu.sh
-
-# Give it execution permissions:
-chmod +x install-opentofu.sh
-
-# Please inspect the downloaded script
-
-# Run the installer:
-./install-opentofu.sh --install-method deb
-
-# Remove the installer:
-rm -f install-opentofu.sh
