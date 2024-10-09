@@ -91,10 +91,6 @@ spec:
       app.kubernetes.io/instance: qmra-static
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
         app.kubernetes.io/name: qmra-static
         app.kubernetes.io/instance: qmra-static
@@ -103,7 +99,9 @@ spec:
         - name: nginx-static
           image: flashspys/nginx-static
           ports:
-            - containerPort: 8080
+            - name: http
+              containerPort: 80
+              protocol: TCP
           volumeMounts:
           - name: static
             mountPath: /static

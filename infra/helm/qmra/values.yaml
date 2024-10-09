@@ -3,11 +3,12 @@
 # Declare variables to be passed into your templates.
 
 namespace: qmra
-domain: dev2.qmra.org
+domain: dev.qmra.org
 replicaCount: 1
 
 app_secret_key:
   secret_name: qmra-secret-key-secret
+  value: Y21WaGJHeDVYM05sWTNKbGRGOTJZV3gxWlRFSwo=
 configmap_name: qmra-configmap
 
 sqlite:
@@ -19,7 +20,7 @@ static:
   hostpath: /var/cache/qmra/static
 
 image:
-  repository: dev.qmra
+  repository: qmra
   tag: local
   pullPolicy: Never
 livenessProbe:
@@ -43,9 +44,12 @@ ingress:
 
 tls:
   acme_email: antoine.daurat@kompetenz-wasser.de
-  privateKeySecretName: 
 
-podAnnotations: {}
+
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/path: /metrics
+  prometheus.io/port: "8080"
 
 
 

@@ -16,4 +16,4 @@ metadata:
   name:  {{ .Values.app_secret_key.secret_name }}
 type: Opaque
 data:
-  key: Y21WaGJHeDVYM05sWTNKbGRGOTJZV3gxWlRFSwo=
+  key: {{ .Values.app_secret_key.value }}

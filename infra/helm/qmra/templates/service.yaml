@@ -19,11 +19,12 @@ kind: Service
 metadata:
   name: {{ include "app.fullname" . }}-static
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    app.kubernetes.io/name: {{ include "app.name" . }}-static
+    app.kubernetes.io/instance: {{ .Release.Name }}-static
 spec:
   type: ClusterIP
   ports:
-    - port: 8080
+    - port: 80
       targetPort: http
       protocol: TCP
       name: http

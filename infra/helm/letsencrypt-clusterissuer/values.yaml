@@ -1,3 +1,0 @@
-# Default values for letsencrypt-clusterissuer.
-email: rechung@kompetenz-wasser.de
-privateKeySecretName: letsencrypt-private-key

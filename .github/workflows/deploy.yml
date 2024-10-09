@@ -12,23 +12,25 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.x
      
     - name: Install and configure SSH
       run: |
         echo "${{ secrets.DEPLOY_SERVER_SSH_KEY }}" > private_key.pem
         chmod 600 private_key.pem
-
-    - name: Deploy to remote server
-      env:
-        REMOTE_HOST: ${{ secrets.DEPLOY_HOST }}
-        REMOTE_USER: ${{ secrets.DEPLOY_USER }}
-        REMOTE_DIR: ${{ secrets.DEPLOY_PATH }}
+    - name: Build    
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        push: false
+        tags: qmra:local
+        outputs: type=local,dest=- . > img.tar
+    - name: Push
       run: |
-        ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ env.REMOTE_USER }}@${{ env.REMOTE_HOST }} "\
-        sudo docker compose down || true
-        cd ${{ env.REMOTE_DIR }} && bash infra/deployment_scripts/04_deploy_latest.sh"
+        scp -i private_key.pem -o StrictHostKeyChecking=no ./img.tar ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}
+    - name: Deploy
+      run: |
+        ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} "\
+        cd ${{ secrets.DEPLOY_PATH }} && git pull &&
+        mk8 ctr image import img.tar && rm img.tar &&
+        cd infra/helm &&
+        helm update qmra ./qmra -n qmra --set app_secret_key.value=${{ secrets.APP_SECRET_KEY }}"
