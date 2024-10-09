@@ -23,7 +23,7 @@ jobs:
         context: .
         push: false
         tags: qmra:local
-        outputs: type=local,dest=- . > img.tar
+        outputs: type=tar,dest=./img.tar
     - name: Push
       run: |
         scp -i private_key.pem -o StrictHostKeyChecking=no ./img.tar ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}
